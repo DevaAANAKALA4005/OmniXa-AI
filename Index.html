@@ -778,6 +778,155 @@
     font-weight: 700;
   }
 
+  /* CAREERS */
+  .careers { background: var(--dark2); }
+
+  .jobs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .job-card {
+    background: var(--dark);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+
+  .job-card:hover {
+    border-color: var(--orange);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(255,92,0,0.12);
+  }
+
+  .job-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--orange-glow);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 4px 14px;
+    font-size: 0.72rem;
+    color: var(--orange);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    width: fit-content;
+  }
+
+  .job-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .job-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .job-meta span {
+    font-size: 0.78rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .job-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 20px 0;
+  }
+
+  .job-section-title {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--orange);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .job-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .job-list li {
+    font-size: 0.83rem;
+    color: var(--muted);
+    line-height: 1.5;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .job-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--orange);
+    font-size: 0.75rem;
+  }
+
+  .job-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 20px;
+  }
+
+  .skill-tag {
+    font-size: 0.72rem;
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 4px 12px;
+    border-radius: 100px;
+  }
+
+  .job-apply-btn {
+    margin-top: 24px;
+    background: transparent;
+    border: 1px solid var(--orange);
+    color: var(--orange);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+  }
+
+  .job-apply-btn:hover {
+    background: var(--orange);
+    color: #fff;
+  }
+
+  @media (max-width: 900px) {
+    .jobs-grid { grid-template-columns: 1fr; }
+  }
+
   /* CTA */
   .cta-section {
     background: var(--dark2);
@@ -923,6 +1072,8 @@
     <li><a href="#products">Products</a></li>
     <li><a href="#industries">Industries</a></li>
     <li><a href="#how">How It Works</a></li>
+    <li><a href="#careers">Careers</a></li>
+    <li><a href="#book-demo">Book Demo</a></li>
     <li><a href="#contact" class="nav-cta">Get Started →</a></li>
   </ul>
 </nav>
@@ -1207,13 +1358,394 @@
   </div>
 </div>
 
+<!-- CAREERS -->
+<section class="careers" id="careers">
+  <div class="section-tag">We're Hiring</div>
+  <h2>Join the <span style="color:var(--orange)">OmniXa AI</span> Team</h2>
+
+  <div style="max-width:780px;margin:0 auto;">
+    <div class="job-card reveal">
+
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+        <div>
+          <div class="job-badge">🟢 Now Hiring</div>
+          <h3>AI Developer — Chatbot, Web Chat & Agent</h3>
+          <div class="job-meta">
+            <span>🕐 Part-time</span>
+            <span>🌐 Remote</span>
+            <span>🎓 Fresher (0–1 yr)</span>
+            <span>🏢 OmniXa AI</span>
+          </div>
+        </div>
+        <div style="background:var(--orange-glow);border:1px solid var(--border);border-radius:12px;padding:16px 24px;text-align:center;flex-shrink:0;">
+          <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--orange);">₹ Competitive</div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:4px;">Per Project / Monthly</div>
+        </div>
+      </div>
+
+      <div class="job-divider"></div>
+
+      <!-- About Role -->
+      <div class="job-section-title">About the Role</div>
+      <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin-bottom:20px;">
+        We are looking for a passionate and curious <strong style="color:var(--text)">AI Developer</strong> to join OmniXa AI on a part-time remote basis. You will build intelligent WhatsApp chatbots, web chat widgets, and AI agents that serve real businesses across education, healthcare, real estate, and banking in India. This is a hands-on role — perfect for freshers who love building things with AI.
+      </p>
+
+      <div class="job-divider"></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;flex-wrap:wrap;">
+
+        <!-- Responsibilities -->
+        <div>
+          <div class="job-section-title">What You'll Do</div>
+          <ul class="job-list">
+            <li>Build and deploy WhatsApp chatbots using WhatsApp Business API</li>
+            <li>Develop web chat widgets and embed them into client websites</li>
+            <li>Create AI agents that handle multi-step workflows automatically</li>
+            <li>Train bots using FAQs, documents, and client data</li>
+            <li>Integrate chatbots with CRMs, Google Sheets, or third-party APIs</li>
+            <li>Test, debug, and improve bot accuracy over time</li>
+            <li>Collaborate with clients to understand their automation needs</li>
+          </ul>
+        </div>
+
+        <!-- Requirements -->
+        <div>
+          <div class="job-section-title">What We're Looking For</div>
+          <ul class="job-list">
+            <li>Basic knowledge of Python or JavaScript (any one)</li>
+            <li>Interest or exposure to AI/ML concepts and LLMs</li>
+            <li>Familiarity with tools like Dialogflow, Botpress, or similar</li>
+            <li>Understanding of REST APIs and JSON</li>
+            <li>Good communication skills in English & Hindi</li>
+            <li>Self-starter who can work independently from home</li>
+            <li>Eagerness to learn — prior projects or side projects a big plus</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="job-divider"></div>
+
+      <!-- Bonus Skills -->
+      <div class="job-section-title">Bonus If You Know</div>
+      <div class="job-skills" style="margin-bottom:20px;">
+        <span class="skill-tag">LangChain</span>
+        <span class="skill-tag">OpenAI API</span>
+        <span class="skill-tag">Twilio</span>
+        <span class="skill-tag">Node.js</span>
+        <span class="skill-tag">Firebase</span>
+        <span class="skill-tag">Webhooks</span>
+        <span class="skill-tag">Make / Zapier</span>
+        <span class="skill-tag">Prompt Engineering</span>
+      </div>
+
+      <div class="job-divider"></div>
+
+      <!-- Perks -->
+      <div class="job-section-title">Why Join OmniXa AI</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;">
+        <div style="background:var(--dark2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">
+          <div style="font-size:1.4rem;margin-bottom:6px;">🏠</div>
+          <div style="font-size:0.78rem;font-weight:500;">100% Remote</div>
+          <div style="font-size:0.72rem;color:var(--muted);">Work from anywhere</div>
+        </div>
+        <div style="background:var(--dark2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">
+          <div style="font-size:1.4rem;margin-bottom:6px;">📈</div>
+          <div style="font-size:0.78rem;font-weight:500;">Real Experience</div>
+          <div style="font-size:0.72rem;color:var(--muted);">Live client projects</div>
+        </div>
+        <div style="background:var(--dark2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">
+          <div style="font-size:1.4rem;margin-bottom:6px;">🤝</div>
+          <div style="font-size:0.78rem;font-weight:500;">Mentorship</div>
+          <div style="font-size:0.72rem;color:var(--muted);">Learn from founders</div>
+        </div>
+        <div style="background:var(--dark2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">
+          <div style="font-size:1.4rem;margin-bottom:6px;">📜</div>
+          <div style="font-size:0.78rem;font-weight:500;">Certificate</div>
+          <div style="font-size:0.72rem;color:var(--muted);">On completion</div>
+        </div>
+        <div style="background:var(--dark2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">
+          <div style="font-size:1.4rem;margin-bottom:6px;">⏰</div>
+          <div style="font-size:0.78rem;font-weight:500;">Flexible Hours</div>
+          <div style="font-size:0.72rem;color:var(--muted);">Part-time friendly</div>
+        </div>
+        <div style="background:var(--dark2);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;">
+          <div style="font-size:1.4rem;margin-bottom:6px;">🚀</div>
+          <div style="font-size:0.78rem;font-weight:500;">Full-time Path</div>
+          <div style="font-size:0.72rem;color:var(--muted);">Grow with us</div>
+        </div>
+      </div>
+
+      <!-- Apply Button -->
+      <a href="mailto:hello@omnixaai.in?subject=Application%20-%20AI%20Developer%20Role&body=Hi%20OmniXa%20AI%20Team%2C%0A%0AI%20am%20interested%20in%20the%20AI%20Developer%20role.%0A%0AName%3A%0ALocation%3A%0ASkills%3A%0APortfolio%2FGitHub%3A" class="job-apply-btn">
+        📩 Apply Now — Send Your Resume to hello@omnixaai.in
+      </a>
+
+      <p style="text-align:center;font-size:0.75rem;color:var(--muted);margin-top:12px;">
+        Shortlisted candidates will be contacted within 3–5 working days
+      </p>
+
+    </div>
+  </div>
+</section>
+
+<!-- BOOK A DEMO -->
+<section id="book-demo" style="background:var(--dark);padding:100px 60px;">
+  <div style="text-align:center;margin-bottom:60px;">
+    <div class="section-tag" style="justify-content:center;">Free Demo</div>
+    <h2 style="margin:0 auto 16px;">Book a <span style="color:var(--orange)">30-Min Demo Call</span></h2>
+    <p style="color:var(--muted);font-size:0.95rem;max-width:480px;margin:0 auto;">Pick a date and time that works for you. Our team will show you OmniXa AI live — tailored to your industry.</p>
+  </div>
+
+  <div style="max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:32px;background:var(--dark2);border:1px solid var(--border);border-radius:24px;padding:40px;overflow:hidden;">
+
+    <!-- LEFT: Calendar -->
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <button onclick="changeMonth(-1)" style="background:var(--dark3);border:1px solid var(--border);color:var(--text);width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:1rem;">‹</button>
+        <div id="month-label" style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;"></div>
+        <button onclick="changeMonth(1)" style="background:var(--dark3);border:1px solid var(--border);color:var(--text);width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:1rem;">›</button>
+      </div>
+      <!-- Day headers -->
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:8px;">
+        <div style="text-align:center;font-size:0.7rem;color:var(--muted);padding:4px;">Su</div>
+        <div style="text-align:center;font-size:0.7rem;color:var(--muted);padding:4px;">Mo</div>
+        <div style="text-align:center;font-size:0.7rem;color:var(--muted);padding:4px;">Tu</div>
+        <div style="text-align:center;font-size:0.7rem;color:var(--muted);padding:4px;">We</div>
+        <div style="text-align:center;font-size:0.7rem;color:var(--muted);padding:4px;">Th</div>
+        <div style="text-align:center;font-size:0.7rem;color:var(--muted);padding:4px;">Fr</div>
+        <div style="text-align:center;font-size:0.7rem;color:var(--muted);padding:4px;">Sa</div>
+      </div>
+      <div id="calendar-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;"></div>
+      <div style="margin-top:16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--muted);">
+          <div style="width:10px;height:10px;border-radius:50%;background:var(--orange);"></div> Selected
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--muted);">
+          <div style="width:10px;height:10px;border-radius:50%;background:var(--dark3);border:1px solid var(--border);"></div> Available
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--muted);">
+          <div style="width:10px;height:10px;border-radius:50%;background:var(--dark2);opacity:0.4;"></div> Unavailable
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Time Slots + Form -->
+    <div style="display:flex;flex-direction:column;gap:20px;">
+      <div>
+        <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);font-weight:600;margin-bottom:12px;">Select Time (IST)</div>
+        <div id="time-slots" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;"></div>
+      </div>
+
+      <div id="booking-form" style="display:none;flex-direction:column;gap:12px;">
+        <div style="height:1px;background:var(--border);"></div>
+        <div id="selected-summary" style="background:var(--orange-glow);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:0.83rem;color:var(--orange);font-weight:500;"></div>
+        <input id="demo-name" type="text" placeholder="Your Name *" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;width:100%;" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='var(--border)'">
+        <input id="demo-phone" type="tel" placeholder="WhatsApp Number * (e.g. 9876543210)" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;width:100%;" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='var(--border)'">
+        <input id="demo-email" type="email" placeholder="Email Address (optional)" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;width:100%;" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='var(--border)'">
+        <input id="demo-business" type="text" placeholder="Business / Company Name *" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;width:100%;" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='var(--border)'">
+        <select id="demo-industry" style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;width:100%;cursor:pointer;" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='var(--border)'">
+          <option value="">Select Industry *</option>
+          <option value="Education">🎓 Education</option>
+          <option value="Healthcare">🏥 Healthcare / Hospital</option>
+          <option value="Real Estate">🏘️ Real Estate</option>
+          <option value="Banking">🏦 Banking & Finance</option>
+          <option value="Other">💼 Other</option>
+        </select>
+        <button onclick="confirmBooking()" style="background:var(--orange);color:#fff;border:none;padding:14px;border-radius:8px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;cursor:pointer;transition:all 0.25s;width:100%;" onmouseover="this.style.background='#FF8040'" onmouseout="this.style.background='var(--orange)'">
+          ✅ Confirm Demo Booking
+        </button>
+      </div>
+
+      <!-- Success -->
+      <div id="booking-success" style="display:none;text-align:center;padding:20px;">
+        <div style="font-size:3rem;margin-bottom:12px;">🎉</div>
+        <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--orange);margin-bottom:8px;">Demo Booked!</div>
+        <div id="success-msg" style="font-size:0.85rem;color:var(--muted);line-height:1.6;"></div>
+        <div style="margin-top:16px;font-size:0.78rem;color:var(--muted);">We'll WhatsApp you a confirmation shortly 📲</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  // ── CALENDAR & BOOKING LOGIC ──────────────────────────────
+  let currentDate = new Date();
+  let selectedDate = null;
+  let selectedTime = null;
+
+  const TIME_SLOTS = [
+    '10:30 AM','11:00 AM','11:30 AM',
+    '12:00 PM','12:30 PM','01:00 PM',
+    '01:30 PM','02:00 PM','02:30 PM',
+    '03:00 PM','03:30 PM','04:00 PM',
+    '04:30 PM','05:00 PM','05:30 PM'
+  ];
+
+  const MONTHS = ['January','February','March','April','May','June',
+                  'July','August','September','October','November','December'];
+
+  function renderCalendar() {
+    const grid = document.getElementById('calendar-grid');
+    const label = document.getElementById('month-label');
+    grid.innerHTML = '';
+    label.textContent = MONTHS[currentDate.getMonth()] + ' ' + currentDate.getFullYear();
+
+    const today = new Date(); today.setHours(0,0,0,0);
+    const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
+    const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth()+1, 0).getDate();
+
+    for (let i = 0; i < firstDay; i++) {
+      grid.insertAdjacentHTML('beforeend', '<div></div>');
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), d);
+      date.setHours(0,0,0,0);
+      const isPast = date < today;
+      const isWeekend = date.getDay() === 0; // Sunday only closed
+      const isDisabled = isPast || isWeekend;
+      const isSelected = selectedDate && date.toDateString() === selectedDate.toDateString();
+      const isToday = date.toDateString() === today.toDateString();
+
+      const btn = document.createElement('button');
+      btn.textContent = d;
+      btn.style.cssText = `
+        width:100%;aspect-ratio:1;border-radius:8px;border:1px solid;cursor:${isDisabled?'not-allowed':'pointer'};
+        font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:${isToday?'700':'400'};
+        transition:all 0.2s;
+        background:${isSelected?'var(--orange)':isDisabled?'transparent':'var(--dark3)'};
+        color:${isSelected?'#fff':isDisabled?'#333':'var(--text)'};
+        border-color:${isSelected?'var(--orange)':isToday?'var(--orange)':'var(--border)'};
+        opacity:${isDisabled?0.3:1};
+      `;
+      if (!isDisabled) {
+        btn.onclick = () => selectDate(date);
+        btn.onmouseover = () => { if(!isSelected) btn.style.borderColor='var(--orange)'; };
+        btn.onmouseout  = () => { if(!isSelected) btn.style.borderColor='var(--border)'; };
+      }
+      grid.appendChild(btn);
+    }
+  }
+
+  function selectDate(date) {
+    selectedDate = date;
+    selectedTime = null;
+    renderCalendar();
+    renderTimeSlots();
+    document.getElementById('booking-form').style.display = 'none';
+    document.getElementById('booking-success').style.display = 'none';
+  }
+
+  function renderTimeSlots() {
+    const container = document.getElementById('time-slots');
+    container.innerHTML = '';
+    TIME_SLOTS.forEach(slot => {
+      const btn = document.createElement('button');
+      btn.textContent = slot;
+      const isSelected = selectedTime === slot;
+      btn.style.cssText = `
+        padding:9px 4px;border-radius:8px;border:1px solid;cursor:pointer;
+        font-family:'DM Sans',sans-serif;font-size:0.75rem;font-weight:500;
+        transition:all 0.2s;
+        background:${isSelected?'var(--orange)':'var(--dark3)'};
+        color:${isSelected?'#fff':'var(--text)'};
+        border-color:${isSelected?'var(--orange)':'var(--border)'};
+      `;
+      btn.onclick = () => selectTime(slot);
+      btn.onmouseover = () => { if(slot!==selectedTime) btn.style.borderColor='var(--orange)'; };
+      btn.onmouseout  = () => { if(slot!==selectedTime) btn.style.borderColor='var(--border)'; };
+      container.appendChild(btn);
+    });
+  }
+
+  function selectTime(slot) {
+    if (!selectedDate) { alert('Please select a date first!'); return; }
+    selectedTime = slot;
+    renderTimeSlots();
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const summary = `📅 ${days[selectedDate.getDay()]}, ${selectedDate.getDate()} ${months[selectedDate.getMonth()]} ${selectedDate.getFullYear()} · ⏰ ${slot} IST · 30 mins`;
+    document.getElementById('selected-summary').textContent = summary;
+    document.getElementById('booking-form').style.display = 'flex';
+  }
+
+  function changeMonth(dir) {
+    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + dir, 1);
+    renderCalendar();
+  }
+
+  // ── REPLACE THIS URL after setting up Google Apps Script ──
+  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzZJlC9Gyvui73g62iJ_sq5EF_gCRBI5CmPYZcmBaYMpb-ZGZmGTYrhsp5VBsR_9g4/exec';
+
+  async function confirmBooking() {
+    const name     = document.getElementById('demo-name').value.trim();
+    const phone    = document.getElementById('demo-phone').value.trim();
+    const business = document.getElementById('demo-business').value.trim();
+    const industry = document.getElementById('demo-industry').value;
+    const email    = document.getElementById('demo-email').value.trim();
+
+    if (!name || !phone || !business || !industry) {
+      alert('Please fill in all required fields!'); return;
+    }
+    if (!/^[6-9]\d{9}$/.test(phone)) {
+      alert('Please enter a valid 10-digit Indian mobile number!'); return;
+    }
+
+    const days   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const dateStr = `${days[selectedDate.getDay()]}, ${selectedDate.getDate()} ${months[selectedDate.getMonth()]} ${selectedDate.getFullYear()}`;
+    const bookedOn = new Date().toLocaleString('en-IN', {timeZone:'Asia/Kolkata'});
+
+    // Show loading state
+    const btn = document.querySelector('#booking-form button');
+    btn.textContent = '⏳ Saving your booking...';
+    btn.disabled = true;
+
+    // ── SEND TO GOOGLE SHEETS ──────────────────────────────
+    const data = { name, phone, email, business, industry, date: dateStr, time: selectedTime, bookedOn };
+
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch(e) {
+      console.log('Sheet save attempted:', e);
+    }
+
+    // ── SEND WHATSAPP MESSAGE ──────────────────────────────
+    const msg = encodeURIComponent(
+      `Hi OmniXa AI! 👋\n\nI'd like to book a demo call.\n\n📅 Date: ${dateStr}\n⏰ Time: ${selectedTime} IST\n\n👤 Name: ${name}\n📱 Phone: ${phone}\n🏢 Business: ${business}\n🏭 Industry: ${industry}\n\nPlease confirm my slot. Thank you!`
+    );
+    window.open(`https://wa.me/919347758401?text=${msg}`, '_blank');
+
+    // ── SHOW SUCCESS ───────────────────────────────────────
+    document.getElementById('booking-form').style.display = 'none';
+    document.getElementById('booking-success').style.display = 'block';
+    document.getElementById('success-msg').innerHTML =
+      `<strong style="color:var(--text)">${name}</strong>, your demo is requested for<br>
+       <strong style="color:var(--orange)">${dateStr} at ${selectedTime} IST</strong><br><br>
+       ✅ Saved to our database<br>
+       Our team will confirm within 1 hour on WhatsApp 📲`;
+  }
+
+  // Init
+  renderCalendar();
+  renderTimeSlots();
+</script>
+
 <!-- CTA -->
 <section class="cta-section" id="contact">
   <div class="section-tag" style="justify-content:center">Get Started</div>
   <h2 style="margin-left:auto;margin-right:auto">Ready to Automate Your <span style="color:var(--orange)">Business?</span></h2>
   <p>Book a free 30-minute demo and see OmniXa AI in action for your specific industry. No commitment, no tech knowledge needed.</p>
   <div class="cta-buttons">
-    <a href="https://wa.me/91XXXXXXXXXX" class="btn-primary">📲 WhatsApp Us Now</a>
+    <a href="https://wa.me/919347758401" class="btn-primary">📲 WhatsApp Us Now</a>
     <a href="mailto:hello@omnixaai.in" class="btn-ghost">✉️ hello@omnixaai.in</a>
   </div>
   <p style="margin-top:24px;font-size:0.78rem;color:var(--muted);position:relative;z-index:1;">🇮🇳 Proudly serving businesses across India · omnixaai.in</p>
