@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>OmniXa AI — AI Product Marketplace</title>
+<script src="https://accounts.google.com/gsi/client" async defer onload="initGoogleAuth()"></script>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 :root{
@@ -294,9 +295,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
       <button class="btn-outline" onclick="show('signup')">Browse Marketplace</button>
     </div>
     <div class="hero-metrics">
-      <div class="metric"><div class="metric-val">500+</div><div class="metric-lbl">Products listed</div></div>
-      <div class="metric"><div class="metric-val">12K+</div><div class="metric-lbl">Active buyers</div></div>
-      <div class="metric"><div class="metric-val">₹2Cr+</div><div class="metric-lbl">Revenue generated</div></div>
+      <div class="metric"><div class="metric-val" id="hMetricProducts">0</div><div class="metric-lbl">Products listed</div></div>
+      <div class="metric"><div class="metric-val" id="hMetricBuyers">0</div><div class="metric-lbl">Active buyers</div></div>
+      <div class="metric"><div class="metric-val" id="hMetricRev">₹0</div><div class="metric-lbl">Revenue generated</div></div>
       <div class="metric"><div class="metric-val">4.9★</div><div class="metric-lbl">Avg rating</div></div>
       <div class="metric"><div class="metric-val">🇮🇳</div><div class="metric-lbl">India-built</div></div>
     </div>
@@ -339,9 +340,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
           <p style="font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:14px">OmniXa AI was built by a 24-year-old founder who saw brilliant AI products fail — not because of bad code, but because nobody knew how to sell them.</p>
           <p style="font-size:15px;color:var(--muted);line-height:1.8">We are the marketplace and network that gives AI creators the distribution they deserve, and gives buyers the tools they need to grow their business.</p>
           <div class="about-stats">
-            <div class="stat-box"><div class="stat-val">500+</div><div class="stat-lbl">Products listed</div></div>
-            <div class="stat-box"><div class="stat-val">12K+</div><div class="stat-lbl">Active buyers</div></div>
-            <div class="stat-box"><div class="stat-val">₹2Cr+</div><div class="stat-lbl">Revenue generated</div></div>
+            <div class="stat-box"><div class="stat-val" id="aMetricProducts">0</div><div class="stat-lbl">Products listed</div></div>
+            <div class="stat-box"><div class="stat-val" id="aMetricBuyers">0</div><div class="stat-lbl">Active buyers</div></div>
+            <div class="stat-box"><div class="stat-val" id="aMetricRev">₹0</div><div class="stat-lbl">Revenue generated</div></div>
             <div class="stat-box"><div class="stat-val">4.9★</div><div class="stat-lbl">Avg product rating</div></div>
           </div>
         </div>
@@ -420,8 +421,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
       <div class="form-group"><label>Email address</label><input type="email" id="lEmail" placeholder="you@example.com"/></div>
       <div class="form-group"><label>Password</label><input type="password" id="lPass" placeholder="••••••••"/></div>
       <button class="submit-btn" onclick="doLogin()">Log in →</button>
+      
       <div class="auth-div"><span>or</span></div>
-      <button class="submit-btn" style="background:var(--card);border:1px solid var(--border2);color:var(--white);font-size:14px;letter-spacing:0;text-transform:none" onclick="doLogin()">🔵 Continue with Google</button>
+      <div id="googleBtnContainer" style="display: flex; justify-content: center; width: 100%;"></div>
       <div class="auth-switch">No account? <a onclick="show('signup')">Sign up free</a></div>
     </div>
   </div>
@@ -494,6 +496,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
       <button class="nav-link" onclick="show('seller-earnings')">Earnings</button>
     </div>
     <div class="nav-right">
+      <button class="btn-ghost" style="margin-right:8px;font-size:12px;color:var(--orange)" onclick="setRole('buyer')">⇆ Switch to Buyer</button>
       <div class="user-chip">
         <span style="font-size:13px;color:var(--muted)" id="sName">Seller</span>
         <div class="avatar" id="sAvatar">S</div>
@@ -598,6 +601,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
       <button class="nav-link" onclick="show('seller-earnings')">Earnings</button>
     </div>
     <div class="nav-right">
+      <button class="btn-ghost" style="margin-right:8px;font-size:12px;color:var(--orange)" onclick="setRole('buyer')">⇆ Switch to Buyer</button>
       <div class="avatar" id="sAvatar2">S</div>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
@@ -627,6 +631,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
       <button class="nav-link" onclick="show('seller-earnings')">Earnings</button>
     </div>
     <div class="nav-right">
+      <button class="btn-ghost" style="margin-right:8px;font-size:12px;color:var(--orange)" onclick="setRole('buyer')">⇆ Switch to Buyer</button>
       <div class="avatar" id="sAvatar3">S</div>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
@@ -694,6 +699,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
       <button class="nav-link" onclick="show('seller-earnings')">Earnings</button>
     </div>
     <div class="nav-right">
+      <button class="btn-ghost" style="margin-right:8px;font-size:12px;color:var(--orange)" onclick="setRole('buyer')">⇆ Switch to Buyer</button>
       <div class="avatar" id="sAvatar4">S</div>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
@@ -702,9 +708,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
     <div class="dash-content">
       <div class="dash-hdr"><div><h1>My Buyers</h1><p>Everyone who purchased your products — connect with them directly</p></div></div>
       <div class="stats-row3">
-        <div class="stat-box"><div class="stat-val">47</div><div class="stat-lbl">Total buyers</div><div class="stat-ch">+12 this week</div></div>
-        <div class="stat-box" style="border-left-color:var(--green)"><div class="stat-val" style="color:var(--green)">38</div><div class="stat-lbl">Left reviews</div><div class="stat-ch">81% review rate</div></div>
-        <div class="stat-box" style="border-left-color:var(--blue)"><div class="stat-val" style="color:var(--blue)">12</div><div class="stat-lbl">Repeat buyers</div><div class="stat-ch">Bought 2+ products</div></div>
+        <div class="stat-box"><div class="stat-val" id="sbTotalBuyers">0</div><div class="stat-lbl">Total buyers</div><div class="stat-ch" id="sbTotalBuyersCh">Real-time</div></div>
+        <div class="stat-box" style="border-left-color:var(--green)"><div class="stat-val" style="color:var(--green)" id="sbReviews">0</div><div class="stat-lbl">Left reviews</div><div class="stat-ch">Feature coming soon</div></div>
+        <div class="stat-box" style="border-left-color:var(--blue)"><div class="stat-val" style="color:var(--blue)" id="sbRepeat">0</div><div class="stat-lbl">Repeat buyers</div><div class="stat-ch">Bought 2+ products</div></div>
       </div>
       <div class="tbl-wrap">
         <div class="tbl-head">
@@ -714,13 +720,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
         <table>
           <thead><tr><th>Buyer</th><th>Product purchased</th><th>Date</th><th>Amount paid</th><th>Status</th><th>Action</th></tr></thead>
           <tbody id="buyersTbody">
-            <tr><td><div style="font-weight:600">Priya Mehta</div><div style="font-size:12px;color:var(--muted)">priya@gmail.com · Mumbai</div></td><td><span class="chip">ReplyBot AI</span></td><td style="color:var(--muted);font-size:13px">May 8, 2026</td><td style="color:var(--green);font-weight:700">₹2,999</td><td><span class="badge badge-green">● Paid</span></td><td><button class="btn-orange" style="font-size:12px;padding:6px 14px" onclick="openConnect('Priya Mehta','priya@gmail.com','ReplyBot AI','May 8, 2026')">💬 Connect</button></td></tr>
-            <tr><td><div style="font-weight:600">Arjun Singh</div><div style="font-size:12px;color:var(--muted)">arjun@startup.io · Bangalore</div></td><td><span class="chip">LeadFlow Pro</span></td><td style="color:var(--muted);font-size:13px">May 9, 2026</td><td style="color:var(--green);font-weight:700">₹4,999</td><td><span class="badge badge-green">● Paid</span></td><td><button class="btn-orange" style="font-size:12px;padding:6px 14px" onclick="openConnect('Arjun Singh','arjun@startup.io','LeadFlow Pro','May 9, 2026')">💬 Connect</button></td></tr>
-            <tr><td><div style="font-weight:600">Sneha Patel</div><div style="font-size:12px;color:var(--muted)">sneha@agency.in · Ahmedabad</div></td><td><span class="chip">ReplyBot AI</span></td><td style="color:var(--muted);font-size:13px">May 10, 2026</td><td style="color:var(--green);font-weight:700">₹2,999</td><td><span class="badge badge-green">● Paid</span></td><td><button class="btn-orange" style="font-size:12px;padding:6px 14px" onclick="openConnect('Sneha Patel','sneha@agency.in','ReplyBot AI','May 10, 2026')">💬 Connect</button></td></tr>
-            <tr><td><div style="font-weight:600">Vikram Nair</div><div style="font-size:12px;color:var(--muted)">vikram@corp.com · Delhi</div></td><td><span class="chip">DocuMind</span></td><td style="color:var(--muted);font-size:13px">May 11, 2026</td><td style="color:var(--green);font-weight:700">₹3,499</td><td><span class="badge badge-green">● Paid</span></td><td><button class="btn-orange" style="font-size:12px;padding:6px 14px" onclick="openConnect('Vikram Nair','vikram@corp.com','DocuMind','May 11, 2026')">💬 Connect</button></td></tr>
-            <tr><td><div style="font-weight:600">Kavita Rao</div><div style="font-size:12px;color:var(--muted)">kavita@mail.com · Pune</div></td><td><span class="chip">LeadFlow Pro</span></td><td style="color:var(--muted);font-size:13px">May 12, 2026</td><td style="color:var(--orange);font-weight:700">₹4,999</td><td><span class="badge badge-orange">● Pending</span></td><td><button class="btn-orange" style="font-size:12px;padding:6px 14px" onclick="openConnect('Kavita Rao','kavita@mail.com','LeadFlow Pro','May 12, 2026')">💬 Connect</button></td></tr>
-            <tr><td><div style="font-weight:600">Rohan Desai</div><div style="font-size:12px;color:var(--muted)">rohan@tech.in · Surat</div></td><td><span class="chip">ReplyBot AI</span></td><td style="color:var(--muted);font-size:13px">May 12, 2026</td><td style="color:var(--green);font-weight:700">₹2,999</td><td><span class="badge badge-green">● Paid</span></td><td><button class="btn-orange" style="font-size:12px;padding:6px 14px" onclick="openConnect('Rohan Desai','rohan@tech.in','ReplyBot AI','May 12, 2026')">💬 Connect</button></td></tr>
-            <tr><td><div style="font-weight:600">Ananya Krishnan</div><div style="font-size:12px;color:var(--muted)">ananya@design.co · Chennai</div></td><td><span class="chip">DocuMind</span></td><td style="color:var(--muted);font-size:13px">May 11, 2026</td><td style="color:var(--green);font-weight:700">₹3,499</td><td><span class="badge badge-green">● Paid</span></td><td><button class="btn-orange" style="font-size:12px;padding:6px 14px" onclick="openConnect('Ananya Krishnan','ananya@design.co','DocuMind','May 11, 2026')">💬 Connect</button></td></tr>
+            <!-- Dynamic -->
           </tbody>
         </table>
       </div>
@@ -742,6 +742,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
       <button class="nav-link active-link" onclick="show('seller-earnings')">Earnings</button>
     </div>
     <div class="nav-right">
+      <button class="btn-ghost" style="margin-right:8px;font-size:12px;color:var(--orange)" onclick="setRole('buyer')">⇆ Switch to Buyer</button>
       <div class="avatar" id="sAvatar5">S</div>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
@@ -750,20 +751,18 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
     <div class="dash-content">
       <div class="dash-hdr"><div><h1>Earnings & Analytics</h1><p>Track your revenue across all products</p></div></div>
       <div class="stats-row">
-        <div class="stat-box" style="border-left-color:var(--green)"><div class="stat-val" style="color:var(--green)">₹1,24,450</div><div class="stat-lbl">Total revenue</div><div class="stat-ch">All time</div></div>
-        <div class="stat-box"><div class="stat-val">₹18,400</div><div class="stat-lbl">This month</div><div class="stat-ch">May 2026</div></div>
-        <div class="stat-box"><div class="stat-val">₹6,200</div><div class="stat-lbl">This week</div></div>
-        <div class="stat-box" style="border-left-color:var(--blue)"><div class="stat-val" style="color:var(--blue)">47</div><div class="stat-lbl">Total orders</div></div>
+        <div class="stat-box" style="border-left-color:var(--green)"><div class="stat-val" style="color:var(--green)" id="eTotalRev">₹0</div><div class="stat-lbl">Total revenue</div><div class="stat-ch">All time</div></div>
+        <div class="stat-box"><div class="stat-val" id="eMonthRev">₹0</div><div class="stat-lbl">This month</div><div class="stat-ch">May 2026</div></div>
+        <div class="stat-box"><div class="stat-val" id="eWeekRev">₹0</div><div class="stat-lbl">This week</div></div>
+        <div class="stat-box" style="border-left-color:var(--blue)"><div class="stat-val" style="color:var(--blue)" id="eTotalOrders">0</div><div class="stat-lbl">Total orders</div></div>
       </div>
       <div class="cards2">
         <div class="tbl-wrap">
           <div class="tbl-head"><div class="tbl-title">Revenue by product</div></div>
           <table>
             <thead><tr><th>Product</th><th>Sales</th><th>Revenue</th><th>Buyers</th></tr></thead>
-            <tbody>
-              <tr><td style="font-weight:600">ReplyBot AI</td><td>24</td><td style="color:var(--green);font-weight:700">₹71,976</td><td><button class="btn-orange" style="font-size:12px;padding:5px 12px" onclick="show('seller-buyers')">View all</button></td></tr>
-              <tr><td style="font-weight:600">LeadFlow Pro</td><td>15</td><td style="color:var(--green);font-weight:700">₹74,985</td><td><button class="btn-orange" style="font-size:12px;padding:5px 12px" onclick="show('seller-buyers')">View all</button></td></tr>
-              <tr><td style="font-weight:600">DocuMind</td><td>8</td><td style="color:var(--green);font-weight:700">₹27,992</td><td><button class="btn-orange" style="font-size:12px;padding:5px 12px" onclick="show('seller-buyers')">View all</button></td></tr>
+            <tbody id="eProdTbody">
+              <!-- Dynamic -->
             </tbody>
           </table>
         </div>
@@ -771,11 +770,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
           <div class="tbl-head"><div class="tbl-title">Recent transactions</div></div>
           <table>
             <thead><tr><th>Buyer</th><th>Product</th><th>Amount</th><th>Status</th></tr></thead>
-            <tbody>
-              <tr><td>Priya Mehta</td><td style="color:var(--muted);font-size:13px">ReplyBot AI</td><td style="color:var(--green);font-weight:700">₹2,999</td><td><span class="badge badge-green">● Paid</span></td></tr>
-              <tr><td>Arjun Singh</td><td style="color:var(--muted);font-size:13px">LeadFlow Pro</td><td style="color:var(--green);font-weight:700">₹4,999</td><td><span class="badge badge-green">● Paid</span></td></tr>
-              <tr><td>Sneha Patel</td><td style="color:var(--muted);font-size:13px">ReplyBot AI</td><td style="color:var(--green);font-weight:700">₹2,999</td><td><span class="badge badge-green">● Paid</span></td></tr>
-              <tr><td>Kavita Rao</td><td style="color:var(--muted);font-size:13px">LeadFlow Pro</td><td style="color:var(--orange);font-weight:700">₹4,999</td><td><span class="badge badge-orange">● Pending</span></td></tr>
+            <tbody id="eTransTbody">
+              <!-- Dynamic -->
             </tbody>
           </table>
         </div>
@@ -796,6 +792,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
       <button class="nav-link" onclick="show('buyer-orders')">My Orders</button>
     </div>
     <div class="nav-right">
+      <button class="btn-ghost" style="margin-right:8px;font-size:12px;color:var(--blue)" onclick="setRole('seller')">⇆ Switch to Seller</button>
       <div class="user-chip">
         <span style="font-size:13px;color:var(--muted)" id="bName">Buyer</span>
         <div class="avatar" style="background:var(--blue)" id="bAvatar">B</div>
@@ -893,6 +890,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
       <button class="nav-link" onclick="show('buyer-orders')">My Orders</button>
     </div>
     <div class="nav-right">
+      <button class="btn-ghost" style="margin-right:8px;font-size:12px;color:var(--blue)" onclick="setRole('seller')">⇆ Switch to Seller</button>
       <div class="avatar" style="background:var(--blue)" id="bAvatar2">B</div>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
@@ -924,6 +922,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
       <button class="nav-link" onclick="show('buyer-market')">← Marketplace</button>
     </div>
     <div class="nav-right">
+      <button class="btn-ghost" style="margin-right:8px;font-size:12px;color:var(--blue)" onclick="setRole('seller')">⇆ Switch to Seller</button>
       <div class="avatar" style="background:var(--blue)" id="bAvatar3">B</div>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
@@ -974,6 +973,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
       <button class="nav-link active-link" onclick="show('buyer-orders')">My Orders</button>
     </div>
     <div class="nav-right">
+      <button class="btn-ghost" style="margin-right:8px;font-size:12px;color:var(--blue)" onclick="setRole('seller')">⇆ Switch to Seller</button>
       <div class="avatar" style="background:var(--blue)" id="bAvatar4">B</div>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
@@ -986,315 +986,6 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
   </div>
 </div>
 
-<script>
-/* ── DATA ── */
-const allProducts = [
-  {id:1,name:'ReplyBot AI',cat:'Chatbot',price:2999,desc:'AI-powered customer support chatbot for websites and WhatsApp. Handles 100+ enquiries per day without human intervention. Supports Hindi, English, and Gujarati.',icon:'🤖',sales:24,tags:['WhatsApp','Support','24/7','AI']},
-  {id:2,name:'LeadFlow Pro',cat:'Automation',price:4999,desc:'Automate LinkedIn lead generation, outreach, and follow-ups on complete autopilot. Trusted by 200+ B2B founders across India.',icon:'⚡',sales:15,tags:['LinkedIn','Leads','B2B','Outreach']},
-  {id:3,name:'DocuMind',cat:'AI Tools',price:3499,desc:'Extract data, summaries, and key insights from any PDF or Word document in seconds using advanced AI. Perfect for legal and finance teams.',icon:'📄',sales:8,tags:['Documents','Legal','Analysis','PDF']},
-  {id:4,name:'SocialAI',cat:'SaaS',price:1999,desc:'Generate viral social media content for LinkedIn, Twitter, and Instagram using AI trained on 10,000+ high-performing posts.',icon:'📱',sales:31,tags:['LinkedIn','Twitter','Content','AI']},
-  {id:5,name:'AutoInvoice',cat:'Automation',price:1499,desc:'Auto-generate GST invoices, send UPI payment links via WhatsApp, track payments, and send automated due reminders.',icon:'🧾',sales:19,tags:['GST','Invoice','WhatsApp','Payments']},
-  {id:6,name:'ChatSmart',cat:'Chatbot',price:3999,desc:'Multi-language AI chatbot builder for e-commerce stores. Supports Hindi, English, Gujarati, Tamil. Built for Indian businesses.',icon:'💬',sales:12,tags:['Ecommerce','Multilingual','Chatbot','Shopify']},
-];
-
-let userOrders = [];
-let currentProduct = null;
-let currentRole = null;
-let currentUser = null;
-
-/* ── ROUTING ── */
-function show(page){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  const el = document.getElementById('page-'+page);
-  if(el){ el.classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }
-  if(page==='seller-products') renderSellerProducts();
-  if(page==='buyer-market') renderMarket(null);
-  if(page==='buyer-orders') renderOrders();
-}
-
-function scrollSec(id){
-  const el = document.getElementById(id);
-  if(el) el.scrollIntoView({behavior:'smooth'});
-}
-
-/* ── AUTH ── */
-function doLogin(){
-  const email = document.getElementById('lEmail').value || 'user@omnixaai.in';
-  currentUser = {name: email.split('@')[0], email};
-  show('role');
-}
-
-function doSignup(){
-  const first = document.getElementById('sFirst').value || 'User';
-  const last = document.getElementById('sLast').value || '';
-  const email = document.getElementById('sEmail').value || 'user@omnixaai.in';
-  currentUser = {name:(first+' '+last).trim(), email};
-  show('role');
-}
-
-function setRole(role){
-  currentRole = role;
-  const name = currentUser ? currentUser.name : 'User';
-  const initial = name[0].toUpperCase();
-  const firstName = name.split(' ')[0];
-  if(role === 'seller'){
-    document.getElementById('sGreetName').textContent = 'Welcome, '+firstName+'!';
-    ['sAvatar','sAvatar2','sAvatar3','sAvatar4','sAvatar5'].forEach(id=>{
-      const el=document.getElementById(id); if(el){el.textContent=initial;}
-    });
-    document.getElementById('sName').textContent = name;
-    show('seller-home');
-    notify('👋 Welcome back, '+firstName+'! You\'re logged in as a Seller.');
-  } else {
-    document.getElementById('bGreetName').textContent = 'Welcome, '+firstName+'!';
-    ['bAvatar','bAvatar2','bAvatar3','bAvatar4'].forEach(id=>{
-      const el=document.getElementById(id); if(el){el.textContent=initial;}
-    });
-    document.getElementById('bName').textContent = name;
-    renderMarket(null);
-    show('buyer-home');
-    notify('👋 Welcome, '+firstName+'! You\'re logged in as a Buyer.');
-  }
-}
-
-function doLogout(){
-  currentUser=null; currentRole=null; userOrders=[];
-  show('landing');
-  notify('You have been logged out.');
-}
-
-/* ── SELLER: PRODUCTS ── */
-function renderSellerProducts(){
-  const el = document.getElementById('spList');
-  if(!el) return;
-  el.innerHTML = allProducts.slice(0,3).map(p=>`
-    <div class="prod-card">
-      <div class="prod-thumb">${p.icon}</div>
-      <div class="prod-body">
-        <div class="prod-cat">${p.cat}</div>
-        <div class="prod-name">${p.name}</div>
-        <div class="prod-desc">${p.desc.substring(0,90)}...</div>
-        <div class="chips">${p.tags.map(t=>`<span class="chip">${t}</span>`).join('')}</div>
-        <div class="prod-footer">
-          <div class="prod-price">₹${p.price.toLocaleString('en-IN')}</div>
-          <div style="font-size:12px;color:var(--muted)">${p.sales} buyers</div>
-        </div>
-        <div style="display:flex;gap:8px;margin-top:14px">
-          <button class="btn-orange" style="flex:1;font-size:13px;padding:9px" onclick="show('seller-buyers')">👥 View buyers (${p.sales})</button>
-          <button class="btn-ghost" style="font-size:13px;padding:9px 14px" onclick="notify('Edit mode coming soon!')">✏️</button>
-        </div>
-      </div>
-    </div>`).join('');
-}
-
-/* ── SELLER: ADD PRODUCT ── */
-function livePreview(){
-  const n=document.getElementById('aName').value||'Your Product Name';
-  const c=document.getElementById('aCat').value||'Category';
-  const p=parseInt(document.getElementById('aPrice').value)||0;
-  const d=document.getElementById('aDesc').value||'Short description...';
-  const e=document.getElementById('aEmoji').value||'🤖';
-  document.getElementById('pvName').textContent=n;
-  document.getElementById('pvCat').textContent=c;
-  document.getElementById('pvPrice').textContent='₹'+p.toLocaleString('en-IN');
-  document.getElementById('pvDesc').textContent=d;
-  document.getElementById('pvIcon').textContent=e;
-}
-
-function submitProduct(){
-  const n=document.getElementById('aName').value;
-  const c=document.getElementById('aCat').value;
-  const p=document.getElementById('aPrice').value;
-  const d=document.getElementById('aDesc').value;
-  if(!n||!c||!p||!d){notify('Please fill all required fields (*)');return;}
-  const tags=(document.getElementById('aTags').value||c).split(',').map(t=>t.trim()).filter(Boolean);
-  const icon=document.getElementById('aEmoji').value||'🤖';
-  allProducts.push({id:allProducts.length+1,name:n,cat:c,price:parseInt(p),desc:d,icon,sales:0,tags});
-  document.getElementById('aSuccess').style.display='block';
-  notify('🚀 Product listed! Goes live after review.');
-  setTimeout(()=>{document.getElementById('aSuccess').style.display='none';},4000);
-  ['aName','aDesc','aFullDesc','aUrl','aVideo','aEmoji','aPrice','aComm','aTags'].forEach(id=>{
-    const el=document.getElementById(id); if(el) el.value='';
-  });
-  livePreview();
-}
-
-/* ── SELLER: BUYERS ── */
-function searchBuyers(q){
-  document.querySelectorAll('#buyersTbody tr').forEach(r=>{
-    r.style.display=r.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';
-  });
-}
-
-/* ── MARKETPLACE ── */
-function renderMarket(cat){
-  const el=document.getElementById('mktList');
-  if(!el) return;
-  const list = cat&&cat!=='All' ? allProducts.filter(p=>p.cat===cat) : allProducts;
-  el.innerHTML=list.map(p=>`
-    <div class="prod-card" onclick="viewProduct(${p.id})">
-      <div class="prod-thumb">${p.icon}</div>
-      <div class="prod-body">
-        <div class="prod-cat">${p.cat}</div>
-        <div class="prod-name">${p.name}</div>
-        <div class="prod-desc">${p.desc.substring(0,85)}...</div>
-        <div class="chips">${p.tags.map(t=>`<span class="chip">${t}</span>`).join('')}</div>
-        <div class="prod-footer">
-          <div class="prod-price">₹${p.price.toLocaleString('en-IN')}</div>
-          <div style="font-size:12px;color:var(--muted)">${p.sales} sold · 4.8★</div>
-        </div>
-      </div>
-    </div>`).join('');
-}
-
-function filterCat(cat,btn){
-  document.querySelectorAll('.filt-btn').forEach(b=>b.classList.remove('on'));
-  if(btn) btn.classList.add('on');
-  renderMarket(cat);
-}
-
-function filterSearch(q){
-  const filtered=allProducts.filter(p=>
-    p.name.toLowerCase().includes(q.toLowerCase())||
-    p.cat.toLowerCase().includes(q.toLowerCase())||
-    p.desc.toLowerCase().includes(q.toLowerCase())
-  );
-  const el=document.getElementById('mktList');
-  if(!el) return;
-  el.innerHTML=filtered.map(p=>`
-    <div class="prod-card" onclick="viewProduct(${p.id})">
-      <div class="prod-thumb">${p.icon}</div>
-      <div class="prod-body">
-        <div class="prod-cat">${p.cat}</div>
-        <div class="prod-name">${p.name}</div>
-        <div class="prod-desc">${p.desc.substring(0,85)}...</div>
-        <div class="chips">${p.tags.map(t=>`<span class="chip">${t}</span>`).join('')}</div>
-        <div class="prod-footer">
-          <div class="prod-price">₹${p.price.toLocaleString('en-IN')}</div>
-          <div style="font-size:12px;color:var(--muted)">${p.sales} sold · 4.8★</div>
-        </div>
-      </div>
-    </div>`).join('');
-}
-
-function viewProduct(id){
-  currentProduct=allProducts.find(p=>p.id===id);
-  if(!currentProduct) return;
-  document.getElementById('dIcon').textContent=currentProduct.icon;
-  document.getElementById('dCat').textContent=currentProduct.cat;
-  document.getElementById('dName').textContent=currentProduct.name;
-  document.getElementById('dPrice').textContent='₹'+currentProduct.price.toLocaleString('en-IN');
-  document.getElementById('dDesc').textContent=currentProduct.desc;
-  document.getElementById('dTags').innerHTML=currentProduct.tags.map(t=>`<span class="chip">${t}</span>`).join('');
-  const owned=userOrders.find(o=>o.id===id);
-  const btn=document.getElementById('buyNowBtn');
-  if(owned){btn.textContent='✅ Already owned';btn.style.background='rgba(34,197,94,0.15)';btn.style.color='var(--green)';}
-  else{btn.textContent='🛒 Buy Now';btn.style.background='';btn.style.color='';}
-  show('product');
-}
-
-function doBuy(){
-  if(!currentProduct) return;
-  if(userOrders.find(o=>o.id===currentProduct.id)){notify('You already own this product!');return;}
-  userOrders.push({...currentProduct,boughtOn:new Date().toLocaleDateString('en-IN')});
-  const btn=document.getElementById('buyNowBtn');
-  btn.textContent='✅ Purchase successful!';
-  btn.style.background='rgba(34,197,94,0.15)';
-  btn.style.color='var(--green)';
-  notify('🎉 Purchase complete! Check My Orders for access.');
-}
-
-function renderOrders(){
-  const el=document.getElementById('ordersList');
-  if(!el) return;
-  if(!userOrders.length){
-    el.innerHTML=`<div class="empty-state"><div class="ei">🛒</div><h3>No orders yet</h3><p>Browse the marketplace and purchase your first AI tool</p><button class="btn-big" onclick="show('buyer-market')" style="margin-top:20px;font-size:15px;padding:12px 28px">Browse Marketplace</button></div>`;
-    return;
-  }
-  el.innerHTML=`<div class="prod-grid">`+userOrders.map(p=>`
-    <div class="prod-card">
-      <div class="prod-thumb">${p.icon}</div>
-      <div class="prod-body">
-        <div class="prod-cat">${p.cat}</div>
-        <div class="prod-name">${p.name}</div>
-        <div class="prod-desc">${p.desc.substring(0,80)}...</div>
-        <div class="prod-footer">
-          <div class="prod-price">₹${p.price.toLocaleString('en-IN')}</div>
-          <div style="font-size:12px;color:var(--green)">✅ ${p.boughtOn}</div>
-        </div>
-        <button class="submit-btn" style="margin-top:12px;font-size:13px;padding:10px" onclick="notify('Opening product access...')">🔓 Access Product</button>
-      </div>
-    </div>`).join('')+`</div>`;
-}
-
-/* ── CONNECT MODAL ── */
-function openConnect(name,email,product,date){
-  document.getElementById('mBuyerName').textContent='Connect with '+name;
-  document.getElementById('mBuyerInfo').textContent=name+' · '+email+' · Bought '+product+' on '+date;
-  document.getElementById('msgThread').innerHTML=
-    `<div class="bubble bubble-them">Hi! I just purchased ${product}. Really impressive work! 🔥</div>
-     <div class="bubble bubble-me">Thank you so much, ${name.split(' ')[0]}! Let me know if you need help getting started.</div>
-     <div class="bubble bubble-them">Can you share the setup documentation and a quick onboarding call?</div>`;
-  document.getElementById('connectModal').classList.add('open');
-}
-
-function closeModal(){
-  document.getElementById('connectModal').classList.remove('open');
-}
-
-function sendMsg(){
-  const inp=document.getElementById('msgInput');
-  const txt=inp.value.trim();
-  if(!txt) return;
-  const thread=document.getElementById('msgThread');
-  const b=document.createElement('div');
-  b.className='bubble bubble-me';
-  b.textContent=txt;
-  thread.appendChild(b);
-  thread.scrollTop=thread.scrollHeight;
-  inp.value='';
-  setTimeout(()=>{
-    const r=document.createElement('div');
-    r.className='bubble bubble-them';
-    r.textContent='Thanks for the message! I\'ll get back to you within a few hours.';
-    thread.appendChild(r);
-    thread.scrollTop=thread.scrollHeight;
-  },1200);
-}
-
-document.getElementById('connectModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
-
-/* ── CONTACT FORMS ── */
-function submitContact(){
-  const n=document.getElementById('cName').value;
-  const e=document.getElementById('cEmail').value;
-  if(!n||!e){notify('Please fill in name and email');return;}
-  document.getElementById('cSuccess').style.display='block';
-  notify('Message sent!');
-  setTimeout(()=>{document.getElementById('cSuccess').style.display='none';},5000);
-}
-
-function submitSellerContact(){
-  if(!document.getElementById('sContactMsg').value){notify('Please enter a message');return;}
-  document.getElementById('sContactSuccess').style.display='block';
-  notify('Support ticket created!');
-  setTimeout(()=>{document.getElementById('sContactSuccess').style.display='none';},5000);
-}
-
-function submitBuyerContact(){
-  if(!document.getElementById('bContactMsg').value){notify('Please enter a message');return;}
-  document.getElementById('bContactSuccess').style.display='block';
-  notify('Support ticket created!');
-  setTimeout(()=>{document.getElementById('bContactSuccess').style.display='none';},5000);
-}
-
-/* ── NOTIFY ── */
-function notify(msg){
-  const el=document.getElementById('notif');
-  el.textContent=msg;
-  el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'),3200);
-}
-</script>
+<script src="/src/main.js"></script>
 </body>
 </html>
