@@ -28,10 +28,8 @@ app.get('/', (req, res) => {
   res.send('OmniXa AI Backend Running');
 });
 
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => {
-    console.log(`Backend server running on http://localhost:${PORT}`);
-  });
-}
+app.listen(PORT, () => {
+  console.log(`Backend server running on port ${PORT}`);
+});
 
 module.exports = app;
