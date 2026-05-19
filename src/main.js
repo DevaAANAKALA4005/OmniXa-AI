@@ -572,3 +572,27 @@ window.onload = async () => {
     show('landing');
   }
 }
+
+// Expose functions to global scope for inline HTML onclick handlers
+window.show = show;
+window.scrollSec = scrollSec;
+window.doLogin = doLogin;
+window.doSignup = doSignup;
+window.setRole = setRole;
+window.doLogout = doLogout;
+window.livePreview = livePreview;
+window.submitProduct = submitProduct;
+window.openConnect = openConnect;
+window.closeModal = closeModal;
+window.sendMsg = sendMsg;
+window.submitContact = submitContact;
+window.submitSellerContact = submitSellerContact;
+window.submitBuyerContact = submitBuyerContact;
+window.filterCat = filterCat;
+window.filterSearch = filterSearch;
+window.viewProduct = viewProduct;
+window.doBuy = doBuy;
+window.openAccess = openAccess;
+window.searchBuyers = searchBuyers;
+window.initGoogleAuth = initGoogleAuth;
+
