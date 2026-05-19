@@ -566,6 +566,7 @@ function initGoogleAuth() {
 
 // Check for existing session
 window.onload = async () => {
+  initGoogleAuth();
   if(currentUser && currentRole) {
     setRole(currentRole);
   } else {
