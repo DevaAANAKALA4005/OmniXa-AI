@@ -13,10 +13,15 @@ async function api(path, method='GET', body=null){
 }
 
 async function initData(){
-  allProducts = await api('/products');
-  allOrders = await api('/orders');
+  const productsRes = await api('/products');
+  allProducts = Array.isArray(productsRes) ? productsRes : [];
+  
+  const ordersRes = await api('/orders');
+  allOrders = Array.isArray(ordersRes) ? ordersRes : [];
+  
   if(currentUser){
-    userPurchases = await api('/orders/purchases?email=' + currentUser.email);
+    const purchasesRes = await api('/orders/purchases?email=' + currentUser.email);
+    userPurchases = Array.isArray(purchasesRes) ? purchasesRes : [];
   }
   renderGlobalStats();
 }
@@ -544,7 +549,7 @@ async function handleGoogleResponse(response) {
 function initGoogleAuth() {
   if (window.google) {
     google.accounts.id.initialize({
-      client_id: '50112896877-9un4puonbuu1bunmpkpj1urdt2fdr0qa.apps.googleusercontent.com',
+      client_id: '19792595973-1teed1o06iiofunr0hn63cso36nq2l0v.apps.googleusercontent.com',
       callback: handleGoogleResponse
     });
     const btnContainer = document.getElementById('googleBtnContainer');
