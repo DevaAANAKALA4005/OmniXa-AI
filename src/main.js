@@ -5,10 +5,12 @@ let allOrders = [];
 let userPurchases = [];
 let currentProduct = null;
 
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
+
 async function api(path, method='GET', body=null){
   const options = { method, headers: { 'Content-Type': 'application/json' } };
   if(body) options.body = JSON.stringify(body);
-  const res = await fetch('/api' + path, options);
+  const res = await fetch(API_BASE + path, options);
   return res.json();
 }
 
