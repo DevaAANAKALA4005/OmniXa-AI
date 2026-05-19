@@ -97,6 +97,7 @@ async function doLogin(){
     return;
   }
 
+  notify('Logging in... ⏳');
   const res = await api('/auth/login', 'POST', { email, password });
   if(res.success){
     currentUser = res.user;
@@ -118,6 +119,7 @@ async function doSignup(){
     return;
   }
 
+  notify('Creating account... ⏳');
   const res = await api('/auth/signup', 'POST', { first, last, email, password });
   if(res.success){
     currentUser = res.user;
@@ -238,6 +240,7 @@ async function submitProduct(){
   const tags=(document.getElementById('aTags').value||c).split(',').map(t=>t.trim()).filter(Boolean);
   const icon=document.getElementById('aEmoji').value||'🤖';
   
+  notify('Listing product... ⏳');
   const res = await api('/products', 'POST', {
     name: n,
     cat: c,
@@ -427,6 +430,7 @@ async function doBuy(){
     date: date
   };
   
+  notify('Processing purchase... ⏳');
   const res = await api('/orders', 'POST', order);
   if(res.success){
     const btn=document.getElementById('buyNowBtn');
