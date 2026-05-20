@@ -15,6 +15,15 @@ router.get('/', async (req, res) => {
 // Create product
 router.post('/', async (req, res) => {
   try {
+    const User = require('../schemas/User');
+    const user = await User.findOne({ email: req.body.sellerEmail });
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Seller not found' });
+    }
+    if (!user.subscriptionPlan || user.subscriptionPlan === 'None') {
+      return res.status(403).json({ success: false, message: 'You need an active subscription to list products.' });
+    }
+
     const product = new Product({
       ...req.body,
       sales: 0

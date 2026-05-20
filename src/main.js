@@ -68,6 +68,15 @@ function renderGlobalStats() {
 
 /* ── ROUTING ── */
 async function show(page){
+  // Close any open mobile menus
+  closeMenu();
+
+  if(page==='seller-add') {
+    if (!currentUser || !currentUser.subscriptionPlan || currentUser.subscriptionPlan === 'None') {
+      page = 'seller-subscription';
+    }
+  }
+
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const el = document.getElementById('page-'+page);
   if(el){ el.classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }
@@ -78,8 +87,16 @@ async function show(page){
   if(page==='seller-products') renderSellerProducts();
   if(page==='seller-buyers') renderBuyersTable();
   if(page==='seller-earnings') renderEarnings();
+  if(page==='seller-subscription') renderSubscriptionPage();
   if(page==='buyer-market') renderMarket(null);
   if(page==='buyer-orders') renderOrders();
+  if(page==='settings') {
+    if(currentUser) {
+      document.getElementById('set-email').value = currentUser.email;
+      document.getElementById('set-name').value = currentUser.name;
+      document.getElementById('set-avatar').value = currentUser.avatar || '';
+    }
+  }
 }
 
 function scrollSec(id){
@@ -102,7 +119,11 @@ async function doLogin(){
   if(res.success){
     currentUser = res.user;
     localStorage.setItem('ox_user', JSON.stringify(currentUser));
-    show('role');
+    if (currentUser.role) {
+      setRole(currentUser.role);
+    } else {
+      show('role');
+    }
   } else {
     notify('Login failed: ' + res.message);
   }
@@ -124,7 +145,11 @@ async function doSignup(){
   if(res.success){
     currentUser = res.user;
     localStorage.setItem('ox_user', JSON.stringify(currentUser));
-    show('role');
+    if (currentUser.role) {
+      setRole(currentUser.role);
+    } else {
+      show('role');
+    }
   } else {
     notify('Signup failed: ' + res.message);
   }
@@ -137,9 +162,17 @@ async function setRole(role){
   localStorage.setItem('ox_role', role);
   
   if (currentUser && currentUser.id) {
-    api('/auth/role', 'PUT', { userId: currentUser.id, role }).catch(e => console.error(e));
+    const res = await api('/auth/role', 'PUT', { userId: currentUser.id, role });
+    if (res && !res.success) {
+       notify(res.message);
+       return;
+    }
   } else if (currentUser && currentUser.email) {
-    api('/auth/role', 'PUT', { email: currentUser.email, role }).catch(e => console.error(e));
+    const res = await api('/auth/role', 'PUT', { email: currentUser.email, role });
+    if (res && !res.success) {
+       notify(res.message);
+       return;
+    }
   }
 
   const name = currentUser ? currentUser.name : 'User';
@@ -546,7 +579,11 @@ async function handleGoogleResponse(response) {
   if (res.success) {
     currentUser = res.user;
     localStorage.setItem('ox_user', JSON.stringify(currentUser));
-    show('role');
+    if (currentUser.role) {
+      setRole(currentUser.role);
+    } else {
+      show('role');
+    }
   } else {
     notify('Google Login failed: ' + res.message);
   }
@@ -565,6 +602,149 @@ function initGoogleAuth() {
         { theme: 'outline', size: 'large', type: 'standard', text: 'continue_with', width: 340 }
       );
     }
+  }
+}
+
+async function updateSettings() {
+  if (!currentUser) return;
+  const newName = document.getElementById('set-name').value;
+  const newAvatar = document.getElementById('set-avatar').value;
+  
+  if (!newName) {
+    notify('Name cannot be empty');
+    return;
+  }
+  
+  notify('Updating profile... ⏳');
+  const res = await api('/auth/profile', 'PUT', { email: currentUser.email, full_name: newName, avatar: newAvatar });
+  
+  if (res.success) {
+    currentUser = res.user;
+    localStorage.setItem('ox_user', JSON.stringify(currentUser));
+    
+    // Update name in navbars
+    if(currentRole === 'seller'){
+      const sName = document.getElementById('sName');
+      if(sName) sName.textContent = currentUser.name;
+      const sGreet = document.getElementById('sGreetName');
+      if(sGreet) sGreet.textContent = 'Welcome, ' + currentUser.name.split(' ')[0] + '!';
+    } else {
+      const bName = document.getElementById('bName');
+      if(bName) bName.textContent = currentUser.name;
+      const bGreet = document.getElementById('bGreetName');
+      if(bGreet) bGreet.textContent = 'Welcome, ' + currentUser.name.split(' ')[0] + '!';
+    }
+    
+    const successBar = document.getElementById('set-success');
+    successBar.style.display = 'block';
+    setTimeout(() => { successBar.style.display = 'none'; }, 4000);
+    notify('✅ Profile updated successfully!');
+  } else {
+    notify('Update failed: ' + res.message);
+  }
+}
+
+// Mobile Menu
+function toggleMenu(btn) {
+  const nav = btn.closest('.nav');
+  if (nav) {
+    const links = nav.querySelector('.nav-links');
+    if (links) {
+      links.classList.toggle('open');
+      const backdrop = document.getElementById('menuBackdrop');
+      if (backdrop) backdrop.classList.toggle('open');
+    }
+  }
+}
+
+function closeMenu() {
+  document.querySelectorAll('.nav-links').forEach(n => n.classList.remove('open'));
+  const backdrop = document.getElementById('menuBackdrop');
+  if (backdrop) backdrop.classList.remove('open');
+}
+
+// Subscriptions
+function renderSubscriptionPage() {
+  const plan = currentUser?.subscriptionPlan || 'None';
+  const title = document.getElementById('subsTitle');
+  const desc = document.getElementById('subsDesc');
+  
+  if (plan === 'None') {
+    title.textContent = 'Choose a plan to list products';
+    desc.textContent = 'You need an active subscription to publish products on OmniXa AI.';
+  } else {
+    title.textContent = 'My Subscription';
+    desc.textContent = `You are currently on the ${plan} plan. Upgrade to unlock more features!`;
+  }
+  
+  const plans = ['Basic', 'Pro', 'Enterprise'];
+  const planLevels = { 'None': 0, 'Basic': 1, 'Pro': 2, 'Enterprise': 3 };
+  const currentLevel = planLevels[plan];
+  
+  plans.forEach(p => {
+    const card = document.getElementById('subCard' + p);
+    const btn = document.getElementById('subBtn' + p);
+    if (!card || !btn) return;
+    
+    // reset
+    card.classList.remove('current-plan');
+    
+    const pLevel = planLevels[p];
+    if (pLevel === currentLevel) {
+      card.classList.add('current-plan');
+      btn.textContent = 'Current Plan';
+      btn.disabled = true;
+      btn.className = 'btn-ghost';
+      btn.style.opacity = '0.7';
+      btn.style.cursor = 'not-allowed';
+    } else if (pLevel > currentLevel) {
+      btn.textContent = `Upgrade to ${p}`;
+      btn.disabled = false;
+      btn.className = p === 'Pro' ? 'submit-btn' : 'btn-outline';
+      btn.style.opacity = '1';
+      btn.style.cursor = 'pointer';
+    } else {
+      btn.textContent = `Downgrade (Next Cycle)`;
+      btn.disabled = false;
+      btn.className = 'btn-ghost';
+      btn.style.opacity = '1';
+      btn.style.cursor = 'pointer';
+    }
+  });
+}
+
+async function doSubscribe(plan) {
+  if (!currentUser) return;
+  
+  const planLevels = { 'None': 0, 'Basic': 1, 'Pro': 2, 'Enterprise': 3 };
+  const currentPlan = currentUser.subscriptionPlan || 'None';
+  
+  if (planLevels[plan] < planLevels[currentPlan]) {
+    notify(`Your downgrade to ${plan} will take effect at the end of your billing month.`);
+    return;
+  }
+  
+  notify(`Processing your ${plan} subscription... ⏳`);
+  
+  // Simulate payment delay
+  await new Promise(r => setTimeout(r, 1500));
+  
+  const res = await api('/auth/subscription', 'PUT', { email: currentUser.email, plan });
+  if (res.success) {
+    currentUser.subscriptionPlan = res.subscriptionPlan;
+    localStorage.setItem('ox_user', JSON.stringify(currentUser));
+    notify(`✅ Successfully subscribed to ${plan} plan!`);
+    
+    // Re-render the subscription page to show the new state
+    renderSubscriptionPage();
+    
+    // Redirect to add product if they were originally trying to do that
+    setTimeout(() => {
+      // Find out if they want to go to Add Product, let's just send them there
+      show('seller-add');
+    }, 1500);
+  } else {
+    notify('Subscription failed: ' + res.message);
   }
 }
 
@@ -602,4 +782,8 @@ window.doBuy = doBuy;
 window.openAccess = openAccess;
 window.searchBuyers = searchBuyers;
 window.initGoogleAuth = initGoogleAuth;
+window.doSubscribe = doSubscribe;
+window.updateSettings = updateSettings;
+window.toggleMenu = toggleMenu;
+window.closeMenu = closeMenu;
 

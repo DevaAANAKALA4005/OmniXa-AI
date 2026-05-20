@@ -25,7 +25,7 @@ router.post('/signup', async (req, res) => {
     await user.save();
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-    res.json({ success: true, token, user: { id: user._id, name: user.full_name, email: user.email } });
+    res.json({ success: true, token, user: { id: user._id, name: user.full_name, email: user.email, role: user.role, subscriptionPlan: user.subscriptionPlan } });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -46,7 +46,7 @@ router.post('/login', async (req, res) => {
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-    res.json({ success: true, token, user: { id: user._id, name: user.full_name, email: user.email } });
+    res.json({ success: true, token, user: { id: user._id, name: user.full_name, email: user.email, role: user.role, subscriptionPlan: user.subscriptionPlan } });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -70,7 +70,7 @@ router.post('/google', async (req, res) => {
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-    res.json({ success: true, token, user: { id: user._id, name: user.full_name, email: user.email, avatar: picture } });
+    res.json({ success: true, token, user: { id: user._id, name: user.full_name, email: user.email, avatar: picture, role: user.role, subscriptionPlan: user.subscriptionPlan } });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Google authentication failed: ' + err.message });
   }
@@ -88,9 +88,49 @@ router.put('/role', async (req, res) => {
     }
     
     if (user) {
+      if (user.role && user.role !== role) {
+        return res.status(400).json({ success: false, message: 'Role cannot be changed once assigned' });
+      }
       user.role = role;
       await user.save();
-      return res.json({ success: true });
+      return res.json({ success: true, role: user.role });
+    }
+    res.status(404).json({ success: false, message: 'User not found' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// Sync subscription plan
+router.put('/subscription', async (req, res) => {
+  try {
+    const { email, plan } = req.body;
+    let user = await User.findOne({ email });
+    
+    if (user) {
+      user.subscriptionPlan = plan;
+      await user.save();
+      return res.json({ success: true, subscriptionPlan: user.subscriptionPlan });
+    }
+    res.status(404).json({ success: false, message: 'User not found' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// Update profile
+router.put('/profile', async (req, res) => {
+  try {
+    const { email, full_name, avatar } = req.body;
+    let user = await User.findOne({ email });
+    
+    if (user) {
+      if (full_name) user.full_name = full_name;
+      if (avatar) user.avatar = avatar;
+      await user.save();
+      
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+      return res.json({ success: true, token, user: { id: user._id, name: user.full_name, email: user.email, avatar: user.avatar, role: user.role, subscriptionPlan: user.subscriptionPlan } });
     }
     res.status(404).json({ success: false, message: 'User not found' });
   } catch (err) {

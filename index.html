@@ -26,6 +26,7 @@ input,select,textarea,button{font-family:'Barlow',sans-serif}
 .logo{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:21px;cursor:pointer;letter-spacing:0.01em}
 .logo span{color:var(--orange)}
 .nav-links{display:flex;gap:6px}
+.menu-btn{display:none;font-size:24px;cursor:pointer;color:var(--white)}
 .nav-link{font-size:13px;font-weight:600;color:var(--muted);padding:7px 14px;border-radius:7px;cursor:pointer;letter-spacing:0.05em;text-transform:uppercase;transition:all 0.2s;background:none;border:none}
 .nav-link:hover{color:var(--white);background:rgba(255,255,255,0.05)}
 .nav-link.active-link{color:var(--orange);background:var(--odim)}
@@ -241,9 +242,70 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
 .search-bar{flex:1;min-width:180px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:9px 16px;font-size:14px;color:var(--white);outline:none}
 .search-bar:focus{border-color:rgba(255,69,0,0.4)}
 .search-bar::placeholder{color:rgba(255,255,255,0.2)}
+
+/* ── SUBSCRIPTION CARDS ── */
+.subs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;margin:0 auto}
+.sub-card{background:var(--card);border:2px solid var(--border);border-radius:16px;padding:36px 28px;text-align:center;transition:all 0.3s;display:flex;flex-direction:column}
+.sub-card:hover{border-color:var(--orange);background:var(--card2);transform:translateY(-4px);box-shadow:0 16px 48px rgba(255,69,0,0.15)}
+.sub-card.popular{border-color:var(--orange);position:relative}
+.sub-card.popular::before{content:'MOST POPULAR';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--orange);color:#fff;font-size:10px;font-weight:800;padding:4px 12px;border-radius:20px;letter-spacing:0.1em}
+.sub-card.current-plan{border-color:var(--green);background:rgba(34,197,94,0.05)}
+.sub-card.current-plan::before{content:'CURRENT PLAN';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:10px;font-weight:800;padding:4px 12px;border-radius:20px;letter-spacing:0.1em}
+.sub-title{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:800;color:var(--white);text-transform:uppercase;margin-bottom:8px}
+.sub-price span{font-size:14px;color:var(--muted);font-weight:600}
+.sub-features{list-style:none;text-align:left;margin-bottom:32px;flex-grow:1}
+.sub-features li{font-size:14px;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.sub-features li::before{content:'✓';color:var(--green);font-weight:700}
+.close-menu{display:none}
+
+/* ── RESPONSIVE DESIGN ── */
+@media (max-width: 900px) {
+  .cards4, .cards3, .prod-grid, .subs-grid { grid-template-columns: repeat(2, 1fr); }
+  .steps-row, .stats-row, .stats-row3 { grid-template-columns: repeat(2, 1fr); }
+  .detail-grid { grid-template-columns: 1fr; }
+  .section { padding: 60px 5%; }
+  .hero { padding-top: 120px; }
+  .contact-grid, .about-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+
+@media (max-width: 600px) {
+  .cards4, .cards3, .cards2, .prod-grid, .subs-grid { grid-template-columns: 1fr; }
+  .steps-row, .stats-row, .stats-row3 { grid-template-columns: 1fr; }
+  .form-row, .role-grid, .add-grid, .detail-grid, .contact-grid, .about-grid { grid-template-columns: 1fr; }
+  
+  /* Navbar */
+  .nav { padding: 0 15px; }
+  .logo { font-size: 18px; }
+  .menu-btn { display: block; margin-left: 10px; margin-right: auto; }
+  
+  .menu-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 390; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+  .menu-backdrop.open { opacity: 1; pointer-events: all; }
+  
+  .nav-links { position: fixed; top: 0; left: -100%; width: 260px; height: 100vh; background: var(--bg); flex-direction: column; padding: 20px 15px; transition: left 0.3s ease; z-index: 500; border-right: 1px solid var(--border); box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
+  .nav-links.open { left: 0; }
+  .close-menu { display: block; text-align: right; font-size: 20px; color: var(--muted); cursor: pointer; padding: 5px 15px; margin-bottom: 10px; }
+  .nav-link { width: 100%; text-align: left; padding: 14px 15px; font-size: 15px; border-radius: 8px; margin-bottom: 4px; }
+  
+  .user-chip span { display: none; } /* hide user name */
+  .btn-ghost { padding: 6px 10px; font-size: 12px; }
+  
+  /* Adjustments */
+  .section { padding: 50px 5%; }
+  .dash-content { padding: 24px 5%; }
+  .hero h1 { font-size: 48px; }
+  .auth-box, .modal { padding: 24px; }
+  .tbl-wrap { overflow-x: auto; }
+  .tbl-head { flex-direction: column; gap: 14px; align-items: flex-start; }
+  .mkt-filters { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 10px; }
+  .mkt-filters::-webkit-scrollbar { display: none; }
+  .preview-box { position: static; margin-top: 24px; }
+  .buy-box { position: static; margin-top: 24px; }
+  .strip { flex-direction: column; gap: 16px; }
+}
 </style>
 </head>
 <body>
+<div class="menu-backdrop" id="menuBackdrop" onclick="closeMenu()"></div>
 
 <!-- NOTIFICATION -->
 <div class="notif" id="notif"></div>
@@ -275,6 +337,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
   <nav class="nav">
     <div class="logo" onclick="show('landing')">Omni<span>Xa</span> AI</div>
     <div class="nav-links">
+      <div class="close-menu" onclick="closeMenu()">✖</div>
       <button class="nav-link" onclick="scrollSec('landing-how')">How it works</button>
       <button class="nav-link" onclick="scrollSec('landing-about')">About</button>
       <button class="nav-link" onclick="scrollSec('landing-contact')">Contact</button>
@@ -488,19 +551,22 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
 <div class="page" id="page-seller-home">
   <nav class="nav">
     <div class="logo" onclick="show('seller-home')">Omni<span>Xa</span> AI</div>
+    <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
+      <div class="close-menu" onclick="closeMenu()">✖</div>
       <button class="nav-link active-link" onclick="show('seller-home')">Home</button>
       <button class="nav-link" onclick="show('seller-products')">My Products</button>
       <button class="nav-link" onclick="show('seller-add')">+ Add Product</button>
       <button class="nav-link" onclick="show('seller-buyers')">My Buyers</button>
       <button class="nav-link" onclick="show('seller-earnings')">Earnings</button>
+      <button class="nav-link" onclick="show('seller-subscription')">Subscription</button>
     </div>
     <div class="nav-right">
-      <button class="btn-ghost" style="margin-right:8px;font-size:12px;color:var(--orange)" onclick="setRole('buyer')">⇆ Switch to Buyer</button>
       <div class="user-chip">
         <span style="font-size:13px;color:var(--muted)" id="sName">Seller</span>
         <div class="avatar" id="sAvatar">S</div>
       </div>
+      <button class="btn-ghost" onclick="show('settings')">Settings</button>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
   </nav>
@@ -593,16 +659,19 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
 <div class="page" id="page-seller-products">
   <nav class="nav">
     <div class="logo" onclick="show('seller-home')">Omni<span>Xa</span> AI</div>
+    <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
+      <div class="close-menu" onclick="closeMenu()">✖</div>
       <button class="nav-link" onclick="show('seller-home')">Home</button>
       <button class="nav-link active-link" onclick="show('seller-products')">My Products</button>
       <button class="nav-link" onclick="show('seller-add')">+ Add Product</button>
       <button class="nav-link" onclick="show('seller-buyers')">My Buyers</button>
       <button class="nav-link" onclick="show('seller-earnings')">Earnings</button>
+      <button class="nav-link" onclick="show('seller-subscription')">Subscription</button>
     </div>
     <div class="nav-right">
-      <button class="btn-ghost" style="margin-right:8px;font-size:12px;color:var(--orange)" onclick="setRole('buyer')">⇆ Switch to Buyer</button>
       <div class="avatar" id="sAvatar2">S</div>
+      <button class="btn-ghost" onclick="show('settings')">Settings</button>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
   </nav>
@@ -618,21 +687,91 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
 </div>
 
 <!-- ╔══════════════════════════════════════╗
-     ║  P6: SELLER — ADD PRODUCT           ║
+     ║  P5b: SELLER — SUBSCRIPTION         ║
      ╚══════════════════════════════════════╝ -->
-<div class="page" id="page-seller-add">
+<div class="page" id="page-seller-subscription">
   <nav class="nav">
     <div class="logo" onclick="show('seller-home')">Omni<span>Xa</span> AI</div>
+    <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
+      <div class="close-menu" onclick="closeMenu()">✖</div>
       <button class="nav-link" onclick="show('seller-home')">Home</button>
       <button class="nav-link" onclick="show('seller-products')">My Products</button>
       <button class="nav-link active-link" onclick="show('seller-add')">+ Add Product</button>
       <button class="nav-link" onclick="show('seller-buyers')">My Buyers</button>
       <button class="nav-link" onclick="show('seller-earnings')">Earnings</button>
+      <button class="nav-link" onclick="show('seller-subscription')">Subscription</button>
     </div>
     <div class="nav-right">
-      <button class="btn-ghost" style="margin-right:8px;font-size:12px;color:var(--orange)" onclick="setRole('buyer')">⇆ Switch to Buyer</button>
+      <div class="avatar" id="sAvatarSub">S</div>
+      <button class="btn-ghost" onclick="show('settings')">Settings</button>
+      <button class="btn-ghost" onclick="doLogout()">Logout</button>
+    </div>
+  </nav>
+  <div class="dash-body">
+    <div class="dash-content">
+      <div style="text-align:center;margin-bottom:48px">
+        <h1 id="subsTitle" style="font-family:'Barlow Condensed',sans-serif;font-size:clamp(32px,5vw,52px);font-weight:900;color:var(--white);text-transform:uppercase;margin-bottom:12px">Choose a plan to list products</h1>
+        <p id="subsDesc" style="font-size:15px;color:var(--muted)">You need an active subscription to publish products on OmniXa AI.</p>
+      </div>
+      <div class="subs-grid">
+        <div class="sub-card" id="subCardBasic">
+          <div class="sub-title">Basic</div>
+          <div class="sub-price">₹499<span>/mo</span></div>
+          <ul class="sub-features">
+            <li>List up to 3 products</li>
+            <li>Basic analytics</li>
+            <li>Standard support</li>
+            <li>15% platform commission</li>
+          </ul>
+          <button id="subBtnBasic" class="btn-outline" style="width:100%" onclick="doSubscribe('Basic')">Select Basic</button>
+        </div>
+        <div class="sub-card popular" id="subCardPro">
+          <div class="sub-title">Pro</div>
+          <div class="sub-price">₹999<span>/mo</span></div>
+          <ul class="sub-features">
+            <li>List unlimited products</li>
+            <li>Advanced buyer analytics</li>
+            <li>Priority placement in search</li>
+            <li>10% platform commission</li>
+          </ul>
+          <button id="subBtnPro" class="submit-btn" onclick="doSubscribe('Pro')">Select Pro</button>
+        </div>
+        <div class="sub-card" id="subCardEnterprise">
+          <div class="sub-title">Enterprise</div>
+          <div class="sub-price">₹2999<span>/mo</span></div>
+          <ul class="sub-features">
+            <li>Everything in Pro</li>
+            <li>Dedicated account manager</li>
+            <li>0% platform commission</li>
+            <li>Homepage feature slot</li>
+          </ul>
+          <button id="subBtnEnterprise" class="btn-outline" style="width:100%" onclick="doSubscribe('Enterprise')">Select Enterprise</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════╗
+     ║  P6: SELLER — ADD PRODUCT           ║
+     ╚══════════════════════════════════════╝ -->
+<div class="page" id="page-seller-add">
+  <nav class="nav">
+    <div class="logo" onclick="show('seller-home')">Omni<span>Xa</span> AI</div>
+    <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
+    <div class="nav-links">
+      <div class="close-menu" onclick="closeMenu()">✖</div>
+      <button class="nav-link" onclick="show('seller-home')">Home</button>
+      <button class="nav-link" onclick="show('seller-products')">My Products</button>
+      <button class="nav-link active-link" onclick="show('seller-add')">+ Add Product</button>
+      <button class="nav-link" onclick="show('seller-buyers')">My Buyers</button>
+      <button class="nav-link" onclick="show('seller-earnings')">Earnings</button>
+      <button class="nav-link" onclick="show('seller-subscription')">Subscription</button>
+    </div>
+    <div class="nav-right">
       <div class="avatar" id="sAvatar3">S</div>
+      <button class="btn-ghost" onclick="show('settings')">Settings</button>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
   </nav>
@@ -691,16 +830,19 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
 <div class="page" id="page-seller-buyers">
   <nav class="nav">
     <div class="logo" onclick="show('seller-home')">Omni<span>Xa</span> AI</div>
+    <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
+      <div class="close-menu" onclick="closeMenu()">✖</div>
       <button class="nav-link" onclick="show('seller-home')">Home</button>
       <button class="nav-link" onclick="show('seller-products')">My Products</button>
       <button class="nav-link" onclick="show('seller-add')">+ Add Product</button>
       <button class="nav-link active-link" onclick="show('seller-buyers')">My Buyers</button>
       <button class="nav-link" onclick="show('seller-earnings')">Earnings</button>
+      <button class="nav-link" onclick="show('seller-subscription')">Subscription</button>
     </div>
     <div class="nav-right">
-      <button class="btn-ghost" style="margin-right:8px;font-size:12px;color:var(--orange)" onclick="setRole('buyer')">⇆ Switch to Buyer</button>
       <div class="avatar" id="sAvatar4">S</div>
+      <button class="btn-ghost" onclick="show('settings')">Settings</button>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
   </nav>
@@ -734,7 +876,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
 <div class="page" id="page-seller-earnings">
   <nav class="nav">
     <div class="logo" onclick="show('seller-home')">Omni<span>Xa</span> AI</div>
+    <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
+      <div class="close-menu" onclick="closeMenu()">✖</div>
       <button class="nav-link" onclick="show('seller-home')">Home</button>
       <button class="nav-link" onclick="show('seller-products')">My Products</button>
       <button class="nav-link" onclick="show('seller-add')">+ Add Product</button>
@@ -742,8 +886,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
       <button class="nav-link active-link" onclick="show('seller-earnings')">Earnings</button>
     </div>
     <div class="nav-right">
-      <button class="btn-ghost" style="margin-right:8px;font-size:12px;color:var(--orange)" onclick="setRole('buyer')">⇆ Switch to Buyer</button>
       <div class="avatar" id="sAvatar5">S</div>
+      <button class="btn-ghost" onclick="show('settings')">Settings</button>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
   </nav>
@@ -786,17 +930,19 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
 <div class="page" id="page-buyer-home">
   <nav class="nav">
     <div class="logo" onclick="show('buyer-home')">Omni<span>Xa</span> AI</div>
+    <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
+      <div class="close-menu" onclick="closeMenu()">✖</div>
       <button class="nav-link active-link" onclick="show('buyer-home')">Home</button>
       <button class="nav-link" onclick="show('buyer-market')">Marketplace</button>
       <button class="nav-link" onclick="show('buyer-orders')">My Orders</button>
     </div>
     <div class="nav-right">
-      <button class="btn-ghost" style="margin-right:8px;font-size:12px;color:var(--blue)" onclick="setRole('seller')">⇆ Switch to Seller</button>
       <div class="user-chip">
         <span style="font-size:13px;color:var(--muted)" id="bName">Buyer</span>
         <div class="avatar" style="background:var(--blue)" id="bAvatar">B</div>
       </div>
+      <button class="btn-ghost" onclick="show('settings')">Settings</button>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
   </nav>
@@ -884,14 +1030,16 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
 <div class="page" id="page-buyer-market">
   <nav class="nav">
     <div class="logo" onclick="show('buyer-home')">Omni<span>Xa</span> AI</div>
+    <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
+      <div class="close-menu" onclick="closeMenu()">✖</div>
       <button class="nav-link" onclick="show('buyer-home')">Home</button>
       <button class="nav-link active-link" onclick="show('buyer-market')">Marketplace</button>
       <button class="nav-link" onclick="show('buyer-orders')">My Orders</button>
     </div>
     <div class="nav-right">
-      <button class="btn-ghost" style="margin-right:8px;font-size:12px;color:var(--blue)" onclick="setRole('seller')">⇆ Switch to Seller</button>
       <div class="avatar" style="background:var(--blue)" id="bAvatar2">B</div>
+      <button class="btn-ghost" onclick="show('settings')">Settings</button>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
   </nav>
@@ -918,12 +1066,14 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
 <div class="page" id="page-product">
   <nav class="nav">
     <div class="logo" onclick="show('buyer-home')">Omni<span>Xa</span> AI</div>
+    <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
+      <div class="close-menu" onclick="closeMenu()">✖</div>
       <button class="nav-link" onclick="show('buyer-market')">← Marketplace</button>
     </div>
     <div class="nav-right">
-      <button class="btn-ghost" style="margin-right:8px;font-size:12px;color:var(--blue)" onclick="setRole('seller')">⇆ Switch to Seller</button>
       <div class="avatar" style="background:var(--blue)" id="bAvatar3">B</div>
+      <button class="btn-ghost" onclick="show('settings')">Settings</button>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
   </nav>
@@ -967,14 +1117,16 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
 <div class="page" id="page-buyer-orders">
   <nav class="nav">
     <div class="logo" onclick="show('buyer-home')">Omni<span>Xa</span> AI</div>
+    <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
+      <div class="close-menu" onclick="closeMenu()">✖</div>
       <button class="nav-link" onclick="show('buyer-home')">Home</button>
       <button class="nav-link" onclick="show('buyer-market')">Marketplace</button>
       <button class="nav-link active-link" onclick="show('buyer-orders')">My Orders</button>
     </div>
     <div class="nav-right">
-      <button class="btn-ghost" style="margin-right:8px;font-size:12px;color:var(--blue)" onclick="setRole('seller')">⇆ Switch to Seller</button>
       <div class="avatar" style="background:var(--blue)" id="bAvatar4">B</div>
+      <button class="btn-ghost" onclick="show('settings')">Settings</button>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
   </nav>
@@ -982,6 +1134,31 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
     <div class="dash-content">
       <div class="dash-hdr"><div><h1>My Orders</h1><p>All your purchased AI products</p></div></div>
       <div id="ordersList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════╗
+     ║  P13: SETTINGS                       ║
+     ╚══════════════════════════════════════╝ -->
+<div class="page" id="page-settings">
+  <nav class="nav">
+    <div class="logo" onclick="show(currentRole === 'seller' ? 'seller-home' : 'buyer-home')">Omni<span>Xa</span> AI</div>
+    <div class="nav-right">
+      <button class="btn-ghost" onclick="show(currentRole === 'seller' ? 'seller-home' : 'buyer-home')">← Back to Dashboard</button>
+      <button class="btn-ghost" onclick="doLogout()">Logout</button>
+    </div>
+  </nav>
+  <div class="dash-body">
+    <div class="dash-content">
+      <div class="dash-hdr"><div><h1>Account Settings</h1><p>Update your personal information</p></div></div>
+      <div class="form-box" style="max-width:600px;margin:0 auto">
+        <div class="form-group"><label>Email address (cannot be changed)</label><input type="email" id="set-email" disabled style="opacity:0.6"/></div>
+        <div class="form-group"><label>Full Name</label><input type="text" id="set-name"/></div>
+        <div class="form-group"><label>Avatar URL (optional)</label><input type="url" id="set-avatar" placeholder="https://example.com/avatar.png"/></div>
+        <button class="submit-btn" onclick="updateSettings()">Save Changes</button>
+        <div class="success-bar" id="set-success">✅ Profile updated successfully!</div>
+      </div>
     </div>
   </div>
 </div>
