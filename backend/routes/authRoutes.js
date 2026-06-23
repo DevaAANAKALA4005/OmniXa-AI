@@ -16,10 +16,12 @@ router.post('/signup', async (req, res) => {
     if (user) return res.status(400).json({ success: false, message: 'User already exists' });
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const role = (email === 'admin@omnixaai.in') ? 'seller' : 'buyer';
     user = new User({
       full_name,
       email,
       password: hashedPassword,
+      role
     });
 
     await user.save();
@@ -45,6 +47,11 @@ router.post('/login', async (req, res) => {
       if (!isMatch) return res.status(400).json({ success: false, message: 'Invalid credentials' });
     }
 
+    if (!user.role) {
+      user.role = (user.email === 'admin@omnixaai.in') ? 'seller' : 'buyer';
+      await user.save();
+    }
+
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
     res.json({ success: true, token, user: { id: user._id, name: user.full_name, email: user.email, role: user.role, subscriptionPlan: user.subscriptionPlan } });
   } catch (err) {
@@ -67,6 +74,11 @@ router.post('/google', async (req, res) => {
     if (!user) {
       // Existing user logic: if user not found, return an error.
       return res.status(400).json({ success: false, message: 'User not found. Please sign up first.' });
+    }
+
+    if (!user.role) {
+      user.role = (user.email === 'admin@omnixaai.in') ? 'seller' : 'buyer';
+      await user.save();
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });

@@ -243,24 +243,12 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
 .search-bar:focus{border-color:rgba(255,69,0,0.4)}
 .search-bar::placeholder{color:rgba(255,255,255,0.2)}
 
-/* ── SUBSCRIPTION CARDS ── */
-.subs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1000px;margin:0 auto}
-.sub-card{background:var(--card);border:2px solid var(--border);border-radius:16px;padding:36px 28px;text-align:center;transition:all 0.3s;display:flex;flex-direction:column}
-.sub-card:hover{border-color:var(--orange);background:var(--card2);transform:translateY(-4px);box-shadow:0 16px 48px rgba(255,69,0,0.15)}
-.sub-card.popular{border-color:var(--orange);position:relative}
-.sub-card.popular::before{content:'MOST POPULAR';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--orange);color:#fff;font-size:10px;font-weight:800;padding:4px 12px;border-radius:20px;letter-spacing:0.1em}
-.sub-card.current-plan{border-color:var(--green);background:rgba(34,197,94,0.05)}
-.sub-card.current-plan::before{content:'CURRENT PLAN';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:10px;font-weight:800;padding:4px 12px;border-radius:20px;letter-spacing:0.1em}
-.sub-title{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:800;color:var(--white);text-transform:uppercase;margin-bottom:8px}
-.sub-price span{font-size:14px;color:var(--muted);font-weight:600}
-.sub-features{list-style:none;text-align:left;margin-bottom:32px;flex-grow:1}
-.sub-features li{font-size:14px;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:10px}
-.sub-features li::before{content:'✓';color:var(--green);font-weight:700}
+/* Subscription styles removed */
 .close-menu{display:none}
 
 /* ── RESPONSIVE DESIGN ── */
 @media (max-width: 900px) {
-  .cards4, .cards3, .prod-grid, .subs-grid { grid-template-columns: repeat(2, 1fr); }
+  .cards4, .cards3, .prod-grid { grid-template-columns: repeat(2, 1fr); }
   .steps-row, .stats-row, .stats-row3 { grid-template-columns: repeat(2, 1fr); }
   .detail-grid { grid-template-columns: 1fr; }
   .section { padding: 60px 5%; }
@@ -269,7 +257,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
 }
 
 @media (max-width: 600px) {
-  .cards4, .cards3, .cards2, .prod-grid, .subs-grid { grid-template-columns: 1fr; }
+  .cards4, .cards3, .cards2, .prod-grid { grid-template-columns: 1fr; }
   .steps-row, .stats-row, .stats-row3 { grid-template-columns: 1fr; }
   .form-row, .role-grid, .add-grid, .detail-grid, .contact-grid, .about-grid { grid-template-columns: 1fr; }
   
@@ -350,12 +338,12 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
 
   <section class="hero">
     <div class="hero-grid"></div>
-    <div class="badge"><span class="dot"></span>The AI Product Marketplace · India</div>
-    <h1><span class="l1">Build it.</span><span class="l2">List it.</span><span class="l3">Sell it.</span></h1>
-    <p class="hero-p">OmniXa AI is the marketplace where AI creators sell their products and buyers discover the best AI tools, chatbots, SaaS, and automation systems.</p>
+    <div class="badge"><span class="dot"></span>The AI Product Store · India</div>
+    <h1><span class="l1">Discover.</span><span class="l2">Deploy.</span><span class="l3">Succeed.</span></h1>
+    <p class="hero-p">OmniXa AI is the premier storefront for cutting-edge AI tools, chatbots, SaaS, and automation systems, built and delivered directly by OmniXa AI.</p>
     <div class="hero-btns">
-      <button class="btn-big" onclick="show('signup')">🚀 List Your Product</button>
-      <button class="btn-outline" onclick="show('signup')">Browse Marketplace</button>
+      <button class="btn-big" onclick="show('signup')">🚀 Discover AI Tools</button>
+      <button class="btn-outline" onclick="scrollSec('landing-how')">How it works</button>
     </div>
     <div class="hero-metrics">
       <div class="metric"><div class="metric-val" id="hMetricProducts">0</div><div class="metric-lbl">Products listed</div></div>
@@ -378,17 +366,17 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
   <section class="section section-alt" id="landing-how">
     <div class="inner">
       <div class="sec-label">How it works</div>
-      <h2 class="sec-title">Four steps to your first sale</h2>
+      <h2 class="sec-title">Simple Steps to Deploy AI</h2>
       <div class="steps-row">
-        <div class="step-box"><div class="step-num">01</div><h3>Sign up</h3><p>Create your account as a seller or buyer in under 2 minutes. Free to join.</p></div>
-        <div class="step-box"><div class="step-num">02</div><h3>List product</h3><p>Sellers upload their AI tool with demo video, pricing, description, and category.</p></div>
-        <div class="step-box"><div class="step-num">03</div><h3>Buyers discover</h3><p>Buyers browse, search, compare, and purchase AI products directly on the platform.</p></div>
-        <div class="step-box"><div class="step-num">04</div><h3>Connect & grow</h3><p>Sellers see who bought their product and message them directly to build relationships.</p></div>
+        <div class="step-box"><div class="step-num">01</div><h3>Browse Store</h3><p>Explore our premium collection of AI tools, chatbots, and automation systems.</p></div>
+        <div class="step-box"><div class="step-num">02</div><h3>View Demos</h3><p>Watch video demos and check detailed documentation for each product.</p></div>
+        <div class="step-box"><div class="step-num">03</div><h3>One-Time Buy</h3><p>Purchase securely using UPI, Razorpay, or card with immediate access.</p></div>
+        <div class="step-box"><div class="step-num">04</div><h3>Direct Access</h3><p>Deploy instantly, get lifetime updates, and access our dedicated support team.</p></div>
       </div>
       <div class="cards3" style="margin-top:20px">
-        <div class="feat-card"><div class="feat-icon">🛠️</div><h3>For AI Creators</h3><p>Built a chatbot, SaaS, or automation tool? List it on OmniXa AI and start earning without a marketing team.</p></div>
-        <div class="feat-card"><div class="feat-icon">🏢</div><h3>For SaaS Founders</h3><p>Get your product in front of thousands of buyers actively looking for AI solutions for their business.</p></div>
-        <div class="feat-card"><div class="feat-icon">🛒</div><h3>For Buyers & Teams</h3><p>Discover, compare, and buy the best AI tools for your business. All in one place, verified and reviewed.</p></div>
+        <div class="feat-card"><div class="feat-icon">🤖</div><h3>Premium AI Tools</h3><p>Get access to custom-built AI agents and SaaS tools designed for real business growth.</p></div>
+        <div class="feat-card"><div class="feat-icon">💳</div><h3>GST & UPI Ready</h3><p>Simple local payments with auto-generated GST-compliant invoices for your accounting.</p></div>
+        <div class="feat-card"><div class="feat-icon">♾️</div><h3>Lifetime Access</h3><p>No monthly subscription fees. Pay once for the AI tools and enjoy lifetime access.</p></div>
       </div>
     </div>
   </section>
@@ -399,9 +387,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
       <div class="about-grid">
         <div>
           <div class="sec-label" style="text-align:left">About OmniXa AI</div>
-          <h2 style="font-family:'Barlow Condensed',sans-serif;font-size:clamp(28px,3.5vw,44px);font-weight:800;color:var(--white);text-transform:uppercase;margin-bottom:16px;line-height:1">We Built This Because <span style="color:var(--orange)">Great AI Products</span> Deserve Customers</h2>
-          <p style="font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:14px">OmniXa AI was built by a 24-year-old founder who saw brilliant AI products fail — not because of bad code, but because nobody knew how to sell them.</p>
-          <p style="font-size:15px;color:var(--muted);line-height:1.8">We are the marketplace and network that gives AI creators the distribution they deserve, and gives buyers the tools they need to grow their business.</p>
+          <h2 style="font-family:'Barlow Condensed',sans-serif;font-size:clamp(28px,3.5vw,44px);font-weight:800;color:var(--white);text-transform:uppercase;margin-bottom:16px;line-height:1">We Build <span style="color:var(--orange)">AI Solutions</span> That Propel Your Business Forward</h2>
+          <p style="font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:14px">At OmniXa AI, we design, build, and maintain high-performance AI systems so that businesses don't have to hire expensive developers.</p>
+          <p style="font-size:15px;color:var(--muted);line-height:1.8">We provide a curated shop of powerful AI tools, chatbots, SaaS, and integrations, and offer dedicated custom integration services for our buyers.</p>
           <div class="about-stats">
             <div class="stat-box"><div class="stat-val" id="aMetricProducts">0</div><div class="stat-lbl">Products listed</div></div>
             <div class="stat-box"><div class="stat-val" id="aMetricBuyers">0</div><div class="stat-lbl">Active buyers</div></div>
@@ -439,8 +427,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
       <h2 class="sec-title">Contact Us</h2>
       <div class="contact-grid">
         <div>
-          <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;color:var(--white);text-transform:uppercase;margin-bottom:14px">Let's Talk About Your AI Product</h3>
-          <p style="font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:24px">Have a product to list? Want to partner with us? Or just want to say hello? We'll respond within 24 hours.</p>
+          <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;color:var(--white);text-transform:uppercase;margin-bottom:14px">Let's Discuss Your AI Needs</h3>
+          <p style="font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:24px">Have a question about our AI products? Need a custom integration? Get in touch with us and we'll reply within 24 hours.</p>
           <div class="contact-item"><div class="c-icon">📧</div><span>hello@omnixaai.in</span></div>
           <div class="contact-item"><div class="c-icon">📱</div><span>+91 93477 58401</span></div>
           <div class="contact-item"><div class="c-icon">🌐</div><span>omnixaai.in</span></div>
@@ -449,7 +437,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
         </div>
         <div class="form-box">
           <div class="form-row"><div class="form-group"><label>Your name</label><input type="text" id="cName" placeholder="Rahul Sharma"/></div><div class="form-group"><label>Email</label><input type="email" id="cEmail" placeholder="you@company.com"/></div></div>
-          <div class="form-group"><label>Topic</label><select id="cSubject"><option value="">Select topic...</option><option>List my AI product</option><option>Partnership inquiry</option><option>Technical support</option><option>General enquiry</option></select></div>
+          <div class="form-group"><label>Topic</label><select id="cSubject"><option value="">Select topic...</option><option>Custom AI Integration</option><option>Partnership inquiry</option><option>Technical support</option><option>General enquiry</option></select></div>
           <div class="form-group"><label>Message</label><textarea id="cMsg" style="height:110px" placeholder="Tell us about your product or inquiry..."></textarea></div>
           <button class="submit-btn" onclick="submitContact()">Send Message</button>
           <div class="success-bar" id="cSuccess">✅ Message sent! We'll reply within 24 hours.</div>
@@ -516,33 +504,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
   </div>
 </div>
 
-<!-- ╔══════════════════════════════════════╗
-     ║  P3: WHO ARE YOU                    ║
-     ╚══════════════════════════════════════╝ -->
-<div class="page" id="page-role">
-  <nav class="nav">
-    <div class="logo" onclick="show('landing')">Omni<span>Xa</span> AI</div>
-  </nav>
-  <div class="role-wrap">
-    <div class="badge" style="margin-bottom:20px"><span class="dot"></span>One last step</div>
-    <h1 style="font-family:'Barlow Condensed',sans-serif;font-size:clamp(32px,5vw,52px);font-weight:900;color:var(--white);text-transform:uppercase;text-align:center;margin-bottom:10px">Who are you?</h1>
-    <p style="font-size:15px;color:var(--muted);text-align:center;margin-bottom:40px">Choose your role — you can always change later from settings</p>
-    <div class="role-grid">
-      <div class="role-card" onclick="setRole('seller')">
-        <div class="role-icon">🛠️</div>
-        <h3>I'm a Seller</h3>
-        <p>I build AI tools, SaaS products, chatbots, or automation systems and want to sell them on the marketplace.</p>
-        <span class="role-tag">List products · Track buyers · Earn</span>
-      </div>
-      <div class="role-card" onclick="setRole('buyer')">
-        <div class="role-icon">🛒</div>
-        <h3>I'm a Buyer</h3>
-        <p>I'm looking to discover, compare, and purchase the best AI tools and SaaS products for my business.</p>
-        <span class="role-tag">Browse · Compare · Purchase</span>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- Who are you role selection page removed -->
 
 <!-- ╔══════════════════════════════════════╗
      ║  P4: SELLER HOME PAGE               ║
@@ -554,17 +516,16 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
     <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
       <div class="close-menu" onclick="closeMenu()">✖</div>
-      <button class="nav-link active-link" onclick="show('seller-home')">Home</button>
-      <button class="nav-link" onclick="show('seller-products')">My Products</button>
-      <button class="nav-link" onclick="show('seller-add')">+ Add Product</button>
-      <button class="nav-link" onclick="show('seller-buyers')">My Buyers</button>
+      <button class="nav-link active-link" onclick="show('seller-home')">Admin Home</button>
+      <button class="nav-link" onclick="show('seller-products')">Manage Products</button>
+      <button class="nav-link" onclick="show('seller-add')">Add Product</button>
+      <button class="nav-link" onclick="show('seller-buyers')">All Buyers</button>
       <button class="nav-link" onclick="show('seller-earnings')">Earnings</button>
-      <button class="nav-link" onclick="show('seller-subscription')">Subscription</button>
     </div>
     <div class="nav-right">
       <div class="user-chip">
-        <span style="font-size:13px;color:var(--muted)" id="sName">Seller</span>
-        <div class="avatar" id="sAvatar">S</div>
+        <span style="font-size:13px;color:var(--muted)" id="sName">Admin</span>
+        <div class="avatar" id="sAvatar">A</div>
       </div>
       <button class="btn-ghost" onclick="show('settings')">Settings</button>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
@@ -574,34 +535,34 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
   <!-- SELLER HERO / WELCOME -->
   <section class="hero" style="min-height:70vh">
     <div class="hero-grid"></div>
-    <div class="badge"><span class="dot"></span>Seller Dashboard · OmniXa AI</div>
+    <div class="badge"><span class="dot"></span>Admin Dashboard · OmniXa AI</div>
     <h1 style="font-size:clamp(44px,7vw,90px)">
       <span class="l1" id="sGreetName">Welcome,</span>
-      <span class="l2">Seller!</span>
+      <span class="l2">Admin!</span>
     </h1>
-    <p class="hero-p">Your AI products are listed and live. Track your buyers, manage your listings, and connect with customers — all in one place.</p>
+    <p class="hero-p">Manage OmniXa AI products, sales, and buyer messages all in one place.</p>
     <div class="hero-btns">
       <button class="btn-big" onclick="show('seller-add')">+ Add New Product</button>
-      <button class="btn-outline" onclick="show('seller-buyers')">👥 View My Buyers</button>
+      <button class="btn-outline" onclick="show('seller-buyers')">👥 View All Buyers</button>
     </div>
     <div class="hero-metrics">
-      <div class="metric"><div class="metric-val" id="sMetric1">3</div><div class="metric-lbl">Products listed</div></div>
-      <div class="metric"><div class="metric-val" id="sMetric2">47</div><div class="metric-lbl">Total buyers</div></div>
-      <div class="metric"><div class="metric-val" id="sMetric3">₹1.2L</div><div class="metric-lbl">Revenue earned</div></div>
-      <div class="metric"><div class="metric-val">4.8★</div><div class="metric-lbl">Avg rating</div></div>
+      <div class="metric"><div class="metric-val" id="sMetric1">0</div><div class="metric-lbl">Products listed</div></div>
+      <div class="metric"><div class="metric-val" id="sMetric2">0</div><div class="metric-lbl">Total sales</div></div>
+      <div class="metric"><div class="metric-val" id="sMetric3">₹0</div><div class="metric-lbl">Revenue earned</div></div>
+      <div class="metric"><div class="metric-val">4.9★</div><div class="metric-lbl">Avg rating</div></div>
     </div>
   </section>
 
   <!-- HOW IT WORKS (SELLER) -->
   <section class="section section-alt" id="sh-how">
     <div class="inner">
-      <div class="sec-label">How it works for sellers</div>
-      <h2 class="sec-title">Start selling in 4 steps</h2>
+      <div class="sec-label">How to manage storefront</div>
+      <h2 class="sec-title">Store Management in 4 steps</h2>
       <div class="steps-row">
-        <div class="step-box"><div class="step-num">01</div><h3>Add Product</h3><p>Upload your product details, demo video, pricing, and category using the Add Product page.</p></div>
-        <div class="step-box"><div class="step-num">02</div><h3>Go Live</h3><p>Your product goes live on the marketplace after a quick 24-hour review by our team.</p></div>
-        <div class="step-box"><div class="step-num">03</div><h3>Track Sales</h3><p>See exactly how many people bought each product, who they are, and how much you earned.</p></div>
-        <div class="step-box"><div class="step-num">04</div><h3>Connect Buyers</h3><p>Message any buyer directly through our platform to offer support, upsells, or partnerships.</p></div>
+        <div class="step-box"><div class="step-num">01</div><h3>Add Product</h3><p>Upload new AI products, configure descriptions, set prices, and write tags.</p></div>
+        <div class="step-box"><div class="step-num">02</div><h3>Go Live</h3><p>Your products will instantly be discoverable and purchasable by buyers.</p></div>
+        <div class="step-box"><div class="step-num">03</div><h3>Track Sales</h3><p>Monitor your active sales, purchase history, and revenue analytics.</p></div>
+        <div class="step-box"><div class="step-num">04</div><h3>Connect Buyers</h3><p>Message any buyer directly from the dashboard to provide direct developer support.</p></div>
       </div>
     </div>
   </section>
@@ -609,39 +570,12 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
   <!-- ABOUT (SELLER VIEW) -->
   <section class="section" id="sh-about">
     <div class="inner">
-      <div class="sec-label">About OmniXa AI</div>
-      <h2 class="sec-title">Why sellers choose us</h2>
+      <div class="sec-label">Storefront Management</div>
+      <h2 class="sec-title">Platform Features</h2>
       <div class="cards3">
-        <div class="feat-card"><div class="feat-icon">📈</div><h3>Real buyer data</h3><p>Know exactly who is buying your product — their name, contact, and purchase date. No hidden middlemen.</p></div>
-        <div class="feat-card"><div class="feat-icon">💬</div><h3>Direct connect</h3><p>Message any buyer directly from your dashboard. Build relationships, offer support, and grow retention.</p></div>
-        <div class="feat-card"><div class="feat-icon">💰</div><h3>Keep more revenue</h3><p>We charge a small platform commission only when you earn. No monthly fees, no listing charges.</p></div>
-        <div class="feat-card"><div class="feat-icon">🚀</div><h3>Instant listing</h3><p>List your product in under 10 minutes. No approval delays for initial submission — go live fast.</p></div>
-        <div class="feat-card"><div class="feat-icon">🌐</div><h3>India-focused</h3><p>Built for Indian founders. GST-compliant invoices, UPI & Razorpay payments, Hindi support.</p></div>
-        <div class="feat-card"><div class="feat-icon">🤝</div><h3>Marketing support</h3><p>Our commission-based marketer network can promote your product to thousands of potential buyers.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT (SELLER) -->
-  <section class="section section-alt" id="sh-contact">
-    <div class="inner">
-      <div class="sec-label">Need help?</div>
-      <h2 class="sec-title">Contact Seller Support</h2>
-      <div class="contact-grid">
-        <div>
-          <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;color:var(--white);text-transform:uppercase;margin-bottom:14px">We're Here to Help You Sell</h3>
-          <p style="font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:24px">Need help with your listing? Want advice on pricing or marketing your product? Our seller support team responds within 4 hours.</p>
-          <div class="contact-item"><div class="c-icon">📧</div><span>sellers@omnixaai.in</span></div>
-          <div class="contact-item"><div class="c-icon">📱</div><span>+91 93477 58401</span></div>
-          <div class="contact-item"><div class="c-icon">📍</div><span>Ahmedabad, Gujarat, India 🇮🇳</span></div>
-          <a href="https://wa.me/919347758401" style="display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;padding:12px 22px;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;text-transform:uppercase;margin-top:18px;letter-spacing:0.04em">📲 WhatsApp Support</a>
-        </div>
-        <div class="form-box">
-          <div class="form-group"><label>Subject</label><select id="sContactSub"><option value="">Select topic...</option><option>Product listing issue</option><option>Payment / payout</option><option>Buyer dispute</option><option>Feature request</option><option>Other</option></select></div>
-          <div class="form-group"><label>Message</label><textarea id="sContactMsg" style="height:120px" placeholder="Describe your issue or question..."></textarea></div>
-          <button class="submit-btn" onclick="submitSellerContact()">Send to Support</button>
-          <div class="success-bar" id="sContactSuccess">✅ Message sent! Seller support will reply within 4 hours.</div>
-        </div>
+        <div class="feat-card"><div class="feat-icon">📈</div><h3>Real buyer data</h3><p>Access buyer information directly for support and analytics. No middlemen.</p></div>
+        <div class="feat-card"><div class="feat-icon">💬</div><h3>Direct connect</h3><p>Message your buyers directly. Build relationships, offer help, and solve disputes.</p></div>
+        <div class="feat-card"><div class="feat-icon">💰</div><h3>Full revenue</h3><p>Enjoy direct revenue generation. Zero monthly fees and zero listing charges.</p></div>
       </div>
     </div>
   </section>
@@ -665,12 +599,11 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
       <button class="nav-link" onclick="show('seller-home')">Home</button>
       <button class="nav-link active-link" onclick="show('seller-products')">My Products</button>
       <button class="nav-link" onclick="show('seller-add')">+ Add Product</button>
-      <button class="nav-link" onclick="show('seller-buyers')">My Buyers</button>
+      <button class="nav-link" onclick="show('seller-buyers')">All Buyers</button>
       <button class="nav-link" onclick="show('seller-earnings')">Earnings</button>
-      <button class="nav-link" onclick="show('seller-subscription')">Subscription</button>
     </div>
     <div class="nav-right">
-      <div class="avatar" id="sAvatar2">S</div>
+      <div class="avatar" id="sAvatar2">A</div>
       <button class="btn-ghost" onclick="show('settings')">Settings</button>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
@@ -678,7 +611,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
   <div class="dash-body">
     <div class="dash-content">
       <div class="dash-hdr">
-        <div><h1>My Products</h1><p>Manage your listed AI products and track sales</p></div>
+        <div><h1>Manage Products</h1><p>Manage all listed AI products and track sales</p></div>
         <button class="btn-big" onclick="show('seller-add')" style="font-size:15px;padding:11px 22px">+ Add new product</button>
       </div>
       <div class="prod-grid" id="spList"></div>
@@ -686,72 +619,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
   </div>
 </div>
 
-<!-- ╔══════════════════════════════════════╗
-     ║  P5b: SELLER — SUBSCRIPTION         ║
-     ╚══════════════════════════════════════╝ -->
-<div class="page" id="page-seller-subscription">
-  <nav class="nav">
-    <div class="logo" onclick="show('seller-home')">Omni<span>Xa</span> AI</div>
-    <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
-    <div class="nav-links">
-      <div class="close-menu" onclick="closeMenu()">✖</div>
-      <button class="nav-link" onclick="show('seller-home')">Home</button>
-      <button class="nav-link" onclick="show('seller-products')">My Products</button>
-      <button class="nav-link active-link" onclick="show('seller-add')">+ Add Product</button>
-      <button class="nav-link" onclick="show('seller-buyers')">My Buyers</button>
-      <button class="nav-link" onclick="show('seller-earnings')">Earnings</button>
-      <button class="nav-link" onclick="show('seller-subscription')">Subscription</button>
-    </div>
-    <div class="nav-right">
-      <div class="avatar" id="sAvatarSub">S</div>
-      <button class="btn-ghost" onclick="show('settings')">Settings</button>
-      <button class="btn-ghost" onclick="doLogout()">Logout</button>
-    </div>
-  </nav>
-  <div class="dash-body">
-    <div class="dash-content">
-      <div style="text-align:center;margin-bottom:48px">
-        <h1 id="subsTitle" style="font-family:'Barlow Condensed',sans-serif;font-size:clamp(32px,5vw,52px);font-weight:900;color:var(--white);text-transform:uppercase;margin-bottom:12px">Choose a plan to list products</h1>
-        <p id="subsDesc" style="font-size:15px;color:var(--muted)">You need an active subscription to publish products on OmniXa AI.</p>
-      </div>
-      <div class="subs-grid">
-        <div class="sub-card" id="subCardBasic">
-          <div class="sub-title">Basic</div>
-          <div class="sub-price">₹499<span>/mo</span></div>
-          <ul class="sub-features">
-            <li>List up to 3 products</li>
-            <li>Basic analytics</li>
-            <li>Standard support</li>
-            <li>15% platform commission</li>
-          </ul>
-          <button id="subBtnBasic" class="btn-outline" style="width:100%" onclick="doSubscribe('Basic')">Select Basic</button>
-        </div>
-        <div class="sub-card popular" id="subCardPro">
-          <div class="sub-title">Pro</div>
-          <div class="sub-price">₹999<span>/mo</span></div>
-          <ul class="sub-features">
-            <li>List unlimited products</li>
-            <li>Advanced buyer analytics</li>
-            <li>Priority placement in search</li>
-            <li>10% platform commission</li>
-          </ul>
-          <button id="subBtnPro" class="submit-btn" onclick="doSubscribe('Pro')">Select Pro</button>
-        </div>
-        <div class="sub-card" id="subCardEnterprise">
-          <div class="sub-title">Enterprise</div>
-          <div class="sub-price">₹2999<span>/mo</span></div>
-          <ul class="sub-features">
-            <li>Everything in Pro</li>
-            <li>Dedicated account manager</li>
-            <li>0% platform commission</li>
-            <li>Homepage feature slot</li>
-          </ul>
-          <button id="subBtnEnterprise" class="btn-outline" style="width:100%" onclick="doSubscribe('Enterprise')">Select Enterprise</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- Subscription management page removed -->
 
 <!-- ╔══════════════════════════════════════╗
      ║  P6: SELLER — ADD PRODUCT           ║
@@ -762,22 +630,21 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
     <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
       <div class="close-menu" onclick="closeMenu()">✖</div>
-      <button class="nav-link" onclick="show('seller-home')">Home</button>
-      <button class="nav-link" onclick="show('seller-products')">My Products</button>
-      <button class="nav-link active-link" onclick="show('seller-add')">+ Add Product</button>
-      <button class="nav-link" onclick="show('seller-buyers')">My Buyers</button>
+      <button class="nav-link" onclick="show('seller-home')">Admin Home</button>
+      <button class="nav-link" onclick="show('seller-products')">Manage Products</button>
+      <button class="nav-link active-link" onclick="show('seller-add')">Add Product</button>
+      <button class="nav-link" onclick="show('seller-buyers')">All Buyers</button>
       <button class="nav-link" onclick="show('seller-earnings')">Earnings</button>
-      <button class="nav-link" onclick="show('seller-subscription')">Subscription</button>
     </div>
     <div class="nav-right">
-      <div class="avatar" id="sAvatar3">S</div>
+      <div class="avatar" id="sAvatar3">A</div>
       <button class="btn-ghost" onclick="show('settings')">Settings</button>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
   </nav>
   <div class="dash-body">
     <div class="dash-content">
-      <div class="dash-hdr"><div><h1>Add New Product</h1><p>Fill in details — live after 24hr review</p></div></div>
+      <div class="dash-hdr"><div><h1>Add New Product</h1><p>Fill in details to list the product instantly</p></div></div>
       <div class="add-grid">
         <div class="form-box">
           <div class="form-group"><label>Product name *</label><input type="text" id="aName" placeholder="e.g. ReplyBot AI" oninput="livePreview()"/></div>
@@ -798,11 +665,11 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
           </div>
           <div class="form-row">
             <div class="form-group"><label>Product emoji</label><input type="text" id="aEmoji" placeholder="🤖" maxlength="2" oninput="livePreview()"/></div>
-            <div class="form-group"><label>Commission %</label><input type="number" id="aComm" placeholder="15" min="0" max="50"/></div>
+            <div class="form-group"><label>Commission % (Internal)</label><input type="number" id="aComm" placeholder="0" min="0" max="50"/></div>
           </div>
           <div class="form-group"><label>Tags (comma separated)</label><input type="text" id="aTags" placeholder="WhatsApp, Support, AI, Chatbot"/></div>
-          <button class="submit-btn" onclick="submitProduct()">🚀 List My Product</button>
-          <div class="success-bar" id="aSuccess">✅ Product listed! Goes live after a quick review (usually within 24 hours).</div>
+          <button class="submit-btn" onclick="submitProduct()">🚀 List Product</button>
+          <div class="success-bar" id="aSuccess">✅ Product listed successfully!</div>
         </div>
         <div>
           <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Live preview</div>
@@ -833,22 +700,21 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
     <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
       <div class="close-menu" onclick="closeMenu()">✖</div>
-      <button class="nav-link" onclick="show('seller-home')">Home</button>
-      <button class="nav-link" onclick="show('seller-products')">My Products</button>
-      <button class="nav-link" onclick="show('seller-add')">+ Add Product</button>
-      <button class="nav-link active-link" onclick="show('seller-buyers')">My Buyers</button>
+      <button class="nav-link" onclick="show('seller-home')">Admin Home</button>
+      <button class="nav-link" onclick="show('seller-products')">Manage Products</button>
+      <button class="nav-link" onclick="show('seller-add')">Add Product</button>
+      <button class="nav-link active-link" onclick="show('seller-buyers')">All Buyers</button>
       <button class="nav-link" onclick="show('seller-earnings')">Earnings</button>
-      <button class="nav-link" onclick="show('seller-subscription')">Subscription</button>
     </div>
     <div class="nav-right">
-      <div class="avatar" id="sAvatar4">S</div>
+      <div class="avatar" id="sAvatar4">A</div>
       <button class="btn-ghost" onclick="show('settings')">Settings</button>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
   </nav>
   <div class="dash-body">
     <div class="dash-content">
-      <div class="dash-hdr"><div><h1>My Buyers</h1><p>Everyone who purchased your products — connect with them directly</p></div></div>
+      <div class="dash-hdr"><div><h1>All Buyers</h1><p>Everyone who purchased products on OmniXa AI — connect with them directly</p></div></div>
       <div class="stats-row3">
         <div class="stat-box"><div class="stat-val" id="sbTotalBuyers">0</div><div class="stat-lbl">Total buyers</div><div class="stat-ch" id="sbTotalBuyersCh">Real-time</div></div>
         <div class="stat-box" style="border-left-color:var(--green)"><div class="stat-val" style="color:var(--green)" id="sbReviews">0</div><div class="stat-lbl">Left reviews</div><div class="stat-ch">Feature coming soon</div></div>
@@ -879,21 +745,21 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
     <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
       <div class="close-menu" onclick="closeMenu()">✖</div>
-      <button class="nav-link" onclick="show('seller-home')">Home</button>
-      <button class="nav-link" onclick="show('seller-products')">My Products</button>
-      <button class="nav-link" onclick="show('seller-add')">+ Add Product</button>
-      <button class="nav-link" onclick="show('seller-buyers')">My Buyers</button>
+      <button class="nav-link" onclick="show('seller-home')">Admin Home</button>
+      <button class="nav-link" onclick="show('seller-products')">Manage Products</button>
+      <button class="nav-link" onclick="show('seller-add')">Add Product</button>
+      <button class="nav-link" onclick="show('seller-buyers')">All Buyers</button>
       <button class="nav-link active-link" onclick="show('seller-earnings')">Earnings</button>
     </div>
     <div class="nav-right">
-      <div class="avatar" id="sAvatar5">S</div>
+      <div class="avatar" id="sAvatar5">A</div>
       <button class="btn-ghost" onclick="show('settings')">Settings</button>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
   </nav>
   <div class="dash-body">
     <div class="dash-content">
-      <div class="dash-hdr"><div><h1>Earnings & Analytics</h1><p>Track your revenue across all products</p></div></div>
+      <div class="dash-hdr"><div><h1>Earnings & Analytics</h1><p>Track store revenue across all products</p></div></div>
       <div class="stats-row">
         <div class="stat-box" style="border-left-color:var(--green)"><div class="stat-val" style="color:var(--green)" id="eTotalRev">₹0</div><div class="stat-lbl">Total revenue</div><div class="stat-ch">All time</div></div>
         <div class="stat-box"><div class="stat-val" id="eMonthRev">₹0</div><div class="stat-lbl">This month</div><div class="stat-ch">May 2026</div></div>
@@ -956,7 +822,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
       <span class="l2">Discover AI</span>
       <span class="l3">Products!</span>
     </h1>
-    <p class="hero-p">Browse 500+ AI tools, chatbots, SaaS products, and automation systems. Find the perfect tool for your business and buy directly from verified creators.</p>
+    <p class="hero-p">Browse our collection of AI tools, chatbots, SaaS products, and automation systems. Find the perfect tool for your business and buy directly from OmniXa AI.</p>
     <div class="hero-btns">
       <button class="btn-big" onclick="show('buyer-market')">🛒 Browse Marketplace</button>
       <button class="btn-outline" onclick="show('buyer-orders')">My Orders</button>
@@ -969,10 +835,10 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
       <div class="sec-label">How it works for buyers</div>
       <h2 class="sec-title">Find your AI tool in 4 steps</h2>
       <div class="steps-row">
-        <div class="step-box"><div class="step-num">01</div><h3>Browse</h3><p>Explore 500+ AI tools across categories — chatbots, SaaS, automation, productivity, and more.</p></div>
+        <div class="step-box"><div class="step-num">01</div><h3>Browse</h3><p>Explore premium AI tools across categories — chatbots, SaaS, automation, productivity, and more.</p></div>
         <div class="step-box"><div class="step-num">02</div><h3>Compare</h3><p>Read reviews, watch demo videos, and compare pricing to find the right tool for your needs.</p></div>
         <div class="step-box"><div class="step-num">03</div><h3>Purchase</h3><p>Buy directly on OmniXa AI using UPI, Razorpay, or card. Instant access after payment.</p></div>
-        <div class="step-box"><div class="step-num">04</div><h3>Use & grow</h3><p>Access your product immediately. Contact the seller anytime for support or custom requirements.</p></div>
+        <div class="step-box"><div class="step-num">04</div><h3>Use & grow</h3><p>Access your product immediately. Contact us anytime for support or custom requirements.</p></div>
       </div>
     </div>
   </section>
@@ -983,11 +849,11 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
       <div class="sec-label">Why OmniXa AI</div>
       <h2 class="sec-title">The best place to buy AI tools</h2>
       <div class="cards3">
-        <div class="feat-card"><div class="feat-icon">✅</div><h3>Verified sellers</h3><p>Every product on OmniXa AI is reviewed by our team before going live. No scams, no fake tools.</p></div>
+        <div class="feat-card"><div class="feat-icon">✅</div><h3>Curated AI Catalog</h3><p>Every product is built, tested, and maintained by our expert engineering team.</p></div>
         <div class="feat-card"><div class="feat-icon">💳</div><h3>Secure payments</h3><p>Pay via UPI, Razorpay, or card. GST invoice provided automatically with every purchase.</p></div>
         <div class="feat-card"><div class="feat-icon">🔄</div><h3>30-day refund</h3><p>Not satisfied? Raise a refund request within 30 days. No questions asked on first request.</p></div>
-        <div class="feat-card"><div class="feat-icon">🤝</div><h3>Direct access</h3><p>Get direct access to the creator. Raise support tickets, ask for features, or request custom builds.</p></div>
-        <div class="feat-card"><div class="feat-icon">🇮🇳</div><h3>India-built tools</h3><p>Most products are built by Indian creators for Indian businesses. Hindi, GST, UPI all supported.</p></div>
+        <div class="feat-card"><div class="feat-icon">🤝</div><h3>Direct developer support</h3><p>Get support directly from the builders of the tool. Request custom features or custom system builds.</p></div>
+        <div class="feat-card"><div class="feat-icon">🇮🇳</div><h3>Built for Indian Businesses</h3><p>Supporting UPI, card, and local payment methods with automated GST-ready invoices.</p></div>
         <div class="feat-card"><div class="feat-icon">📦</div><h3>Instant delivery</h3><p>Access your purchased tool the moment payment is confirmed. No waiting, no delays.</p></div>
       </div>
     </div>
@@ -1098,7 +964,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
             <ul class="buy-feats">
               <li class="buy-feat">Full product access immediately</li>
               <li class="buy-feat">Free updates for 1 year</li>
-              <li class="buy-feat">Direct seller support</li>
+              <li class="buy-feat">Direct developer support</li>
               <li class="buy-feat">30-day money-back guarantee</li>
               <li class="buy-feat">GST invoice included</li>
             </ul>
@@ -1143,9 +1009,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 5%;
      ╚══════════════════════════════════════╝ -->
 <div class="page" id="page-settings">
   <nav class="nav">
-    <div class="logo" onclick="show(currentRole === 'seller' ? 'seller-home' : 'buyer-home')">Omni<span>Xa</span> AI</div>
+    <div class="logo" onclick="goHome()">Omni<span>Xa</span> AI</div>
     <div class="nav-right">
-      <button class="btn-ghost" onclick="show(currentRole === 'seller' ? 'seller-home' : 'buyer-home')">← Back to Dashboard</button>
+      <button class="btn-ghost" onclick="goHome()">← Back to Dashboard</button>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
     </div>
   </nav>

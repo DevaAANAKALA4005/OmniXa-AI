@@ -71,9 +71,16 @@ async function show(page){
   // Close any open mobile menus
   closeMenu();
 
-  if(page==='seller-add') {
-    if (!currentUser || !currentUser.subscriptionPlan || currentUser.subscriptionPlan === 'None') {
-      page = 'seller-subscription';
+  const adminPages = ['seller-home', 'seller-products', 'seller-add', 'seller-buyers', 'seller-earnings'];
+  const privateBuyerPages = ['buyer-home', 'buyer-orders', 'settings'];
+  
+  if (adminPages.includes(page)) {
+    if (!currentUser || currentUser.role !== 'seller') {
+      page = currentUser ? 'buyer-home' : 'landing';
+    }
+  } else if (privateBuyerPages.includes(page)) {
+    if (!currentUser) {
+      page = 'landing';
     }
   }
 
@@ -87,7 +94,6 @@ async function show(page){
   if(page==='seller-products') renderSellerProducts();
   if(page==='seller-buyers') renderBuyersTable();
   if(page==='seller-earnings') renderEarnings();
-  if(page==='seller-subscription') renderSubscriptionPage();
   if(page==='buyer-market') renderMarket(null);
   if(page==='buyer-orders') renderOrders();
   if(page==='settings') {
@@ -119,11 +125,8 @@ async function doLogin(){
   if(res.success){
     currentUser = res.user;
     localStorage.setItem('ox_user', JSON.stringify(currentUser));
-    if (currentUser.role) {
-      setRole(currentUser.role);
-    } else {
-      show('role');
-    }
+    const role = currentUser.role || (currentUser.email === 'admin@omnixaai.in' ? 'seller' : 'buyer');
+    setRole(role);
   } else {
     notify('Login failed: ' + res.message);
   }
@@ -145,11 +148,8 @@ async function doSignup(){
   if(res.success){
     currentUser = res.user;
     localStorage.setItem('ox_user', JSON.stringify(currentUser));
-    if (currentUser.role) {
-      setRole(currentUser.role);
-    } else {
-      show('role');
-    }
+    const role = currentUser.role || (currentUser.email === 'admin@omnixaai.in' ? 'seller' : 'buyer');
+    setRole(role);
   } else {
     notify('Signup failed: ' + res.message);
   }
@@ -186,7 +186,7 @@ async function setRole(role){
     });
     document.getElementById('sName').textContent = name;
     show('seller-home');
-    notify('👋 Welcome back, '+firstName+'! You\'re logged in as a Seller.');
+    notify('👋 Welcome back, Admin ' + firstName + '!');
   } else {
     document.getElementById('bGreetName').textContent = 'Welcome, '+firstName+'!';
     ['bAvatar','bAvatar2','bAvatar3','bAvatar4'].forEach(id=>{
@@ -194,7 +194,7 @@ async function setRole(role){
     });
     document.getElementById('bName').textContent = name;
     show('buyer-home');
-    notify('👋 Welcome, '+firstName+'! You\'re logged in as a Buyer.');
+    notify('👋 Welcome, '+firstName+'!');
   }
 }
 
@@ -208,21 +208,30 @@ function doLogout(){
 
 /* ── SELLER: STATS ── */
 function renderSellerStats(){
-  const myProducts = currentUser ? allProducts.filter(p => p.sellerEmail === currentUser.email) : allProducts;
-  const myProductIds = myProducts.map(p => p._id);
-  const myOrders = allOrders.filter(o => myProductIds.includes(o.productId));
-  const totalSales = myOrders.filter(o=>o.status==='Paid').length;
-  const totalRev = myOrders.filter(o=>o.status==='Paid').reduce((sum,o)=>sum+o.amount,0);
+  const myProducts = allProducts;
+  const totalSales = allOrders.filter(o=>o.status==='Paid').length;
+  const totalRev = allOrders.filter(o=>o.status==='Paid').reduce((sum,o)=>sum+o.amount,0);
   document.getElementById('sMetric1').textContent = myProducts.length;
   document.getElementById('sMetric2').textContent = totalSales;
-  document.getElementById('sMetric3').textContent = '₹' + (totalRev/100000).toFixed(1) + 'L';
+  
+  let formattedRev = '₹0';
+  if (totalRev >= 10000000) {
+    formattedRev = '₹' + (totalRev / 10000000).toFixed(1) + 'Cr';
+  } else if (totalRev >= 100000) {
+    formattedRev = '₹' + (totalRev / 100000).toFixed(1) + 'L';
+  } else if (totalRev >= 1000) {
+    formattedRev = '₹' + (totalRev / 1000).toFixed(1) + 'K';
+  } else {
+    formattedRev = '₹' + totalRev;
+  }
+  document.getElementById('sMetric3').textContent = formattedRev;
 }
 
 /* ── SELLER: PRODUCTS ── */
 function renderSellerProducts(){
   const el = document.getElementById('spList');
   if(!el) return;
-  const myProducts = currentUser ? allProducts.filter(p => p.sellerEmail === currentUser.email) : allProducts;
+  const myProducts = allProducts;
   el.innerHTML = myProducts.map(p=>`
     <div class="prod-card">
       <div class="prod-thumb">${p.icon}</div>
@@ -302,9 +311,8 @@ async function submitProduct(){
 function renderBuyersTable(){
   const tbody = document.getElementById('buyersTbody');
   if(!tbody) return;
-  const myProducts = currentUser ? allProducts.filter(p => p.sellerEmail === currentUser.email) : allProducts;
-  const myProductIds = myProducts.map(p => p._id);
-  const myOrders = allOrders.filter(o => myProductIds.includes(o.productId));
+  const myProducts = allProducts;
+  const myOrders = allOrders;
   
   // Calculate real buyer stats
   const buyerCounts = {};
@@ -329,7 +337,7 @@ function renderBuyersTable(){
       <td style="color:var(--muted);font-size:13px">${o.date}</td>
       <td style="color:var(--green);font-weight:700">₹${o.amount.toLocaleString('en-IN')}</td>
       <td><span class="badge ${o.status==='Paid'?'badge-green':'badge-orange'}">● ${o.status}</span></td>
-      <td><button class="btn-orange" style="font-size:12px;padding:6px 14px" onclick="openConnect('${o.buyerName}','${o.buyerEmail}','${o.productName}','${o.date}')">💬 Connect</button></td>
+      <td><button class="btn-orange" style="font-size:12px;padding:6px 14px" onclick="openConnect('${o.buyerName.replace(/'/g, "\\'")}','${o.buyerEmail}','${o.productName.replace(/'/g, "\\'")}','${o.date}')">💬 Connect</button></td>
     </tr>`).join('');
 }
 
@@ -341,9 +349,8 @@ function searchBuyers(q){
 
 /* ── SELLER: EARNINGS ── */
 function renderEarnings(){
-  const myProducts = currentUser ? allProducts.filter(p => p.sellerEmail === currentUser.email) : allProducts;
-  const myProductIds = myProducts.map(p => p._id);
-  const myOrders = allOrders.filter(o => myProductIds.includes(o.productId));
+  const myProducts = allProducts;
+  const myOrders = allOrders;
 
   const paid = myOrders.filter(o=>o.status==='Paid');
   const total = paid.reduce((s,o)=>s+o.amount,0);
@@ -579,11 +586,8 @@ async function handleGoogleResponse(response) {
   if (res.success) {
     currentUser = res.user;
     localStorage.setItem('ox_user', JSON.stringify(currentUser));
-    if (currentUser.role) {
-      setRole(currentUser.role);
-    } else {
-      show('role');
-    }
+    const role = currentUser.role || (currentUser.email === 'admin@omnixaai.in' ? 'seller' : 'buyer');
+    setRole(role);
   } else {
     notify('Google Login failed: ' + res.message);
   }
@@ -663,90 +667,7 @@ function closeMenu() {
   if (backdrop) backdrop.classList.remove('open');
 }
 
-// Subscriptions
-function renderSubscriptionPage() {
-  const plan = currentUser?.subscriptionPlan || 'None';
-  const title = document.getElementById('subsTitle');
-  const desc = document.getElementById('subsDesc');
-  
-  if (plan === 'None') {
-    title.textContent = 'Choose a plan to list products';
-    desc.textContent = 'You need an active subscription to publish products on OmniXa AI.';
-  } else {
-    title.textContent = 'My Subscription';
-    desc.textContent = `You are currently on the ${plan} plan. Upgrade to unlock more features!`;
-  }
-  
-  const plans = ['Basic', 'Pro', 'Enterprise'];
-  const planLevels = { 'None': 0, 'Basic': 1, 'Pro': 2, 'Enterprise': 3 };
-  const currentLevel = planLevels[plan];
-  
-  plans.forEach(p => {
-    const card = document.getElementById('subCard' + p);
-    const btn = document.getElementById('subBtn' + p);
-    if (!card || !btn) return;
-    
-    // reset
-    card.classList.remove('current-plan');
-    
-    const pLevel = planLevels[p];
-    if (pLevel === currentLevel) {
-      card.classList.add('current-plan');
-      btn.textContent = 'Current Plan';
-      btn.disabled = true;
-      btn.className = 'btn-ghost';
-      btn.style.opacity = '0.7';
-      btn.style.cursor = 'not-allowed';
-    } else if (pLevel > currentLevel) {
-      btn.textContent = `Upgrade to ${p}`;
-      btn.disabled = false;
-      btn.className = p === 'Pro' ? 'submit-btn' : 'btn-outline';
-      btn.style.opacity = '1';
-      btn.style.cursor = 'pointer';
-    } else {
-      btn.textContent = `Downgrade (Next Cycle)`;
-      btn.disabled = false;
-      btn.className = 'btn-ghost';
-      btn.style.opacity = '1';
-      btn.style.cursor = 'pointer';
-    }
-  });
-}
-
-async function doSubscribe(plan) {
-  if (!currentUser) return;
-  
-  const planLevels = { 'None': 0, 'Basic': 1, 'Pro': 2, 'Enterprise': 3 };
-  const currentPlan = currentUser.subscriptionPlan || 'None';
-  
-  if (planLevels[plan] < planLevels[currentPlan]) {
-    notify(`Your downgrade to ${plan} will take effect at the end of your billing month.`);
-    return;
-  }
-  
-  notify(`Processing your ${plan} subscription... ⏳`);
-  
-  // Simulate payment delay
-  await new Promise(r => setTimeout(r, 1500));
-  
-  const res = await api('/auth/subscription', 'PUT', { email: currentUser.email, plan });
-  if (res.success) {
-    currentUser.subscriptionPlan = res.subscriptionPlan;
-    localStorage.setItem('ox_user', JSON.stringify(currentUser));
-    notify(`✅ Successfully subscribed to ${plan} plan!`);
-    
-    // Re-render the subscription page to show the new state
-    renderSubscriptionPage();
-    
-    // Redirect to add product if they were originally trying to do that
-    setTimeout(() => {
-      // Find out if they want to go to Add Product, let's just send them there
-      show('seller-add');
-    }, 1500);
-  } else {
-    notify('Subscription failed: ' + res.message);
-  }
-}
+// Subscription functionalities removed since they are bypassed
 
 // Check for existing session
 window.onload = async () => {
@@ -782,8 +703,17 @@ window.doBuy = doBuy;
 window.openAccess = openAccess;
 window.searchBuyers = searchBuyers;
 window.initGoogleAuth = initGoogleAuth;
-window.doSubscribe = doSubscribe;
 window.updateSettings = updateSettings;
 window.toggleMenu = toggleMenu;
 window.closeMenu = closeMenu;
+
+window.goHome = function() {
+  if (currentUser && currentUser.role === 'seller') {
+    show('seller-home');
+  } else if (currentUser && currentUser.role === 'buyer') {
+    show('buyer-home');
+  } else {
+    show('landing');
+  }
+};
 

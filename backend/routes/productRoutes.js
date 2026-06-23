@@ -20,8 +20,8 @@ router.post('/', async (req, res) => {
     if (!user) {
       return res.status(404).json({ success: false, message: 'Seller not found' });
     }
-    if (!user.subscriptionPlan || user.subscriptionPlan === 'None') {
-      return res.status(403).json({ success: false, message: 'You need an active subscription to list products.' });
+    if (user.role !== 'seller') {
+      return res.status(403).json({ success: false, message: 'Only administrators can list products.' });
     }
 
     const product = new Product({
