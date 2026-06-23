@@ -10,18 +10,22 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 router.post('/signup', async (req, res) => {
   try {
     const { first, last, email, password } = req.body;
+    
+    if (email === 'admin@omnixaai.in') {
+      return res.status(403).json({ success: false, message: 'Administrator registration is disabled. Please contact support.' });
+    }
+
     const full_name = (first + ' ' + last).trim();
 
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ success: false, message: 'User already exists' });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const role = (email === 'admin@omnixaai.in') ? 'seller' : 'buyer';
     user = new User({
       full_name,
       email,
       password: hashedPassword,
-      role
+      role: 'buyer'
     });
 
     await user.save();
