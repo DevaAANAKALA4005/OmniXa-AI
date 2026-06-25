@@ -856,11 +856,14 @@ function initMajestic3D() {
   camera.position.z = 15;
 
   let mouseX = 0, mouseY = 0;
+  let ndcX = 0, ndcY = 0;
   let targetX = 0, targetY = 0;
 
   window.addEventListener('mousemove', (e) => {
     mouseX = (e.clientX - window.innerWidth / 2) / 100;
     mouseY = (e.clientY - window.innerHeight / 2) / 100;
+    ndcX = (e.clientX / window.innerWidth) * 2 - 1;
+    ndcY = -(e.clientY / window.innerHeight) * 2 + 1;
   });
 
   window.addEventListener('resize', () => {
@@ -876,8 +879,10 @@ function initMajestic3D() {
 
     const elapsedTime = clock.getElapsedTime();
 
-    // Virtual mouse vector in 3D scene space (roughly scaled)
-    const mouse3D = new THREE.Vector3(mouseX * 3, -mouseY * 2.2, 0);
+    // Project screen coordinates to world space ray direction
+    const rayDir = new THREE.Vector3(ndcX, ndcY, 0.5);
+    rayDir.unproject(camera);
+    rayDir.sub(camera.position).normalize();
 
     // Wavy Particle Simulation with dynamic mouse repulsion (gravity)
     const posArr = geometry.attributes.position.array;
@@ -891,16 +896,21 @@ function initMajestic3D() {
         Math.sin(elapsedTime + px * 0.2) * 1.2 + 
         Math.cos(elapsedTime + pz * 0.15) * 0.8;
 
-      const dx = px - mouse3D.x;
-      const dy = targetY_wave - mouse3D.y;
-      const dz = pz - mouse3D.z;
-      const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+      // Intersect the mouse ray with the plane z = pz for this specific particle
+      // t * rayDir.z + camera.position.z = pz => t = (pz - camera.position.z) / rayDir.z
+      const t = (pz - camera.position.z) / rayDir.z;
+      const mouseWorldX = camera.position.x + t * rayDir.x;
+      const mouseWorldY = camera.position.y + t * rayDir.y;
 
-      if (dist < 8.5) {
-        const force = (1.0 - dist / 8.5) * 2.2;
+      const dx = px - mouseWorldX;
+      const dy = targetY_wave - mouseWorldY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < 4.8) {
+        const force = (1.0 - dist / 4.8) * 1.6;
         posArr[i3] = px + (dx / dist) * force;
         posArr[i3 + 1] = targetY_wave + (dy / dist) * force;
-        posArr[i3 + 2] = pz + (dz / dist) * force;
+        posArr[i3 + 2] = pz;
       } else {
         posArr[i3] = px;
         posArr[i3 + 1] = targetY_wave;
