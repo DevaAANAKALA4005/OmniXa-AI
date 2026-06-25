@@ -57,6 +57,8 @@ function renderGlobalStats() {
   if (hBuyers) hBuyers.textContent = formattedBuyers;
   const hRev = document.getElementById('hMetricRev');
   if (hRev) hRev.textContent = formattedRev;
+  const hRating = document.getElementById('hMetricRating');
+  if (hRating) hRating.textContent = totalProducts > 0 ? '4.9★' : '—';
   
   const aProducts = document.getElementById('aMetricProducts');
   if (aProducts) aProducts.textContent = totalProducts > 0 ? totalProducts : '0';
@@ -225,6 +227,8 @@ function renderSellerStats(){
     formattedRev = '₹' + totalRev;
   }
   document.getElementById('sMetric3').textContent = formattedRev;
+  const sRating = document.getElementById('sMetricRating');
+  if (sRating) sRating.textContent = myProducts.length > 0 ? '4.9★' : '—';
 }
 
 /* ── SELLER: PRODUCTS ── */

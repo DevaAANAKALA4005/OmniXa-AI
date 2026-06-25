@@ -1288,9 +1288,6 @@ footer{
     </div>
     <div style="font-size:13px;color:var(--muted);margin-bottom:14px" id="mBuyerInfo"></div>
     <div class="msg-thread" id="msgThread">
-      <div class="bubble bubble-them">Hi! I just purchased your product. Really impressive! 🔥</div>
-      <div class="bubble bubble-me">Thank you so much! Let me know if you need any help getting started.</div>
-      <div class="bubble bubble-them">Can you share the setup documentation?</div>
     </div>
     <div class="msg-row">
       <input class="msg-in" id="msgInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMsg()"/>
@@ -1348,21 +1345,12 @@ footer{
         <div class="metric"><div class="metric-val" id="hMetricProducts">0</div><div class="metric-lbl">AI Tools deployed</div></div>
         <div class="metric"><div class="metric-val" id="hMetricBuyers">0</div><div class="metric-lbl">Enterprise buyers</div></div>
         <div class="metric"><div class="metric-val" id="hMetricRev">₹0</div><div class="metric-lbl">Revenue optimized</div></div>
-        <div class="metric"><div class="metric-val">4.9★</div><div class="metric-lbl">Avg product rating</div></div>
+        <div class="metric"><div class="metric-val" id="hMetricRating">—</div><div class="metric-lbl">Avg product rating</div></div>
         <div class="metric"><div class="metric-val">🇮🇳</div><div class="metric-lbl">India-built</div></div>
       </div>
     </section>
 
-    <!-- SOCIAL PROOF -->
-    <div class="proof-strip" style="border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg2);">
-      <div class="proof-lbl animate-fade-up">Trusted by Visionary Enterprise Teams</div>
-      <div class="logos-row animate-fade-up delay-2">
-        <div class="proof-logo">ACME Corp</div>
-        <div class="proof-logo" style="font-style:italic;font-family:'Outfit',sans-serif;">GlobalTech</div>
-        <div class="proof-logo" style="letter-spacing:0.15em;font-weight:900;">NEXUS</div>
-        <div class="proof-logo" style="color:var(--cyan-border);">innovate.ai</div>
-      </div>
-    </div>
+    <!-- Social proof row removed to ensure only verified enterprise data is presented -->
 
     <!-- ARCHITECTED FOR REVENUE OPS -->
     <section class="section animate-fade-up">
@@ -1452,9 +1440,9 @@ footer{
               <div class="pop-3d-1" style="font-size:11px;color:var(--muted);font-weight:700;margin-bottom:12px;letter-spacing:0.04em;">CRM SCORING INGESTION</div>
               <div class="lq-row pop-3d-2" style="margin-bottom:12px;direction:ltr;">
                 <div class="lq-info">
-                  <div class="lq-initial" style="background:var(--cyan-dim);color:var(--cyan);border:1px solid var(--cyan-border);">JD</div>
+                  <div class="lq-initial" style="background:var(--cyan-dim);color:var(--cyan);border:1px solid var(--cyan-border);">L1</div>
                   <div>
-                    <div class="lq-name">John Doe (Acme Corp)</div>
+                    <div class="lq-name">Lead ID: #8924 (Enterprise Ops)</div>
                     <div class="lq-status">Enterprise intent detected</div>
                   </div>
                 </div>
@@ -1465,9 +1453,9 @@ footer{
               </div>
               <div class="lq-row pop-3d-3" style="direction:ltr;">
                 <div class="lq-info">
-                  <div class="lq-initial" style="background:rgba(255,255,255,0.02);color:var(--muted);">AS</div>
+                  <div class="lq-initial" style="background:rgba(255,255,255,0.02);color:var(--muted);">L2</div>
                   <div>
-                    <div class="lq-name">Alice Smith</div>
+                    <div class="lq-name">Lead ID: #3021 (Individual Trial)</div>
                     <div class="lq-status">General inquiry</div>
                   </div>
                 </div>
@@ -1772,8 +1760,8 @@ footer{
           </div>
           <div class="form-box animate-fade-up delay-2" style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:40px;">
             <div class="form-row">
-              <div class="form-group"><label>Your name</label><input type="text" id="cName" placeholder="Rahul Sharma"/></div>
-              <div class="form-group"><label>Email</label><input type="email" id="cEmail" placeholder="you@company.com"/></div>
+              <div class="form-group"><label>Your name</label><input type="text" id="cName" placeholder="Enter your full name"/></div>
+              <div class="form-group"><label>Email</label><input type="email" id="cEmail" placeholder="name@company.com"/></div>
             </div>
             <div class="form-group">
               <label>Topic</label>
@@ -1929,7 +1917,7 @@ footer{
       <div class="metric"><div class="metric-val" id="sMetric1">0</div><div class="metric-lbl">Products listed</div></div>
       <div class="metric"><div class="metric-val" id="sMetric2">0</div><div class="metric-lbl">Total sales</div></div>
       <div class="metric"><div class="metric-val" id="sMetric3">₹0</div><div class="metric-lbl">Revenue earned</div></div>
-      <div class="metric"><div class="metric-val">4.9★</div><div class="metric-lbl">Avg rating</div></div>
+      <div class="metric"><div class="metric-val" id="sMetricRating">—</div><div class="metric-lbl">Avg rating</div></div>
     </div>
   </section>
 
@@ -2333,9 +2321,11 @@ footer{
           <div class="chips" id="dTags"></div>
           <p style="font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:24px" id="dDesc">Loading...</p>
           <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--white);text-transform:uppercase;margin-bottom:16px">Customer Reviews</div>
-          <div class="review-card"><div class="review-hdr"><div class="avatar" style="width:32px;height:32px;font-size:13px;background:var(--blue)">PM</div><div><div style="font-weight:600;font-size:14px">Priya Mehta</div><div class="stars">★★★★★</div></div></div><p style="font-size:13.5px;color:var(--muted);line-height:1.65">Excellent product! Saved us hours every week. Setup was simple and the seller was very supportive.</p></div>
-          <div class="review-card"><div class="review-hdr"><div class="avatar" style="width:32px;height:32px;font-size:13px;background:var(--green)">AS</div><div><div style="font-weight:600;font-size:14px">Arjun Singh</div><div class="stars">★★★★☆</div></div></div><p style="font-size:13.5px;color:var(--muted);line-height:1.65">Really powerful tool. Would love more customisation options but overall very happy with the purchase.</p></div>
-          <div class="review-card"><div class="review-hdr"><div class="avatar" style="width:32px;height:32px;font-size:13px;background:var(--orange)">VN</div><div><div style="font-weight:600;font-size:14px">Vikram Nair</div><div class="stars">★★★★★</div></div></div><p style="font-size:13.5px;color:var(--muted);line-height:1.65">Best AI tool I've bought this year. ROI was clear within the first week of using it.</p></div>
+          <div id="dReviewsContainer">
+            <div style="padding:24px;text-align:center;color:var(--muted);background:var(--card);border:1px solid var(--border);border-radius:12px;font-size:14.5px;">
+              ⭐️ No reviews yet. Verified ratings are dynamically updated upon purchase.
+            </div>
+          </div>
         </div>
         <div>
           <div class="buy-box">
