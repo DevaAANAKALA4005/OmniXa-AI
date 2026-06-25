@@ -41,7 +41,84 @@ body{
   font-family:'Inter',sans-serif;
   line-height:1.6;
   overflow-x:hidden;
+  position:relative;
 }
+
+/* ── Floating Background Orbs ── */
+.orb{
+  position:fixed;
+  width:500px;
+  height:500px;
+  border-radius:50%;
+  filter:blur(180px);
+  z-index:-1;
+  pointer-events:none;
+  opacity:0.2;
+  animation:drift 25s infinite alternate ease-in-out;
+}
+.orb-1{
+  background:var(--cyan);
+  top:-150px;
+  left:-150px;
+}
+.orb-2{
+  background:var(--blue);
+  bottom:-150px;
+  right:-150px;
+  animation-delay:-12.5s;
+}
+@keyframes drift{
+  0%{transform:translate(0,0) scale(1)}
+  100%{transform:translate(120px,80px) scale(1.25)}
+}
+
+/* ── Entrance Animations ── */
+.animate-fade-up{
+  opacity:0;
+  transform:translateY(24px);
+  animation:fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes fadeInUp{
+  to{opacity:1;transform:none}
+}
+.delay-1{animation-delay:0.1s}
+.delay-2{animation-delay:0.25s}
+.delay-3{animation-delay:0.4s}
+.delay-4{animation-delay:0.55s}
+
+/* ── 3D Visual Perspectives ── */
+.perspective-container{
+  perspective:1500px;
+  width:100%;
+  display:flex;
+  justify-content:center;
+  transform-style:preserve-3d;
+}
+.mockup-3d{
+  transform:rotateX(10deg) rotateY(-10deg) rotateZ(3deg);
+  transform-style:preserve-3d;
+  box-shadow:-25px 25px 50px rgba(0,0,0,0.65), 0 0 35px rgba(0,210,255,0.08);
+  transition:all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius:18px;
+  overflow:hidden;
+  background:var(--card);
+  border:1px solid rgba(0,210,255,0.12);
+}
+.mockup-3d:hover{
+  transform:rotateX(4deg) rotateY(-4deg) rotateZ(1deg) translateY(-12px);
+  box-shadow:-35px 35px 70px rgba(0,0,0,0.8), 0 0 50px rgba(0,210,255,0.22);
+}
+.image-3d{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mockup-3d:hover .image-3d{
+  transform:scale(1.04);
+}
+
 .page{display:none}.page.active{display:block}
 .landing-tab{display:none}.landing-tab.active{display:block}
 a{text-decoration:none;color:inherit}
@@ -1159,8 +1236,8 @@ footer{
 </style>
 </head>
 <body>
-</head>
-<body>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
 <div class="menu-backdrop" id="menuBackdrop" onclick="closeMenu()"></div>
 
 <!-- NOTIFICATION -->
@@ -1209,68 +1286,29 @@ footer{
   <!-- ─── TAB: HOME ─── -->
   <div class="landing-tab active" id="tab-home">
     <section class="hero">
-      <div class="badge">
+      <div class="badge animate-fade-up">
         <span class="dot"></span>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:4px;color:var(--cyan);vertical-align:middle;"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
         OmniXa Enterprise Intelligence
       </div>
-      <h1>
+      <h1 class="animate-fade-up delay-1">
         <span class="l1">Automate Growth</span>
         <span class="l2">with Precision AI</span>
       </h1>
-      <p class="hero-p">Deploy fluid intelligence across your revenue operations. OmniXa AI transforms raw data into calculated confidence, accelerating lead generation, sales conversion, and customer support.</p>
+      <p class="hero-p animate-fade-up delay-2">Deploy fluid intelligence across your revenue operations. OmniXa AI transforms raw data into calculated confidence, accelerating lead generation, sales conversion, and customer support.</p>
       
-      <div class="hero-btns">
+      <div class="hero-btns animate-fade-up delay-3">
         <button class="btn-big" onclick="showTab('contact')">Book a Demo <span style="font-size:18px;">→</span></button>
         <button class="btn-outline" onclick="showTab('solutions')">Explore Platform</button>
       </div>
 
-      <div style="display:flex;justify-content:center;width:100%;max-width:880px;margin:0 auto 60px;">
-        <div class="sol-visual" style="width:100%;height:380px;max-height:60vh;border:1px solid rgba(0,210,255,0.15);box-shadow: 0 0 40px rgba(0,210,255,0.06);">
-          <div class="wa-mockup" style="background:#040514;border-radius:16px;border:1px solid rgba(255,255,255,0.05);width:100%;height:100%;padding:24px;display:flex;flex-direction:column;gap:20px;text-align:left;">
-            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:14px;">
-              <div style="display:flex;align-items:center;gap:8px;">
-                <span style="width:10px;height:10px;border-radius:50%;background:#ef4444;"></span>
-                <span style="width:10px;height:10px;border-radius:50%;background:#f59e0b;"></span>
-                <span style="width:10px;height:10px;border-radius:50%;background:#10b981;"></span>
-              </div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.3);font-family:monospace;letter-spacing:0.05em;">revenue_ops_dashboard.sys</div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 2.2fr;gap:20px;flex:1;">
-              <div style="background:rgba(255,255,255,0.01);border:1px solid var(--border);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px;">
-                <div style="height:14px;width:75%;background:rgba(0,210,255,0.15);border-radius:4px;"></div>
-                <div style="height:10px;width:90%;background:rgba(255,255,255,0.04);border-radius:4px;"></div>
-                <div style="height:10px;width:80%;background:rgba(255,255,255,0.04);border-radius:4px;"></div>
-                <div style="height:10px;width:55%;background:rgba(255,255,255,0.04);border-radius:4px;"></div>
-                <div style="height:1px;background:var(--border);margin:8px 0;"></div>
-                <div style="height:12px;width:60%;background:rgba(255,255,255,0.06);border-radius:4px;"></div>
-                <div style="height:10px;width:40%;background:rgba(255,255,255,0.04);border-radius:4px;"></div>
-              </div>
-              <div style="background:rgba(255,255,255,0.01);border:1px solid var(--border);border-radius:10px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;">
-                <div style="display:flex;justify-content:space-between;align-items:center;">
-                  <div>
-                    <div style="font-size:10px;font-weight:800;letter-spacing:0.08em;color:var(--muted);margin-bottom:2px;">AUTONOMOUS AGENT PERFORMANCE</div>
-                    <div style="font-family:'Outfit',sans-serif;font-size:24px;font-weight:800;color:var(--white);">Revenue Growth</div>
-                  </div>
-                  <div style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:800;color:var(--green);text-shadow:0 0 10px rgba(16,185,129,0.2);">+28.4%</div>
-                </div>
-                <div style="display:flex;align-items:flex-end;gap:12px;height:120px;padding-top:14px;border-bottom:1px solid var(--border);">
-                  <div style="flex:1;height:25%;background:rgba(0,210,255,0.1);border-radius:4px 4px 0 0;border-top:1px solid var(--cyan-border);"></div>
-                  <div style="flex:1;height:45%;background:rgba(0,210,255,0.1);border-radius:4px 4px 0 0;border-top:1px solid var(--cyan-border);"></div>
-                  <div style="flex:1;height:35%;background:rgba(0,210,255,0.1);border-radius:4px 4px 0 0;border-top:1px solid var(--cyan-border);"></div>
-                  <div style="flex:1;height:65%;background:rgba(0,210,255,0.1);border-radius:4px 4px 0 0;border-top:1px solid var(--cyan-border);"></div>
-                  <div style="flex:1;height:90%;background:rgba(0,210,255,0.2);border-radius:4px 4px 0 0;border-top:1.5px solid var(--cyan);box-shadow: 0 0 20px rgba(0,210,255,0.35);"></div>
-                </div>
-                <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);font-weight:600;padding-top:8px;">
-                  <span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span><span>ACTIVE</span>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="perspective-container animate-fade-up delay-4" style="max-width:800px;margin:0 auto 60px;padding:0 20px;">
+        <div class="mockup-3d" style="width:100%;aspect-ratio:1.6;">
+          <img src="/hero_dashboard.png" class="image-3d" alt="OmniXa AI Dashboard"/>
         </div>
       </div>
 
-      <div class="hero-metrics">
+      <div class="hero-metrics animate-fade-up delay-4">
         <div class="metric"><div class="metric-val" id="hMetricProducts">0</div><div class="metric-lbl">AI Tools deployed</div></div>
         <div class="metric"><div class="metric-val" id="hMetricBuyers">0</div><div class="metric-lbl">Enterprise buyers</div></div>
         <div class="metric"><div class="metric-val" id="hMetricRev">₹0</div><div class="metric-lbl">Revenue optimized</div></div>
@@ -1281,8 +1319,8 @@ footer{
 
     <!-- SOCIAL PROOF -->
     <div class="proof-strip" style="border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg2);">
-      <div class="proof-lbl">Trusted by Visionary Enterprise Teams</div>
-      <div class="logos-row">
+      <div class="proof-lbl animate-fade-up">Trusted by Visionary Enterprise Teams</div>
+      <div class="logos-row animate-fade-up delay-2">
         <div class="proof-logo">ACME Corp</div>
         <div class="proof-logo" style="font-style:italic;font-family:'Outfit',sans-serif;">GlobalTech</div>
         <div class="proof-logo" style="letter-spacing:0.15em;font-weight:900;">NEXUS</div>
@@ -1291,7 +1329,7 @@ footer{
     </div>
 
     <!-- ARCHITECTED FOR REVENUE OPS -->
-    <section class="section">
+    <section class="section animate-fade-up">
       <div class="inner">
         <div class="sec-label">Platform Core</div>
         <h2 class="sec-title">Architected for <span style="color:var(--cyan);text-shadow:0 0 10px rgba(0,210,255,0.1)">Revenue Ops</span></h2>
@@ -1332,18 +1370,18 @@ footer{
 
   <!-- ─── TAB: SOLUTIONS ─── -->
   <div class="landing-tab" id="tab-solutions">
-    <section class="section">
+    <section class="section animate-fade-up">
       <div class="inner" style="padding-top:40px;">
         <div class="sec-label">Enterprise Solutions</div>
         <h2 class="sec-title">Intelligent Solutions for <span style="color:var(--cyan);text-shadow:0 0 10px rgba(0,210,255,0.1)">Enterprise Growth</span></h2>
         <p class="sec-subtitle">Deploy autonomous AI agents across every touchpoint. From WhatsApp to web, qualify leads and close deals 24/7 with zero human intervention.</p>
         
         <div style="display:flex;justify-content:center;margin-bottom:80px;">
-          <button class="btn-big" onclick="show('signup')">Start Building <span style="font-size:18px;">→</span></button>
+          <button class="btn-big animate-fade-up delay-1" onclick="show('signup')">Start Building <span style="font-size:18px;">→</span></button>
         </div>
 
         <!-- WhatsApp AI Agent Block -->
-        <div class="sol-block">
+        <div class="sol-block animate-fade-up delay-2">
           <div>
             <span class="sol-tag">Conversational AI</span>
             <h3 class="sol-title">WhatsApp AI Agent</h3>
@@ -1354,22 +1392,15 @@ footer{
             </ul>
             <button class="btn-outline" onclick="show('signup')">Deploy on WhatsApp</button>
           </div>
-          <div class="sol-visual">
-            <div class="wa-mockup">
-              <div class="wa-header">
-                <span class="wa-dot"></span>
-                <span style="font-weight:700;font-size:13px;">OmniXa AI Agent</span>
-                <span style="font-size:10px;color:var(--muted);margin-left:auto;">Online</span>
-              </div>
-              <div class="wa-bubble them">Hi! I am looking for your enterprise automation tools. Do you have a catalog?</div>
-              <div class="wa-bubble me">Hello! Yes, I have loaded the custom AI systems catalog for you. Here is our top option: WhatsApp CRM Router. Would you like a demo?</div>
-              <div class="wa-bubble them">Yes, please share the dynamic pricing and capabilities!</div>
+          <div class="perspective-container" style="max-width:480px;margin:0 auto;width:100%;">
+            <div class="mockup-3d" style="width:100%;aspect-ratio:1.35;">
+              <img src="/whatsapp_phone.png" class="image-3d" alt="WhatsApp Phone AI"/>
             </div>
           </div>
         </div>
 
         <!-- Predictive Lead Qualification Block (Reversed Layout) -->
-        <div class="sol-block reverse">
+        <div class="sol-block reverse animate-fade-up delay-3">
           <div>
             <span class="sol-tag">Machine Learning</span>
             <h3 class="sol-title">Predictive Lead Qualification</h3>
@@ -1380,10 +1411,10 @@ footer{
             </ul>
             <button class="btn-outline" onclick="show('signup')">Explore Scoring Models</button>
           </div>
-          <div class="sol-visual">
-            <div class="lead-qualification-card">
-              <div style="font-size:11px;color:var(--muted);font-weight:700;margin-bottom:4px;letter-spacing:0.04em;">CRM SCORING INGESTION</div>
-              <div class="lq-row">
+          <div class="perspective-container" style="max-width:480px;margin:0 auto;width:100%;">
+            <div class="mockup-3d" style="width:100%;padding:28px;background:rgba(8,9,26,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);text-align:left;">
+              <div style="font-size:11px;color:var(--muted);font-weight:700;margin-bottom:12px;letter-spacing:0.04em;">CRM SCORING INGESTION</div>
+              <div class="lq-row" style="margin-bottom:12px;direction:ltr;">
                 <div class="lq-info">
                   <div class="lq-initial" style="background:var(--cyan-dim);color:var(--cyan);border:1px solid var(--cyan-border);">JD</div>
                   <div>
@@ -1396,7 +1427,7 @@ footer{
                   <div class="lq-lbl">Hot Lead</div>
                 </div>
               </div>
-              <div class="lq-row">
+              <div class="lq-row" style="direction:ltr;">
                 <div class="lq-info">
                   <div class="lq-initial" style="background:rgba(255,255,255,0.02);color:var(--muted);">AS</div>
                   <div>
@@ -1419,7 +1450,7 @@ footer{
 
   <!-- ─── TAB: INDUSTRIES ─── -->
   <div class="landing-tab" id="tab-industries">
-    <section class="section">
+    <section class="section animate-fade-up">
       <div class="inner" style="padding-top:40px;">
         <div class="sec-label">Vertical Markets</div>
         <h2 class="sec-title">Transforming <span style="color:var(--cyan);text-shadow:0 0 10px rgba(0,210,255,0.1)">Industries</span></h2>
@@ -1427,11 +1458,14 @@ footer{
         
         <div class="ind-grid">
           <!-- Industry 1: Real Estate -->
-          <div class="ind-card">
+          <div class="ind-card animate-fade-up delay-1">
             <div>
               <div class="ind-header">
                 <span class="ind-icon">🏢</span>
                 <span class="ind-title">Real Estate</span>
+              </div>
+              <div style="height:180px;overflow:hidden;border-radius:12px;margin-bottom:20px;border:1px solid var(--border);">
+                <img src="/real_estate_skyline.png" style="width:100%;height:100%;object-fit:cover;" alt="Real Estate AI"/>
               </div>
               <div class="ind-section">
                 <div class="ind-label">The Challenge</div>
@@ -1449,11 +1483,14 @@ footer{
           </div>
 
           <!-- Industry 2: Healthcare -->
-          <div class="ind-card">
+          <div class="ind-card animate-fade-up delay-2">
             <div>
               <div class="ind-header">
                 <span class="ind-icon">🏥</span>
                 <span class="ind-title">Healthcare</span>
+              </div>
+              <div style="height:180px;overflow:hidden;border-radius:12px;margin-bottom:20px;border:1px solid var(--border);">
+                <img src="/healthcare_dna.png" style="width:100%;height:100%;object-fit:cover;" alt="Healthcare AI"/>
               </div>
               <div class="ind-section">
                 <div class="ind-label">The Challenge</div>
@@ -1474,11 +1511,14 @@ footer{
           </div>
 
           <!-- Industry 3: E-Commerce -->
-          <div class="ind-card">
+          <div class="ind-card animate-fade-up delay-1">
             <div>
               <div class="ind-header">
                 <span class="ind-icon">🛒</span>
                 <span class="ind-title">E-Commerce</span>
+              </div>
+              <div style="height:180px;overflow:hidden;border-radius:12px;margin-bottom:20px;border:1px solid var(--border);">
+                <img src="/commerce_cart.png" style="width:100%;height:100%;object-fit:cover;" alt="E-Commerce AI"/>
               </div>
               <div class="ind-section">
                 <div class="ind-label">The Challenge</div>
@@ -1496,11 +1536,14 @@ footer{
           </div>
 
           <!-- Industry 4: Finance -->
-          <div class="ind-card">
+          <div class="ind-card animate-fade-up delay-2">
             <div>
               <div class="ind-header">
                 <span class="ind-icon">⚖️</span>
                 <span class="ind-title">Finance</span>
+              </div>
+              <div style="height:180px;overflow:hidden;border-radius:12px;margin-bottom:20px;border:1px solid var(--border);">
+                <img src="/finance_chart.png" style="width:100%;height:100%;object-fit:cover;" alt="Finance AI"/>
               </div>
               <div class="ind-section">
                 <div class="ind-label">The Challenge</div>
@@ -1518,8 +1561,8 @@ footer{
           </div>
 
           <!-- Industry 5: Education -->
-          <div class="ind-card" style="grid-column: 1 / -1; min-height: 280px; flex-direction: row; gap: 40px; align-items: center;">
-            <div style="flex:1;">
+          <div class="ind-card animate-fade-up delay-3" style="grid-column: 1 / -1; min-height: 280px; flex-direction: row; gap: 40px; align-items: center;">
+            <div style="flex:1.2;">
               <div class="ind-header">
                 <span class="ind-icon">🎓</span>
                 <span class="ind-title">Education</span>
@@ -1535,7 +1578,10 @@ footer{
                 </div>
               </div>
             </div>
-            <div style="width:240px;text-align:right;border-left:1px solid var(--border);padding-left:40px;">
+            <div style="flex:0.8;height:160px;overflow:hidden;border-radius:12px;border:1px solid var(--border);">
+              <img src="/education_brain.png" style="width:100%;height:100%;object-fit:cover;" alt="Education AI"/>
+            </div>
+            <div style="width:200px;text-align:right;border-left:1px solid var(--border);padding-left:30px;">
               <div class="ind-label" style="text-align:right;margin-bottom:8px;">Engagement Score</div>
               <div class="ind-m-val" style="font-size:36px;">94/100</div>
               <div style="font-size:12px;color:var(--muted);margin-top:4px;">Industry Leader rating</div>
@@ -1549,13 +1595,13 @@ footer{
 
   <!-- ─── TAB: PRICING ─── -->
   <div class="landing-tab" id="tab-pricing">
-    <section class="section">
+    <section class="section animate-fade-up">
       <div class="inner" style="padding-top:40px;">
         <div class="sec-label">Infrastructure Tiers</div>
         <h2 class="sec-title">Intelligence for <span style="color:var(--cyan);text-shadow:0 0 10px rgba(0,210,255,0.1)">Growth</span></h2>
         <p class="sec-subtitle">Predictable pricing for unpredictable markets. Equip your enterprise with advanced AI infrastructure without complex usage tiers.</p>
         
-        <div class="toggle-row">
+        <div class="toggle-row animate-fade-up delay-1">
           <div class="toggle-btn">
             <button class="toggle-opt active" onclick="toggleBillingPeriod('monthly')">Monthly</button>
             <button class="toggle-opt" onclick="toggleBillingPeriod('annual')">Annually</button>
@@ -1563,7 +1609,7 @@ footer{
           <span class="toggle-badge">Save -20%</span>
         </div>
 
-        <div class="pricing-grid">
+        <div class="pricing-grid animate-fade-up delay-2">
           <!-- Card 1: Starter -->
           <div class="pricing-card">
             <div class="pricing-header">
@@ -1625,8 +1671,8 @@ footer{
         </div>
 
         <!-- COMPARE FEATURES TABLE -->
-        <h3 class="compare-title">Compare Features</h3>
-        <div class="tbl-wrap" style="max-width:960px;margin:0 auto;">
+        <h3 class="compare-title animate-fade-up delay-3">Compare Features</h3>
+        <div class="tbl-wrap animate-fade-up delay-3" style="max-width:960px;margin:0 auto;">
           <table>
             <thead>
               <tr>
@@ -1671,14 +1717,14 @@ footer{
 
   <!-- ─── TAB: CONTACT ─── -->
   <div class="landing-tab" id="tab-contact">
-    <section class="section">
+    <section class="section animate-fade-up">
       <div class="inner" style="padding-top:40px;">
         <div class="sec-label">Connect with our team</div>
         <h2 class="sec-title">Book a Demo</h2>
         <p class="sec-subtitle">Speak with our engineers to see how OmniXa AI can custom-build high-performance AI tools for your organization.</p>
         
         <div class="contact-grid">
-          <div>
+          <div class="animate-fade-up delay-1">
             <h3 style="font-family:'Outfit',sans-serif;font-size:32px;font-weight:800;color:var(--white);margin-bottom:16px;">Let's Discuss Your AI Integration</h3>
             <p style="font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:32px;">Have questions about our APIs, pricing models, or setup SLAs? Submit your info or reach out directly on WhatsApp.</p>
             
@@ -1688,7 +1734,7 @@ footer{
             
             <a href="https://wa.me/919347758401" style="display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;padding:14px 28px;border-radius:24px;font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;text-transform:uppercase;margin-top:32px;transition:all 0.2s;box-shadow:0 4px 15px rgba(37,211,102,0.25);">📲 WhatsApp Us Now</a>
           </div>
-          <div class="form-box" style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:40px;">
+          <div class="form-box animate-fade-up delay-2" style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:40px;">
             <div class="form-row">
               <div class="form-group"><label>Your name</label><input type="text" id="cName" placeholder="Rahul Sharma"/></div>
               <div class="form-group"><label>Email</label><input type="email" id="cEmail" placeholder="you@company.com"/></div>
@@ -1713,7 +1759,7 @@ footer{
   </div>
 
   <!-- FOOTER -->
-  <footer>
+  <footer class="animate-fade-up">
     <div class="footer-grid">
       <div class="footer-col">
         <div class="logo" style="margin-bottom:20px;" onclick="showTab('home')">Omni<span>Xa</span> AI</div>
