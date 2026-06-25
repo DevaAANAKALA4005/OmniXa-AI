@@ -667,7 +667,55 @@ function closeMenu() {
   if (backdrop) backdrop.classList.remove('open');
 }
 
-// Subscription functionalities removed since they are bypassed
+// Tab switcher for landing page sub-views
+function showTab(tabId) {
+  // Ensure landing page is shown first
+  show('landing');
+  
+  // Hide all tabs
+  document.querySelectorAll('.landing-tab').forEach(el => el.classList.remove('active'));
+  
+  // Show requested tab
+  const target = document.getElementById('tab-' + tabId);
+  if (target) target.classList.add('active');
+  
+  // Update active state in nav link buttons
+  document.querySelectorAll('#landingNavLinks .nav-link').forEach(btn => {
+    if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(`showTab('${tabId}')`)) {
+      btn.classList.add('active-link');
+    } else {
+      btn.classList.remove('active-link');
+    }
+  });
+
+  // Smooth scroll to top of page
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Toggle Billing Period for Pricing Tiers
+function toggleBillingPeriod(period) {
+  const btnRow = document.querySelector('.toggle-btn');
+  if (btnRow) {
+    btnRow.querySelectorAll('.toggle-opt').forEach(btn => {
+      if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(period)) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+  }
+
+  const starter = document.getElementById('price-starter');
+  const growth = document.getElementById('price-growth');
+  
+  if (period === 'annual') {
+    if (starter) starter.textContent = '399';
+    if (growth) growth.textContent = '1,039';
+  } else {
+    if (starter) starter.textContent = '499';
+    if (growth) growth.textContent = '1,299';
+  }
+}
 
 // Check for existing session
 window.onload = async () => {
@@ -678,11 +726,14 @@ window.onload = async () => {
     // We still want to load global stats on landing page
     await initData();
     show('landing');
+    showTab('home'); // Ensure we land on home sub-tab
   }
 }
 
 // Expose functions to global scope for inline HTML onclick handlers
 window.show = show;
+window.showTab = showTab;
+window.toggleBillingPeriod = toggleBillingPeriod;
 window.scrollSec = scrollSec;
 window.doLogin = doLogin;
 window.doSignup = doSignup;
