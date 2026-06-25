@@ -1233,9 +1233,35 @@ footer{
   .preview-box, .buy-box { position: static; margin-top: 24px; }
   .logos-row { gap: 32px; }
 }
+
+/* ── Dynamic 3D Parallax Card System ── */
+.tilt-card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease-out, box-shadow 0.3s ease;
+  will-change: transform;
+}
+.tilt-card-3d > * {
+  transform-style: preserve-3d;
+}
+/* Dynamic pop-out heights for true depth */
+.pop-3d-1 {
+  transform: translateZ(20px);
+}
+.pop-3d-2 {
+  transform: translateZ(40px);
+}
+.pop-3d-3 {
+  transform: translateZ(60px);
+}
+.pop-3d-img {
+  transform: translateZ(30px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 25px rgba(0,210,255,0.1);
+}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
+<canvas id="bg-3d-canvas" style="position:fixed;top:0;left:0;width:100%;height:100vh;z-index:-2;pointer-events:none;"></canvas>
 <div class="orb orb-1"></div>
 <div class="orb orb-2"></div>
 <div class="menu-backdrop" id="menuBackdrop" onclick="closeMenu()"></div>
@@ -1303,8 +1329,8 @@ footer{
       </div>
 
       <div class="perspective-container animate-fade-up delay-4" style="max-width:800px;margin:0 auto 60px;padding:0 20px;">
-        <div class="mockup-3d" style="width:100%;aspect-ratio:1.6;">
-          <img src="/hero_dashboard.png" class="image-3d" alt="OmniXa AI Dashboard"/>
+        <div class="mockup-3d tilt-card-3d" style="width:100%;aspect-ratio:1.6;">
+          <img src="/hero_dashboard.png" class="image-3d pop-3d-img" alt="OmniXa AI Dashboard"/>
         </div>
       </div>
 
@@ -1337,31 +1363,31 @@ footer{
         
         <div class="cards3">
           <!-- Card 1 -->
-          <div class="feat-card">
-            <div class="feat-icon">
+          <div class="feat-card tilt-card-3d">
+            <div class="feat-icon pop-3d-1">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
             </div>
-            <h3>Predictive Lead Gen</h3>
-            <p>Identify high-intent prospects before they enter the market. Aura scans millions of data points to deliver qualified leads directly to your CRM.</p>
-            <div class="feat-link" onclick="showTab('solutions')">Explore Lead Gen →</div>
+            <h3 class="pop-3d-2">Predictive Lead Gen</h3>
+            <p class="pop-3d-1">Identify high-intent prospects before they enter the market. Aura scans millions of data points to deliver qualified leads directly to your CRM.</p>
+            <div class="feat-link pop-3d-3" onclick="showTab('solutions')">Explore Lead Gen →</div>
           </div>
           <!-- Card 2 (Highlight Cyan Border Glow) -->
-          <div class="feat-card" style="border-color:rgba(0,210,255,0.25);box-shadow: 0 0 25px rgba(0,210,255,0.06);">
-            <div class="feat-icon" style="background:var(--cyan-dim);border-color:var(--cyan);">
+          <div class="feat-card tilt-card-3d" style="border-color:rgba(0,210,255,0.25);box-shadow: 0 0 25px rgba(0,210,255,0.06);">
+            <div class="feat-icon pop-3d-1" style="background:var(--cyan-dim);border-color:var(--cyan);">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
             </div>
-            <h3>Autonomous Sales</h3>
-            <p>Equip your account executives with real-time objection handling and dynamic pricing models generated mid-conversation.</p>
-            <div class="feat-link" onclick="showTab('solutions')">Explore Sales AI →</div>
+            <h3 class="pop-3d-2">Autonomous Sales</h3>
+            <p class="pop-3d-1">Equip your account executives with real-time objection handling and dynamic pricing models generated mid-conversation.</p>
+            <div class="feat-link pop-3d-3" onclick="showTab('solutions')">Explore Sales AI →</div>
           </div>
           <!-- Card 3 -->
-          <div class="feat-card">
-            <div class="feat-icon">
+          <div class="feat-card tilt-card-3d">
+            <div class="feat-icon pop-3d-1">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
             </div>
-            <h3>Cognitive Support</h3>
-            <p>Resolve 80% of tier-1 tickets instantly while seamlessly routing complex issues to human agents with full contextual briefings.</p>
-            <div class="feat-link" onclick="showTab('solutions')">Explore Support Ops →</div>
+            <h3 class="pop-3d-2">Cognitive Support</h3>
+            <p class="pop-3d-1">Resolve 80% of tier-1 tickets instantly while seamlessly routing complex issues to human agents with full contextual briefings.</p>
+            <div class="feat-link pop-3d-3" onclick="showTab('solutions')">Explore Support Ops →</div>
           </div>
         </div>
       </div>
@@ -1393,8 +1419,8 @@ footer{
             <button class="btn-outline" onclick="show('signup')">Deploy on WhatsApp</button>
           </div>
           <div class="perspective-container" style="max-width:480px;margin:0 auto;width:100%;">
-            <div class="mockup-3d" style="width:100%;aspect-ratio:1.35;">
-              <img src="/whatsapp_phone.png" class="image-3d" alt="WhatsApp Phone AI"/>
+            <div class="mockup-3d tilt-card-3d" style="width:100%;aspect-ratio:1.35;">
+              <img src="/whatsapp_phone.png" class="image-3d pop-3d-img" alt="WhatsApp Phone AI"/>
             </div>
           </div>
         </div>
@@ -1412,9 +1438,9 @@ footer{
             <button class="btn-outline" onclick="show('signup')">Explore Scoring Models</button>
           </div>
           <div class="perspective-container" style="max-width:480px;margin:0 auto;width:100%;">
-            <div class="mockup-3d" style="width:100%;padding:28px;background:rgba(8,9,26,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);text-align:left;">
-              <div style="font-size:11px;color:var(--muted);font-weight:700;margin-bottom:12px;letter-spacing:0.04em;">CRM SCORING INGESTION</div>
-              <div class="lq-row" style="margin-bottom:12px;direction:ltr;">
+            <div class="mockup-3d tilt-card-3d" style="width:100%;padding:28px;background:rgba(8,9,26,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);text-align:left;">
+              <div class="pop-3d-1" style="font-size:11px;color:var(--muted);font-weight:700;margin-bottom:12px;letter-spacing:0.04em;">CRM SCORING INGESTION</div>
+              <div class="lq-row pop-3d-2" style="margin-bottom:12px;direction:ltr;">
                 <div class="lq-info">
                   <div class="lq-initial" style="background:var(--cyan-dim);color:var(--cyan);border:1px solid var(--cyan-border);">JD</div>
                   <div>
@@ -1427,7 +1453,7 @@ footer{
                   <div class="lq-lbl">Hot Lead</div>
                 </div>
               </div>
-              <div class="lq-row" style="direction:ltr;">
+              <div class="lq-row pop-3d-3" style="direction:ltr;">
                 <div class="lq-info">
                   <div class="lq-initial" style="background:rgba(255,255,255,0.02);color:var(--muted);">AS</div>
                   <div>
@@ -1458,13 +1484,13 @@ footer{
         
         <div class="ind-grid">
           <!-- Industry 1: Real Estate -->
-          <div class="ind-card animate-fade-up delay-1">
+          <div class="ind-card animate-fade-up delay-1 tilt-card-3d">
             <div>
-              <div class="ind-header">
+              <div class="ind-header pop-3d-2">
                 <span class="ind-icon">🏢</span>
                 <span class="ind-title">Real Estate</span>
               </div>
-              <div style="height:180px;overflow:hidden;border-radius:12px;margin-bottom:20px;border:1px solid var(--border);">
+              <div class="pop-3d-img" style="height:180px;overflow:hidden;border-radius:12px;margin-bottom:20px;border:1px solid var(--border);">
                 <img src="/real_estate_skyline.png" style="width:100%;height:100%;object-fit:cover;" alt="Real Estate AI"/>
               </div>
               <div class="ind-section">
@@ -1483,13 +1509,13 @@ footer{
           </div>
 
           <!-- Industry 2: Healthcare -->
-          <div class="ind-card animate-fade-up delay-2">
+          <div class="ind-card animate-fade-up delay-2 tilt-card-3d">
             <div>
-              <div class="ind-header">
+              <div class="ind-header pop-3d-2">
                 <span class="ind-icon">🏥</span>
                 <span class="ind-title">Healthcare</span>
               </div>
-              <div style="height:180px;overflow:hidden;border-radius:12px;margin-bottom:20px;border:1px solid var(--border);">
+              <div class="pop-3d-img" style="height:180px;overflow:hidden;border-radius:12px;margin-bottom:20px;border:1px solid var(--border);">
                 <img src="/healthcare_dna.png" style="width:100%;height:100%;object-fit:cover;" alt="Healthcare AI"/>
               </div>
               <div class="ind-section">
@@ -1511,13 +1537,13 @@ footer{
           </div>
 
           <!-- Industry 3: E-Commerce -->
-          <div class="ind-card animate-fade-up delay-1">
+          <div class="ind-card animate-fade-up delay-1 tilt-card-3d">
             <div>
-              <div class="ind-header">
+              <div class="ind-header pop-3d-2">
                 <span class="ind-icon">🛒</span>
                 <span class="ind-title">E-Commerce</span>
               </div>
-              <div style="height:180px;overflow:hidden;border-radius:12px;margin-bottom:20px;border:1px solid var(--border);">
+              <div class="pop-3d-img" style="height:180px;overflow:hidden;border-radius:12px;margin-bottom:20px;border:1px solid var(--border);">
                 <img src="/commerce_cart.png" style="width:100%;height:100%;object-fit:cover;" alt="E-Commerce AI"/>
               </div>
               <div class="ind-section">
@@ -1536,13 +1562,13 @@ footer{
           </div>
 
           <!-- Industry 4: Finance -->
-          <div class="ind-card animate-fade-up delay-2">
+          <div class="ind-card animate-fade-up delay-2 tilt-card-3d">
             <div>
-              <div class="ind-header">
+              <div class="ind-header pop-3d-2">
                 <span class="ind-icon">⚖️</span>
                 <span class="ind-title">Finance</span>
               </div>
-              <div style="height:180px;overflow:hidden;border-radius:12px;margin-bottom:20px;border:1px solid var(--border);">
+              <div class="pop-3d-img" style="height:180px;overflow:hidden;border-radius:12px;margin-bottom:20px;border:1px solid var(--border);">
                 <img src="/finance_chart.png" style="width:100%;height:100%;object-fit:cover;" alt="Finance AI"/>
               </div>
               <div class="ind-section">
@@ -1561,13 +1587,13 @@ footer{
           </div>
 
           <!-- Industry 5: Education -->
-          <div class="ind-card animate-fade-up delay-3" style="grid-column: 1 / -1; min-height: 280px; flex-direction: row; gap: 40px; align-items: center;">
+          <div class="ind-card animate-fade-up delay-3 tilt-card-3d" style="grid-column: 1 / -1; min-height: 280px; flex-direction: row; gap: 40px; align-items: center;">
             <div style="flex:1.2;">
-              <div class="ind-header">
+              <div class="ind-header pop-3d-2">
                 <span class="ind-icon">🎓</span>
                 <span class="ind-title">Education</span>
               </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" class="pop-3d-1">
                 <div class="ind-section" style="margin-bottom:0;">
                   <div class="ind-label">The Challenge</div>
                   <p class="ind-text">Scaling personalized learning paths for diverse student cohorts efficiently.</p>
@@ -1578,7 +1604,7 @@ footer{
                 </div>
               </div>
             </div>
-            <div style="flex:0.8;height:160px;overflow:hidden;border-radius:12px;border:1px solid var(--border);">
+            <div class="pop-3d-img" style="flex:0.8;height:160px;overflow:hidden;border-radius:12px;border:1px solid var(--border);">
               <img src="/education_brain.png" style="width:100%;height:100%;object-fit:cover;" alt="Education AI"/>
             </div>
             <div style="width:200px;text-align:right;border-left:1px solid var(--border);padding-left:30px;">
@@ -1611,8 +1637,8 @@ footer{
 
         <div class="pricing-grid animate-fade-up delay-2">
           <!-- Card 1: Starter -->
-          <div class="pricing-card">
-            <div class="pricing-header">
+          <div class="pricing-card tilt-card-3d">
+            <div class="pricing-header pop-3d-2">
               <h3>Starter</h3>
               <p>Essential AI tools for growing teams.</p>
               <div class="price-row">
@@ -1621,19 +1647,19 @@ footer{
                 <span class="period">/mo</span>
               </div>
             </div>
-            <ul class="pricing-feats">
+            <ul class="pricing-feats pop-3d-1">
               <li class="pricing-feat">5 AI Models Included</li>
               <li class="pricing-feat">100K API Requests/mo</li>
               <li class="pricing-feat">Basic Analytics Dashboard</li>
               <li class="pricing-feat disabled">Custom Model Training</li>
             </ul>
-            <button class="btn-outline" style="width:100%;" onclick="show('signup')">Start Free Trial</button>
+            <button class="btn-outline pop-3d-3" style="width:100%;" onclick="show('signup')">Start Free Trial</button>
           </div>
 
           <!-- Card 2: Growth (Popular) -->
-          <div class="pricing-card popular">
-            <span class="popular-tag">Most Popular</span>
-            <div class="pricing-header">
+          <div class="pricing-card popular tilt-card-3d">
+            <span class="popular-tag pop-3d-3">Most Popular</span>
+            <div class="pricing-header pop-3d-2">
               <h3>Growth</h3>
               <p>Advanced capabilities for scaling operations.</p>
               <div class="price-row">
@@ -1642,31 +1668,31 @@ footer{
                 <span class="period">/mo</span>
               </div>
             </div>
-            <ul class="pricing-feats">
+            <ul class="pricing-feats pop-3d-1">
               <li class="pricing-feat">Unlimited AI Models</li>
               <li class="pricing-feat">1M API Requests/mo</li>
               <li class="pricing-feat">Advanced Predictive Analytics</li>
               <li class="pricing-feat">Priority Email Support</li>
             </ul>
-            <button class="btn-orange" style="width:100%;color:#020208;" onclick="show('signup')">Upgrade to Growth</button>
+            <button class="btn-orange pop-3d-3" style="width:100%;color:#020208;" onclick="show('signup')">Upgrade to Growth</button>
           </div>
 
           <!-- Card 3: Enterprise -->
-          <div class="pricing-card">
-            <div class="pricing-header">
+          <div class="pricing-card tilt-card-3d">
+            <div class="pricing-header pop-3d-2">
               <h3>Enterprise</h3>
               <p>Custom infrastructure for industry leaders.</p>
               <div class="price-row">
                 <span class="val" style="font-size:42px;letter-spacing:-0.02em;">Custom</span>
               </div>
             </div>
-            <ul class="pricing-feats">
+            <ul class="pricing-feats pop-3d-1">
               <li class="pricing-feat">Dedicated Cloud Infrastructure</li>
               <li class="pricing-feat">Unlimited API Requests</li>
               <li class="pricing-feat">Custom Model Training</li>
               <li class="pricing-feat">24/7 Dedicated Account Manager</li>
             </ul>
-            <button class="btn-outline" style="width:100%;" onclick="showTab('contact')">Contact Sales</button>
+            <button class="btn-outline pop-3d-3" style="width:100%;" onclick="showTab('contact')">Contact Sales</button>
           </div>
         </div>
 

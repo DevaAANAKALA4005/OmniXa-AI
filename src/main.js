@@ -720,6 +720,8 @@ function toggleBillingPeriod(period) {
 // Check for existing session
 window.onload = async () => {
   initGoogleAuth();
+  initMajestic3D();
+  initCardTilt();
   if(currentUser && currentRole) {
     setRole(currentRole);
   } else {
@@ -728,6 +730,210 @@ window.onload = async () => {
     show('landing');
     showTab('home'); // Ensure we land on home sub-tab
   }
+}
+
+// ── 3D MAJESTIC EXPERIENCE (THREE.JS & CARD TILT) ──
+function initMajestic3D() {
+  const canvas = document.getElementById('bg-3d-canvas');
+  if (!canvas) return;
+
+  // Initialize Three.js
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  // Wavy Particle Field
+  const particleCount = 2000;
+  const positions = new Float32Array(particleCount * 3);
+  const colors = new Float32Array(particleCount * 3);
+
+  // Cyan theme color (#00d2ff)
+  const cyanColor = new THREE.Color('#00d2ff');
+
+  for (let i = 0; i < particleCount; i++) {
+    const i3 = i * 3;
+    positions[i3] = (Math.random() - 0.5) * 45; // X
+    positions[i3 + 1] = (Math.random() - 0.5) * 25; // Y
+    positions[i3 + 2] = (Math.random() - 0.5) * 35; // Z
+
+    // Add color values with slight variance
+    colors[i3] = cyanColor.r * (0.8 + Math.random() * 0.2);
+    colors[i3 + 1] = cyanColor.g * (0.8 + Math.random() * 0.2);
+    colors[i3 + 2] = cyanColor.b * (0.8 + Math.random() * 0.2);
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+  // Custom round particle texture (CSS Radial Gradient Canvas)
+  const pCanvas = document.createElement('canvas');
+  pCanvas.width = 16;
+  pCanvas.height = 16;
+  const pCtx = pCanvas.getContext('2d');
+  const grad = pCtx.createRadialGradient(8, 8, 0, 8, 8, 8);
+  grad.addColorStop(0, 'rgba(255,255,255,1)');
+  grad.addColorStop(0.3, 'rgba(0,210,255,0.8)');
+  grad.addColorStop(1, 'rgba(0,0,0,0)');
+  pCtx.fillStyle = grad;
+  pCtx.fillRect(0, 0, 16, 16);
+  const pTexture = new THREE.CanvasTexture(pCanvas);
+
+  const material = new THREE.PointsMaterial({
+    size: 0.16,
+    sizeAttenuation: true,
+    vertexColors: true,
+    transparent: true,
+    alphaMap: pTexture,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending
+  });
+
+  const points = new THREE.Points(geometry, material);
+  scene.add(points);
+
+  const initialPositions = new Float32Array(positions);
+
+  // Floating Wireframe shapes in Hero Section
+  const wireGroup = new THREE.Group();
+  scene.add(wireGroup);
+
+  const ringGeo = new THREE.TorusGeometry(3.5, 0.08, 12, 48);
+  const crystalGeo = new THREE.OctahedronGeometry(1.8, 1);
+  const bigRingGeo = new THREE.RingGeometry(4.5, 4.6, 64);
+
+  const lineMat = new THREE.LineBasicMaterial({
+    color: '#00d2ff',
+    transparent: true,
+    opacity: 0.18,
+    blending: THREE.AdditiveBlending
+  });
+
+  const meshMat = new THREE.MeshBasicMaterial({
+    color: '#00d2ff',
+    wireframe: true,
+    transparent: true,
+    opacity: 0.08,
+    blending: THREE.AdditiveBlending
+  });
+
+  const torusMesh = new THREE.Mesh(ringGeo, meshMat);
+  const crystalMesh = new THREE.Mesh(crystalGeo, meshMat);
+  const ringLine = new THREE.LineLoop(bigRingGeo, lineMat);
+
+  torusMesh.position.set(10, 5, -15);
+  crystalMesh.position.set(-10, -5, -10);
+  ringLine.position.set(5, -4, -12);
+
+  wireGroup.add(torusMesh);
+  wireGroup.add(crystalMesh);
+  wireGroup.add(ringLine);
+
+  camera.position.z = 15;
+
+  let mouseX = 0, mouseY = 0;
+  let targetX = 0, targetY = 0;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX - window.innerWidth / 2) / 100;
+    mouseY = (e.clientY - window.innerHeight / 2) / 100;
+  });
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  let clock = new THREE.Clock();
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    const elapsedTime = clock.getElapsedTime();
+
+    // Wavy Particle Simulation
+    const posArr = geometry.attributes.position.array;
+    for (let i = 0; i < particleCount; i++) {
+      const i3 = i * 3;
+      const x = initialPositions[i3];
+      const z = initialPositions[i3 + 2];
+
+      posArr[i3 + 1] = initialPositions[i3 + 1] + 
+        Math.sin(elapsedTime + x * 0.2) * 1.2 + 
+        Math.cos(elapsedTime + z * 0.15) * 0.8;
+    }
+    geometry.attributes.position.needsUpdate = true;
+
+    // Rotate wireframe shapes
+    torusMesh.rotation.x = elapsedTime * 0.2;
+    torusMesh.rotation.y = elapsedTime * 0.15;
+
+    crystalMesh.rotation.y = elapsedTime * 0.3;
+    crystalMesh.rotation.z = elapsedTime * 0.1;
+
+    ringLine.rotation.x = elapsedTime * 0.05;
+    ringLine.rotation.y = elapsedTime * 0.1;
+
+    // Smooth camera mouse follow
+    targetX += (mouseX - targetX) * 0.05;
+    targetY += (mouseY - targetY) * 0.05;
+
+    camera.position.x = targetX * 1.5;
+    camera.position.y = -targetY * 1.5;
+    camera.lookAt(scene.position);
+
+    renderer.render(scene, camera);
+  }
+
+  animate();
+}
+
+function initCardTilt() {
+  const cards = document.querySelectorAll('.tilt-card-3d');
+  
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const xc = rect.width / 2;
+      const yc = rect.height / 2;
+      
+      const angleX = ((yc - y) / yc) * 14; 
+      const angleY = ((x - xc) / xc) * 14;
+      
+      card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) scale3d(1.03, 1.03, 1.03)`;
+      
+      const pops = card.querySelectorAll('.pop-3d-1, .pop-3d-2, .pop-3d-3, .pop-3d-img');
+      pops.forEach(pop => {
+        let depth = 30;
+        if(pop.classList.contains('pop-3d-1')) depth = 15;
+        if(pop.classList.contains('pop-3d-2')) depth = 35;
+        if(pop.classList.contains('pop-3d-3')) depth = 55;
+        if(pop.classList.contains('pop-3d-img')) depth = 45;
+        
+        pop.style.transform = `translateZ(${depth}px)`;
+        pop.style.transition = 'transform 0.05s ease-out';
+      });
+    });
+    
+    card.style.transformStyle = 'preserve-3d';
+    
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      card.style.transition = 'transform 0.5s ease';
+      
+      const pops = card.querySelectorAll('.pop-3d-1, .pop-3d-2, .pop-3d-3, .pop-3d-img');
+      pops.forEach(pop => {
+        pop.style.transform = 'translateZ(0px)';
+        pop.style.transition = 'transform 0.5s ease';
+      });
+    });
+  });
 }
 
 // Expose functions to global scope for inline HTML onclick handlers
