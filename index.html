@@ -30,6 +30,36 @@
   --blue:#3b82f6;
   --glow:0 0 30px rgba(0, 210, 255, 0.15);
 }
+/* ── Custom Scrollbar Styles ── */
+::-webkit-scrollbar {
+  width: 10px;
+  background: #03030c;
+}
+::-webkit-scrollbar-track {
+  background: #03030c;
+  border-left: 1px solid rgba(0, 210, 255, 0.1);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(0, 210, 255, 0.3), rgba(0, 210, 255, 0.6));
+  border-radius: 5px;
+  border: 2px solid #03030c;
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(0, 210, 255, 0.5), rgba(0, 210, 255, 0.9));
+}
+
+/* ── Scroll Reveal System ── */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
@@ -121,7 +151,20 @@ body{
 }
 
 .page{display:none}.page.active{display:block}
-.landing-tab{display:none}.landing-tab.active{display:block}
+.landing-tab {
+  display: none;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  will-change: opacity, transform;
+}
+.landing-tab.active {
+  display: block;
+}
+.landing-tab.fade-in-tab {
+  opacity: 1;
+  transform: translateY(0);
+}
 a{text-decoration:none;color:inherit}
 input,select,textarea,button{font-family:'Inter',sans-serif}
 
@@ -1246,12 +1289,29 @@ footer{
 
 /* ── Dynamic 3D Parallax Card System ── */
 .tilt-card-3d {
+  position: relative;
+  overflow: hidden;
   transform-style: preserve-3d;
   transition: transform 0.1s ease-out, box-shadow 0.3s ease;
   will-change: transform;
 }
+.tilt-card-3d::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(300px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(0, 210, 255, 0.12), transparent 80%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+.tilt-card-3d:hover::before {
+  opacity: 1;
+}
 .tilt-card-3d > * {
   transform-style: preserve-3d;
+  position: relative;
+  z-index: 2;
 }
 /* Dynamic pop-out heights for true depth */
 .pop-3d-1 {
@@ -1271,6 +1331,7 @@ footer{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
+<div id="scroll-progress" style="position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg, var(--cyan), var(--cyan2));width:0%;z-index:999;box-shadow:0 0 10px rgba(0,210,255,0.5);transition:width 0.1s ease-out;"></div>
 <canvas id="bg-3d-canvas" style="position:fixed;top:0;left:0;width:100%;height:100vh;z-index:-2;pointer-events:none;"></canvas>
 <div class="orb orb-1"></div>
 <div class="orb orb-2"></div>
@@ -1312,7 +1373,7 @@ footer{
     </div>
     <div class="nav-right">
       <button class="btn-ghost" onclick="show('login')">Log in</button>
-      <button class="btn-orange" onclick="showTab('contact')">Book a Demo</button>
+      <button class="btn-orange magnetic-btn" onclick="showTab('contact')">Book a Demo</button>
     </div>
   </nav>
 
@@ -1331,8 +1392,8 @@ footer{
       <p class="hero-p animate-fade-up delay-2">Deploy fluid intelligence across your revenue operations. OmniXa AI transforms raw data into calculated confidence, accelerating lead generation, sales conversion, and customer support.</p>
       
       <div class="hero-btns animate-fade-up delay-3">
-        <button class="btn-big" onclick="showTab('contact')">Book a Demo <span style="font-size:18px;">→</span></button>
-        <button class="btn-outline" onclick="showTab('solutions')">Explore Platform</button>
+        <button class="btn-big magnetic-btn" onclick="showTab('contact')">Book a Demo <span style="font-size:18px;">→</span></button>
+        <button class="btn-outline magnetic-btn" onclick="showTab('solutions')">Explore Platform</button>
       </div>
 
       <div class="perspective-container animate-fade-up delay-4" style="max-width:800px;margin:0 auto 60px;padding:0 20px;">
@@ -1353,7 +1414,7 @@ footer{
     <!-- Social proof row removed to ensure only verified enterprise data is presented -->
 
     <!-- ARCHITECTED FOR REVENUE OPS -->
-    <section class="section animate-fade-up">
+    <section class="section scroll-reveal">
       <div class="inner">
         <div class="sec-label">Platform Core</div>
         <h2 class="sec-title">Architected for <span style="color:var(--cyan);text-shadow:0 0 10px rgba(0,210,255,0.1)">Revenue Ops</span></h2>
@@ -1394,14 +1455,14 @@ footer{
 
   <!-- ─── TAB: SOLUTIONS ─── -->
   <div class="landing-tab" id="tab-solutions">
-    <section class="section animate-fade-up">
+    <section class="section scroll-reveal">
       <div class="inner" style="padding-top:40px;">
         <div class="sec-label">Enterprise Solutions</div>
         <h2 class="sec-title">Intelligent Solutions for <span style="color:var(--cyan);text-shadow:0 0 10px rgba(0,210,255,0.1)">Enterprise Growth</span></h2>
         <p class="sec-subtitle">Deploy autonomous AI agents across every touchpoint. From WhatsApp to web, qualify leads and close deals 24/7 with zero human intervention.</p>
         
         <div style="display:flex;justify-content:center;margin-bottom:80px;">
-          <button class="btn-big animate-fade-up delay-1" onclick="show('signup')">Start Building <span style="font-size:18px;">→</span></button>
+          <button class="btn-big magnetic-btn animate-fade-up delay-1" onclick="show('signup')">Start Building <span style="font-size:18px;">→</span></button>
         </div>
 
         <!-- WhatsApp AI Agent Block -->
@@ -1414,7 +1475,7 @@ footer{
               <li class="sol-bullet">Instant multi-language support</li>
               <li class="sol-bullet">Automated catalog sharing and checkout</li>
             </ul>
-            <button class="btn-outline" onclick="show('signup')">Deploy on WhatsApp</button>
+            <button class="btn-outline magnetic-btn" onclick="show('signup')">Deploy on WhatsApp</button>
           </div>
           <div class="perspective-container" style="max-width:320px;margin:0 auto;width:100%;">
             <div class="mockup-3d tilt-card-3d" style="width:100%;border-radius:18px;overflow:hidden;border:1px solid var(--border);">
@@ -1433,7 +1494,7 @@ footer{
               <li class="sol-bullet">Real-time sentiment and intent analysis</li>
               <li class="sol-bullet">Smart CRM routing based on score thresholds</li>
             </ul>
-            <button class="btn-outline" onclick="show('signup')">Explore Scoring Models</button>
+            <button class="btn-outline magnetic-btn" onclick="show('signup')">Explore Scoring Models</button>
           </div>
           <div class="perspective-container" style="max-width:480px;margin:0 auto;width:100%;">
             <div class="mockup-3d tilt-card-3d" style="width:100%;padding:28px;background:rgba(8,9,26,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);text-align:left;">
@@ -1474,7 +1535,7 @@ footer{
 
   <!-- ─── TAB: INDUSTRIES ─── -->
   <div class="landing-tab" id="tab-industries">
-    <section class="section animate-fade-up">
+    <section class="section scroll-reveal">
       <div class="inner" style="padding-top:40px;">
         <div class="sec-label">Vertical Markets</div>
         <h2 class="sec-title">Transforming <span style="color:var(--cyan);text-shadow:0 0 10px rgba(0,210,255,0.1)">Industries</span></h2>
@@ -1619,7 +1680,7 @@ footer{
 
   <!-- ─── TAB: PRICING ─── -->
   <div class="landing-tab" id="tab-pricing">
-    <section class="section animate-fade-up">
+    <section class="section scroll-reveal">
       <div class="inner" style="padding-top:40px;">
         <div class="sec-label">Infrastructure Tiers</div>
         <h2 class="sec-title">Intelligence for <span style="color:var(--cyan);text-shadow:0 0 10px rgba(0,210,255,0.1)">Growth</span></h2>
@@ -1651,7 +1712,7 @@ footer{
               <li class="pricing-feat">Basic Analytics Dashboard</li>
               <li class="pricing-feat disabled">Custom Model Training</li>
             </ul>
-            <button class="btn-outline pop-3d-3" style="width:100%;" onclick="show('signup')">Start Free Trial</button>
+            <button class="btn-outline pop-3d-3 magnetic-btn" style="width:100%;" onclick="show('signup')">Start Free Trial</button>
           </div>
 
           <!-- Card 2: Growth (Popular) -->
@@ -1672,7 +1733,7 @@ footer{
               <li class="pricing-feat">Advanced Predictive Analytics</li>
               <li class="pricing-feat">Priority Email Support</li>
             </ul>
-            <button class="btn-orange pop-3d-3" style="width:100%;color:#020208;" onclick="show('signup')">Upgrade to Growth</button>
+            <button class="btn-orange pop-3d-3 magnetic-btn" style="width:100%;color:#020208;" onclick="show('signup')">Upgrade to Growth</button>
           </div>
 
           <!-- Card 3: Enterprise -->
@@ -1690,7 +1751,7 @@ footer{
               <li class="pricing-feat">Custom Model Training</li>
               <li class="pricing-feat">24/7 Dedicated Account Manager</li>
             </ul>
-            <button class="btn-outline pop-3d-3" style="width:100%;" onclick="showTab('contact')">Contact Sales</button>
+            <button class="btn-outline pop-3d-3 magnetic-btn" style="width:100%;" onclick="showTab('contact')">Contact Sales</button>
           </div>
         </div>
 
@@ -1741,7 +1802,7 @@ footer{
 
   <!-- ─── TAB: CONTACT ─── -->
   <div class="landing-tab" id="tab-contact">
-    <section class="section animate-fade-up">
+    <section class="section scroll-reveal">
       <div class="inner" style="padding-top:40px;">
         <div class="sec-label">Connect with our team</div>
         <h2 class="sec-title">Book a Demo</h2>

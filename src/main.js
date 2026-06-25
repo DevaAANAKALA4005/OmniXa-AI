@@ -671,19 +671,24 @@ function closeMenu() {
   if (backdrop) backdrop.classList.remove('open');
 }
 
-// Tab switcher for landing page sub-views
+// Tab switcher for landing page sub-views with smooth transitions
 function showTab(tabId) {
-  // Ensure landing page is shown first
   show('landing');
   
-  // Hide all tabs
-  document.querySelectorAll('.landing-tab').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.landing-tab').forEach(el => {
+    el.classList.remove('active', 'fade-in-tab');
+    el.style.display = 'none';
+  });
   
-  // Show requested tab
   const target = document.getElementById('tab-' + tabId);
-  if (target) target.classList.add('active');
+  if (target) {
+    target.style.display = 'block';
+    // Trigger transition next frame
+    requestAnimationFrame(() => {
+      target.classList.add('active', 'fade-in-tab');
+    });
+  }
   
-  // Update active state in nav link buttons
   document.querySelectorAll('#landingNavLinks .nav-link').forEach(btn => {
     if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(`showTab('${tabId}')`)) {
       btn.classList.add('active-link');
@@ -692,7 +697,6 @@ function showTab(tabId) {
     }
   });
 
-  // Smooth scroll to top of page
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -726,6 +730,20 @@ window.onload = async () => {
   initGoogleAuth();
   initMajestic3D();
   initCardTilt();
+  initScrollReveal();
+  initMagneticButtons();
+  
+  // Glowing Scroll Progress Bar Tracker
+  window.addEventListener('scroll', () => {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+    const progressBar = document.getElementById('scroll-progress');
+    if (progressBar) {
+      progressBar.style.width = scrolled + '%';
+    }
+  });
+
   if(currentUser && currentRole) {
     setRole(currentRole);
   } else {
@@ -858,16 +876,36 @@ function initMajestic3D() {
 
     const elapsedTime = clock.getElapsedTime();
 
-    // Wavy Particle Simulation
+    // Virtual mouse vector in 3D scene space (roughly scaled)
+    const mouse3D = new THREE.Vector3(mouseX * 3, -mouseY * 2.2, 0);
+
+    // Wavy Particle Simulation with dynamic mouse repulsion (gravity)
     const posArr = geometry.attributes.position.array;
     for (let i = 0; i < particleCount; i++) {
       const i3 = i * 3;
-      const x = initialPositions[i3];
-      const z = initialPositions[i3 + 2];
+      const px = initialPositions[i3];
+      const py = initialPositions[i3 + 1];
+      const pz = initialPositions[i3 + 2];
 
-      posArr[i3 + 1] = initialPositions[i3 + 1] + 
-        Math.sin(elapsedTime + x * 0.2) * 1.2 + 
-        Math.cos(elapsedTime + z * 0.15) * 0.8;
+      const targetY_wave = py + 
+        Math.sin(elapsedTime + px * 0.2) * 1.2 + 
+        Math.cos(elapsedTime + pz * 0.15) * 0.8;
+
+      const dx = px - mouse3D.x;
+      const dy = targetY_wave - mouse3D.y;
+      const dz = pz - mouse3D.z;
+      const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+      if (dist < 8.5) {
+        const force = (1.0 - dist / 8.5) * 2.2;
+        posArr[i3] = px + (dx / dist) * force;
+        posArr[i3 + 1] = targetY_wave + (dy / dist) * force;
+        posArr[i3 + 2] = pz + (dz / dist) * force;
+      } else {
+        posArr[i3] = px;
+        posArr[i3 + 1] = targetY_wave;
+        posArr[i3 + 2] = pz;
+      }
     }
     geometry.attributes.position.needsUpdate = true;
 
@@ -904,6 +942,10 @@ function initCardTilt() {
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       
+      // Update mouse coordinates for CSS radial spotlight
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+      
       const xc = rect.width / 2;
       const yc = rect.height / 2;
       
@@ -936,6 +978,42 @@ function initCardTilt() {
         pop.style.transform = 'translateZ(0px)';
         pop.style.transition = 'transform 0.5s ease';
       });
+    });
+  });
+}
+
+function initScrollReveal() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.05,
+    rootMargin: '0px 0px -40px 0px'
+  });
+  
+  document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+}
+
+function initMagneticButtons() {
+  const btns = document.querySelectorAll('.magnetic-btn');
+  btns.forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      // Pull button towards cursor within a range
+      btn.style.transform = `translate(${x * 0.35}px, ${y * 0.35}px)`;
+      btn.style.transition = 'transform 0.1s ease-out';
+    });
+    
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = 'translate(0, 0)';
+      btn.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
     });
   });
 }
