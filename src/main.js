@@ -797,7 +797,7 @@ function initMajestic3D() {
   const pCtx = pCanvas.getContext('2d');
   const grad = pCtx.createRadialGradient(8, 8, 0, 8, 8, 8);
   grad.addColorStop(0, 'rgba(255,255,255,1)');
-  grad.addColorStop(0.3, 'rgba(0,210,255,0.8)');
+  grad.addColorStop(0.3, 'rgba(255,255,255,0.8)');
   grad.addColorStop(1, 'rgba(0,0,0,0)');
   pCtx.fillStyle = grad;
   pCtx.fillRect(0, 0, 16, 16);
@@ -941,6 +941,28 @@ function initMajestic3D() {
   }
 
   animate();
+
+  // Expose context for theme switching
+  window.threeCtx = {
+    lineMat,
+    meshMat,
+    pointsMat: material,
+    geometry,
+    particleCount,
+    initialPositions
+  };
+
+  // Run initial theme configuration for Three.js
+  const savedTheme = localStorage.getItem('theme') || 'cyan';
+  const themeColors = {
+    cyan: { primary: '#00d2ff', isLight: false },
+    orange: { primary: '#FF4500', isLight: false },
+    light: { primary: '#4f46e5', isLight: true }
+  };
+  const current = themeColors[savedTheme] || themeColors.cyan;
+  if (window.updateThreeJSColors) {
+    window.updateThreeJSColors(current.primary, current.isLight);
+  }
 }
 
 function initCardTilt() {
@@ -1065,4 +1087,105 @@ window.goHome = function() {
     show('landing');
   }
 };
+
+// ── THEME SWITCHER CONTROLLERS ──
+function toggleThemeDropdown(e) {
+  if (e) e.stopPropagation();
+  const dropdown = document.getElementById('themeDropdown');
+  if (dropdown) {
+    dropdown.classList.toggle('open');
+  }
+}
+
+function updateThreeJSColors(hexColor, isLightTheme) {
+  const color = new THREE.Color(hexColor);
+  
+  if (window.threeCtx) {
+    const ctx = window.threeCtx;
+    if (ctx.lineMat) {
+      ctx.lineMat.color.copy(color);
+      ctx.lineMat.opacity = isLightTheme ? 0.28 : 0.18;
+      ctx.lineMat.blending = isLightTheme ? THREE.NormalBlending : THREE.AdditiveBlending;
+    }
+    if (ctx.meshMat) {
+      ctx.meshMat.color.copy(color);
+      ctx.meshMat.opacity = isLightTheme ? 0.12 : 0.08;
+      ctx.meshMat.blending = isLightTheme ? THREE.NormalBlending : THREE.AdditiveBlending;
+    }
+    if (ctx.pointsMat) {
+      ctx.pointsMat.blending = isLightTheme ? THREE.NormalBlending : THREE.AdditiveBlending;
+    }
+    if (ctx.geometry) {
+      const colors = ctx.geometry.attributes.color.array;
+      for (let i = 0; i < ctx.particleCount; i++) {
+        const i3 = i * 3;
+        colors[i3] = color.r * (0.8 + Math.random() * 0.2);
+        colors[i3 + 1] = color.g * (0.8 + Math.random() * 0.2);
+        colors[i3 + 2] = color.b * (0.8 + Math.random() * 0.2);
+      }
+      ctx.geometry.attributes.color.needsUpdate = true;
+    }
+  }
+}
+
+function setTheme(themeName, e) {
+  if (e) e.stopPropagation();
+  document.documentElement.setAttribute('data-theme', themeName);
+  localStorage.setItem('theme', themeName);
+  
+  const themeColors = {
+    cyan: { primary: '#00d2ff', isLight: false },
+    orange: { primary: '#FF4500', isLight: false },
+    light: { primary: '#4f46e5', isLight: true }
+  };
+  
+  const selected = themeColors[themeName] || themeColors.cyan;
+  updateThreeJSColors(selected.primary, selected.isLight);
+  
+  // Highlight active theme in the float dropdown
+  const themeIds = ['theme-opt-cyan', 'theme-opt-orange', 'theme-opt-light'];
+  themeIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      if (id === `theme-opt-${themeName}`) {
+        el.classList.add('active');
+      } else {
+        el.classList.remove('active');
+      }
+    }
+  });
+
+  const dropdown = document.getElementById('themeDropdown');
+  if (dropdown) dropdown.classList.remove('open');
+}
+
+// Close theme dropdown when clicking outside
+document.addEventListener('click', () => {
+  const dropdown = document.getElementById('themeDropdown');
+  if (dropdown && dropdown.classList.contains('open')) {
+    dropdown.classList.remove('open');
+  }
+});
+
+// Run initial UI updates on load
+window.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('theme') || 'cyan';
+  // Set active class on load
+  const themeIds = ['theme-opt-cyan', 'theme-opt-orange', 'theme-opt-light'];
+  themeIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      if (id === `theme-opt-${savedTheme}`) {
+        el.classList.add('active');
+      } else {
+        el.classList.remove('active');
+      }
+    }
+  });
+});
+
+// Expose theme functions to window
+window.toggleThemeDropdown = toggleThemeDropdown;
+window.setTheme = setTheme;
+window.updateThreeJSColors = updateThreeJSColors;
 

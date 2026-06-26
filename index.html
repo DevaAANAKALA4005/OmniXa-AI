@@ -3,11 +3,17 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('theme') || 'cyan';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  })();
+</script>
 <title>OmniXa AI — AI Product Marketplace</title>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
-:root{
+:root {
   --bg:#03030c;
   --bg2:#050614;
   --card:#08091a;
@@ -18,10 +24,10 @@
   --cyan2:#38bdf8;
   --cyan-dim:rgba(0,210,255,0.08);
   --cyan-border:rgba(0,210,255,0.18);
-  --orange:#00d2ff; /* for compat with orange buttons */
-  --orange2:#38bdf8; /* for compat with orange buttons */
-  --odim:rgba(0,210,255,0.08); /* for compat with orange buttons */
-  --oborder:rgba(0,210,255,0.18); /* for compat with orange buttons */
+  --orange:#00d2ff;
+  --orange2:#38bdf8;
+  --odim:rgba(0,210,255,0.08);
+  --oborder:rgba(0,210,255,0.18);
   --white:#fff;
   --muted:#8a99ad;
   --muted2:#475569;
@@ -29,24 +35,129 @@
   --green:#10b981;
   --blue:#3b82f6;
   --glow:0 0 30px rgba(0, 210, 255, 0.15);
+  --radial-1: rgba(0, 210, 255, 0.05);
+  --radial-2: rgba(56, 189, 248, 0.04);
+  --orb-opacity: 0.2;
+  --input-bg: #050614;
+  --msg-bg: #03030d;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  --btn-text: #020208;
+  --nav-bg: rgba(3, 3, 12, 0.85);
 }
+
+[data-theme="cyan"] {
+  --bg:#03030c;
+  --bg2:#050614;
+  --card:#08091a;
+  --card2:#0d0f28;
+  --border:rgba(0, 210, 255, 0.22);
+  --border2:rgba(255,255,255,0.18);
+  --cyan:#00d2ff;
+  --cyan2:#38bdf8;
+  --cyan-dim:rgba(0,210,255,0.08);
+  --cyan-border:rgba(0,210,255,0.18);
+  --orange:#00d2ff;
+  --orange2:#38bdf8;
+  --odim:rgba(0,210,255,0.08);
+  --oborder:rgba(0,210,255,0.18);
+  --white:#fff;
+  --muted:#8a99ad;
+  --muted2:#475569;
+  --text:#d1d5db;
+  --green:#10b981;
+  --blue:#3b82f6;
+  --glow:0 0 30px rgba(0, 210, 255, 0.15);
+  --radial-1: rgba(0, 210, 255, 0.05);
+  --radial-2: rgba(56, 189, 248, 0.04);
+  --orb-opacity: 0.2;
+  --input-bg: #050614;
+  --msg-bg: #03030d;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  --btn-text: #020208;
+  --nav-bg: rgba(3, 3, 12, 0.85);
+}
+
+[data-theme="orange"] {
+  --bg:#080300;
+  --bg2:#0d0400;
+  --card:#130600;
+  --card2:#1c0800;
+  --border:rgba(255, 69, 0, 0.15);
+  --border2:rgba(255, 255, 255, 0.13);
+  --cyan:#FF4500;
+  --cyan2:#FF6A00;
+  --cyan-dim:rgba(255,69,0,0.10);
+  --cyan-border:rgba(255,69,0,0.22);
+  --orange:#FF4500;
+  --orange2:#FF6A00;
+  --odim:rgba(255,69,0,0.10);
+  --oborder:rgba(255,69,0,0.22);
+  --white:#fff;
+  --muted:rgba(255,255,255,0.50);
+  --muted2:rgba(255,255,255,0.28);
+  --text:rgba(255,255,255,0.85);
+  --green:#22c55e;
+  --blue:#3b82f6;
+  --glow:0 0 30px rgba(255, 69, 0, 0.15);
+  --radial-1: rgba(255, 69, 0, 0.06);
+  --radial-2: rgba(255, 106, 0, 0.04);
+  --orb-opacity: 0.25;
+  --input-bg: #0d0400;
+  --msg-bg: #080300;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  --btn-text: #ffffff;
+  --nav-bg: rgba(8, 3, 0, 0.9);
+}
+
+[data-theme="light"] {
+  --bg:#f5f7fb;
+  --bg2:#e9eff6;
+  --card:#ffffff;
+  --card2:#f0f4f9;
+  --border:rgba(15, 23, 42, 0.08);
+  --border2:rgba(15, 23, 42, 0.15);
+  --cyan:#4f46e5;
+  --cyan2:#4338ca;
+  --cyan-dim:rgba(79, 70, 229, 0.06);
+  --cyan-border:rgba(79, 70, 229, 0.15);
+  --orange:#ea580c;
+  --orange2:#c2410c;
+  --odim:rgba(234, 88, 12, 0.06);
+  --oborder:rgba(234, 88, 12, 0.15);
+  --white:#0f172a;
+  --muted:#475569;
+  --muted2:#64748b;
+  --text:#334155;
+  --green:#10b981;
+  --blue:#2563eb;
+  --glow:0 0 30px rgba(79, 70, 229, 0.10);
+  --radial-1: rgba(79, 70, 229, 0.03);
+  --radial-2: rgba(2, 132, 199, 0.02);
+  --orb-opacity: 0.06;
+  --input-bg: #ffffff;
+  --msg-bg: #e9eff6;
+  --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  --btn-text: #ffffff;
+  --nav-bg: rgba(245, 247, 251, 0.85);
+}
+
 /* ── Custom Scrollbar Styles ── */
 ::-webkit-scrollbar {
   width: 10px;
-  background: #03030c;
+  background: var(--bg);
 }
 ::-webkit-scrollbar-track {
-  background: #03030c;
-  border-left: 1px solid rgba(0, 210, 255, 0.1);
+  background: var(--bg);
+  border-left: 1px solid var(--border);
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, rgba(0, 210, 255, 0.3), rgba(0, 210, 255, 0.6));
+  background: linear-gradient(180deg, var(--cyan-dim), var(--cyan));
   border-radius: 5px;
-  border: 2px solid #03030c;
-  box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 10px var(--cyan-dim);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, rgba(0, 210, 255, 0.5), rgba(0, 210, 255, 0.9));
+  background: linear-gradient(180deg, var(--cyan), var(--cyan2));
 }
 
 /* ── Scroll Reveal System ── */
@@ -65,8 +176,8 @@ html{scroll-behavior:smooth}
 body{
   background:var(--bg);
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(0, 210, 255, 0.05) 0%, transparent 45%),
-    radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.04) 0%, transparent 45%);
+    radial-gradient(circle at 10% 20%, var(--radial-1) 0%, transparent 45%),
+    radial-gradient(circle at 90% 80%, var(--radial-2) 0%, transparent 45%);
   color:var(--white);
   font-family:'Inter',sans-serif;
   line-height:1.6;
@@ -83,7 +194,7 @@ body{
   filter:blur(180px);
   z-index:-1;
   pointer-events:none;
-  opacity:0.2;
+  opacity:var(--orb-opacity, 0.2);
   animation:drift 25s infinite alternate ease-in-out;
 }
 .orb-1{
@@ -180,7 +291,7 @@ input,select,textarea,button{font-family:'Inter',sans-serif}
   align-items:center;
   justify-content:space-between;
   padding:0 8%;
-  background:rgba(3,3,12,0.85);
+  background:var(--nav-bg, rgba(3,3,12,0.85));
   backdrop-filter:blur(20px);
   -webkit-backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border);
@@ -245,7 +356,7 @@ input,select,textarea,button{font-family:'Inter',sans-serif}
 }
 .btn-orange{
   background:var(--cyan);
-  color:#020208;
+  color:var(--btn-text, #020208);
   padding:10px 22px;
   border-radius:20px;
   font-family:'Outfit',sans-serif;
@@ -273,7 +384,7 @@ input,select,textarea,button{font-family:'Inter',sans-serif}
   font-family:'Outfit',sans-serif;
   font-weight:800;
   font-size:15px;
-  color:#020208;
+  color:var(--btn-text, #020208);
   flex-shrink:0;
   cursor:pointer;
   box-shadow: 0 0 10px rgba(0,210,255,0.15);
@@ -282,7 +393,7 @@ input,select,textarea,button{font-family:'Inter',sans-serif}
 /* ── BUTTONS ── */
 .btn-big{
   background:var(--cyan);
-  color:#020208;
+  color:var(--btn-text, #020208);
   padding:16px 36px;
   border-radius:8px;
   font-family:'Outfit',sans-serif;
@@ -321,7 +432,7 @@ input,select,textarea,button{font-family:'Inter',sans-serif}
 .submit-btn{
   width:100%;
   background:var(--cyan);
-  color:#020208;
+  color:var(--btn-text, #020208);
   padding:14px;
   border-radius:8px;
   font-family:'Outfit',sans-serif;
@@ -350,7 +461,7 @@ input,select,textarea,button{font-family:'Inter',sans-serif}
 }
 .form-group input,.form-group textarea,.form-group select{
   width:100%;
-  background:#050614;
+  background:var(--input-bg, #050614);
   border:1px solid var(--border);
   border-radius:8px;
   padding:12px 16px;
@@ -365,7 +476,7 @@ input,select,textarea,button{font-family:'Inter',sans-serif}
 }
 .form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,0.2)}
 .form-group textarea{resize:vertical}
-.form-group select option{background:#050614}
+.form-group select option{background:var(--input-bg, #050614)}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 
 /* ── SECTION ── */
@@ -557,7 +668,7 @@ tr:hover td{background:rgba(255,255,255,0.01)}
   padding:44px;
   width:100%;
   max-width:440px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  box-shadow:var(--shadow);
 }
 .auth-title{font-family:'Outfit',sans-serif;font-size:32px;font-weight:800;color:var(--white);margin-bottom:8px}
 .auth-sub{font-size:14px;color:var(--muted);margin-bottom:32px}
@@ -589,7 +700,7 @@ tr:hover td{background:rgba(255,255,255,0.01)}
 .modal-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
 .modal-title{font-family:'Outfit',sans-serif;font-size:24px;font-weight:700;color:var(--white)}
 .close-x{background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;padding:4px 8px;line-height:1}
-.msg-thread{height:200px;overflow-y:auto;background:#03030d;border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px;display:flex;flex-direction:column;gap:12px}
+.msg-thread{height:200px;overflow-y:auto;background:var(--msg-bg, #03030d);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px;display:flex;flex-direction:column;gap:12px}
 .msg-thread::-webkit-scrollbar{width:4px}
 .msg-thread::-webkit-scrollbar-thumb{background:#111229;border-radius:4px}
 .bubble{max-width:85%;padding:11px 15px;border-radius:10px;font-size:14px;line-height:1.5}
@@ -1327,6 +1438,145 @@ footer{
   transform: translateZ(30px);
   box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 25px rgba(0,210,255,0.1);
 }
+/* ── Floating Theme Switcher System ── */
+.theme-switcher-float {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 999;
+  font-family: 'Inter', sans-serif;
+}
+.theme-toggle-btn {
+  background: var(--card);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--white);
+  padding: 10px 16px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow);
+}
+.theme-toggle-btn:hover {
+  border-color: var(--cyan);
+  box-shadow: var(--glow);
+  transform: translateY(-2px);
+}
+.theme-dropdown {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 12px;
+  padding: 8px;
+  width: 180px;
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: var(--shadow);
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.theme-dropdown.open {
+  display: flex;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.theme-opt-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.theme-opt-item:hover {
+  background: var(--cyan-dim);
+  color: var(--white);
+}
+.theme-opt-item.active {
+  background: var(--cyan-dim);
+  color: var(--cyan);
+  font-weight: 600;
+}
+.theme-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.theme-dot.cyan {
+  background: #00d2ff;
+  box-shadow: 0 0 8px #00d2ff;
+}
+.theme-dot.orange {
+  background: #FF4500;
+  box-shadow: 0 0 8px #FF4500;
+}
+.theme-dot.light {
+  background: #4f46e5;
+  box-shadow: 0 0 8px #4f46e5;
+}
+
+/* ── Theme Responsive Mockup Images ── */
+.image-3d,
+img.pop-3d-img,
+.sol-visual img {
+  transition: filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="orange"] .image-3d,
+[data-theme="orange"] img.pop-3d-img,
+[data-theme="orange"] .sol-visual img {
+  filter: hue-rotate(185deg) saturate(1.2);
+}
+
+[data-theme="light"] .image-3d,
+[data-theme="light"] img.pop-3d-img,
+[data-theme="light"] .sol-visual img {
+  filter: hue-rotate(54deg) saturate(1.1);
+}
+
+/* ── Industry Page Images Overlay Tint ── */
+div.pop-3d-img {
+  position: relative;
+  isolation: isolate;
+}
+div.pop-3d-img img {
+  position: relative;
+  z-index: 1;
+}
+div.pop-3d-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--cyan);
+  mix-blend-mode: color;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease, background 0.5s ease;
+  z-index: 2;
+}
+[data-theme="orange"] div.pop-3d-img::after {
+  opacity: 0.5;
+}
+[data-theme="light"] div.pop-3d-img::after {
+  opacity: 0.45;
+}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
@@ -1372,6 +1622,7 @@ footer{
       <button class="nav-link" onclick="showTab('contact')">Contact</button>
     </div>
     <div class="nav-right">
+      <button class="btn-ghost" onclick="toggleThemeDropdown(event)" style="border-radius:20px;padding:8px 14px;">🎨 Theme</button>
       <button class="btn-ghost" onclick="show('login')">Log in</button>
       <button class="btn-orange magnetic-btn" onclick="showTab('contact')">Book a Demo</button>
     </div>
@@ -2459,6 +2710,24 @@ footer{
     </div>
   </div>
 </div>
+
+  <!-- Floating Theme Switcher -->
+  <div class="theme-switcher-float" id="themeSwitcherFloat">
+    <button class="theme-toggle-btn" onclick="toggleThemeDropdown(event)" aria-label="Switch Theme">
+      🎨 <span class="theme-btn-text">Theme</span>
+    </button>
+    <div class="theme-dropdown" id="themeDropdown">
+      <div class="theme-opt-item active" onclick="setTheme('cyan', event)" id="theme-opt-cyan">
+        <span class="theme-dot cyan"></span> Midnight Cyan
+      </div>
+      <div class="theme-opt-item" onclick="setTheme('orange', event)" id="theme-opt-orange">
+        <span class="theme-dot orange"></span> Sunset Orange
+      </div>
+      <div class="theme-opt-item" onclick="setTheme('light', event)" id="theme-opt-light">
+        <span class="theme-dot light"></span> Daylight Silver
+      </div>
+    </div>
+  </div>
 
 <script type="module" src="/src/main.js"></script>
 </body>
