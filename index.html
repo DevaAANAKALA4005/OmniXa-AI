@@ -2015,10 +2015,546 @@ div.pop-3d-img::after {
 [data-theme="sakura"] div.pop-3d-img::after { opacity: 0.45; }
 [data-theme="day-amber"] div.pop-3d-img::after { opacity: 0.45; }
 [data-theme="terminal"] div.pop-3d-img::after { opacity: 0.55; }
+
+/* ── Visualizer Customizer Sliders inside Dropdown ── */
+.customizer-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 8px 4px;
+}
+.customizer-section {
+  padding: 4px 8px 8px;
+}
+.customizer-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.slider-group {
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.slider-group label {
+  font-size: 11px;
+  color: var(--text);
+  display: flex;
+  justify-content: space-between;
+}
+.slider-group input[type="range"] {
+  width: 100%;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  outline: none;
+  -webkit-appearance: none;
+}
+.slider-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--cyan);
+  cursor: pointer;
+  box-shadow: 0 0 5px var(--cyan);
+}
+
+/* ── Ambient Spotlight follow ── */
+.cursor-spotlight {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, var(--cyan-dim) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.5s ease;
+  will-change: left, top;
+}
+
+/* ── Floating AI Assistant Widget ── */
+.ai-assistant-float {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  font-family: 'Inter', sans-serif;
+}
+.ai-assistant-btn {
+  background: var(--card);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--white);
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow);
+}
+.ai-assistant-btn:hover {
+  border-color: var(--cyan);
+  box-shadow: var(--glow);
+  transform: translateY(-2px);
+}
+.ai-chat-card {
+  position: absolute;
+  bottom: 55px;
+  right: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  width: 320px;
+  height: 420px;
+  display: none;
+  flex-direction: column;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ai-chat-card.open {
+  display: flex;
+}
+.ai-chat-hdr {
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ai-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--cyan-dim);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+.ai-chat-body {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ai-msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+.ai-msg.bot {
+  background: var(--bg2);
+  color: var(--text);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.ai-msg.user {
+  background: var(--cyan);
+  color: var(--btn-text);
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+  font-weight: 500;
+}
+.ai-suggested-prompts {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+.ai-chip {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--cyan);
+  font-size: 11.5px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+.ai-chip:hover {
+  background: var(--cyan-dim);
+  border-color: var(--cyan);
+}
+.ai-chat-footer {
+  padding: 10px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+}
+.ai-msg-input {
+  flex: 1;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  color: var(--white);
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  outline: none;
+}
+.ai-msg-input:focus {
+  border-color: var(--cyan);
+}
+.ai-send-btn {
+  background: var(--cyan);
+  border: none;
+  color: var(--btn-text);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.ai-send-btn:hover {
+  opacity: 0.9;
+}
+
+/* ── Developer Sandbox Tabs & Layout ── */
+.sandbox-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+.sandbox-tab-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 16px;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s;
+}
+.sandbox-tab-btn.active {
+  color: var(--cyan);
+}
+.sandbox-tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--cyan);
+  box-shadow: var(--glow);
+}
+.sandbox-pane {
+  display: none;
+}
+.sandbox-pane.active {
+  display: block;
+}
+.sandbox-terminal {
+  background: #05050a;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-family: 'Courier New', Courier, monospace;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.term-header {
+  background: rgba(255,255,255,0.03);
+  padding: 8px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--muted);
+}
+.term-dots {
+  display: flex;
+  gap: 6px;
+}
+.term-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.term-body {
+  padding: 16px;
+  font-size: 12.5px;
+  color: #10b981;
+  max-height: 240px;
+  overflow-y: auto;
+  line-height: 1.5;
+}
+.term-prompt {
+  color: #38bdf8;
+  margin-bottom: 8px;
+}
+.term-log {
+  color: #e5e7eb;
+}
+.sandbox-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.sandbox-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sandbox-control-group label {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+.sandbox-control-group select, .sandbox-control-group input {
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  color: var(--white);
+  padding: 8px 12px;
+  border-radius: 8px;
+  outline: none;
+  font-size: 13px;
+}
+
+/* ── Checkout Dialog ── */
+.checkout-modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.checkout-modal-bg.open {
+  display: flex;
+}
+.checkout-card-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  width: 440px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.checkout-body {
+  padding: 24px;
+}
+.pay-methods {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.pay-method-btn {
+  flex: 1;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.2s;
+}
+.pay-method-btn.active {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: var(--cyan-dim);
+}
+.card-vis {
+  background: linear-gradient(135deg, var(--cyan2), var(--cyan));
+  color: var(--btn-text);
+  padding: 20px;
+  border-radius: 12px;
+  aspect-ratio: 1.58;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.card-chip {
+  width: 40px;
+  height: 30px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 6px;
+}
+.card-num {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.upi-sim-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.qr-placeholder {
+  width: 140px;
+  height: 140px;
+  background: white;
+  margin: 0 auto 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.qr-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: red;
+  animation: qrScan 2s infinite ease-in-out;
+}
+@keyframes qrScan {
+  0% { top: 0; }
+  50% { top: 100%; }
+  100% { top: 0; }
+}
+
+/* ── Glowing spotlight inside tilt-card hover ── */
+.tilt-card-3d::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(to bottom right, var(--cyan), transparent, var(--cyan2));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 3;
+}
+.tilt-card-3d:hover::after {
+  opacity: 0.6;
+}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
+<div class="cursor-spotlight" id="cursorSpotlight"></div>
+
+<!-- CHECKOUT MODAL -->
+<div class="checkout-modal-bg" id="checkoutModalBg">
+  <div class="checkout-card-box">
+    <div class="modal-hdr">
+      <div class="modal-title">Secure Checkout</div>
+      <button class="close-x" onclick="closeCheckoutModal()">✕</button>
+    </div>
+    <div class="checkout-body">
+      <div style="display:flex; justify-content:space-between; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border);">
+        <div>
+          <div style="font-weight:700; color:var(--white);" id="chkProdName">Product Name</div>
+          <div style="font-size:12px; color:var(--muted);">Lifetime Developer License</div>
+        </div>
+        <div style="font-weight:800; font-size:18px; color:var(--cyan);" id="chkProdPrice">₹0</div>
+      </div>
+      
+      <div class="pay-methods">
+        <button class="pay-method-btn active" id="btnPayCard" onclick="switchPayMethod('card')">💳 Credit / Debit Card</button>
+        <button class="pay-method-btn" id="btnPayUPI" onclick="switchPayMethod('upi')">📱 UPI / QR Code</button>
+      </div>
+
+      <!-- Card details view -->
+      <div id="payFormCard">
+        <div class="card-vis">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="card-chip"></div>
+            <div style="font-size:14px; font-weight:700; letter-spacing:0.05em; color:var(--btn-text);">OmniPay</div>
+          </div>
+          <div class="card-num" id="chkCardNumDisplay">•••• •••• •••• ••••</div>
+          <div style="display:flex; justify-content:space-between; font-size:11px;">
+            <div>
+              <div style="opacity:0.6; margin-bottom:2px;">CARD HOLDER</div>
+              <div id="chkCardNameDisplay" style="font-weight:600;">YOUR NAME</div>
+            </div>
+            <div>
+              <div style="opacity:0.6; margin-bottom:2px;">EXPIRES</div>
+              <div id="chkCardExpiryDisplay" style="font-weight:600;">MM/YY</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="sandbox-control-group" style="margin-bottom:12px;">
+          <label>Card Number</label>
+          <input type="text" id="chkCardNumber" placeholder="4111 2222 3333 4444" maxlength="19" oninput="updateCardVisuals()"/>
+        </div>
+        <div style="display:grid; grid-template-columns: 2fr 1fr 1fr; gap:10px; margin-bottom:20px;">
+          <div class="sandbox-control-group">
+            <label>Cardholder Name</label>
+            <input type="text" id="chkCardName" placeholder="John Doe" oninput="updateCardVisuals()"/>
+          </div>
+          <div class="sandbox-control-group">
+            <label>Expiry Date</label>
+            <input type="text" id="chkCardExpiry" placeholder="12/28" maxlength="5" oninput="updateCardVisuals()"/>
+          </div>
+          <div class="sandbox-control-group">
+            <label>CVV</label>
+            <input type="password" id="chkCardCVV" placeholder="•••" maxlength="3"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- UPI view -->
+      <div id="payFormUPI" style="display:none;">
+        <div class="upi-sim-box">
+          <div class="qr-placeholder">
+            <div class="qr-line"></div>
+            <div style="width:110px; height:110px; background:repeating-conic-gradient(black 0% 25%, white 0% 50%) 0% 0%/20px 20px;"></div>
+          </div>
+          <div style="font-size:13px; font-weight:600; color:var(--white); margin-bottom:4px;">Scan QR to Pay with any UPI App</div>
+          <div style="font-size:11px; color:var(--muted);">BHIM, Google Pay, PhonePe, Paytm</div>
+          <div style="margin:12px 0; font-size:12px; color:var(--cyan); font-weight:700;">OR</div>
+          <div class="sandbox-control-group">
+            <input type="text" id="chkUpiVpa" placeholder="buyer@okaxis" style="text-align:center; font-family:monospace;"/>
+          </div>
+        </div>
+      </div>
+
+      <button class="submit-btn" id="checkoutPayBtn" onclick="processCheckoutPurchase()" style="font-size:14.5px; font-weight:700;">💳 Complete Payment</button>
+      <div style="text-align:center; font-size:11px; color:var(--muted); margin-top:12px;">This is a premium simulated sandbox payment process. No actual money is transferred.</div>
+    </div>
+  </div>
+</div>
+
 <div id="scroll-progress" style="position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg, var(--cyan), var(--cyan2));width:0%;z-index:999;box-shadow:0 0 10px rgba(0,210,255,0.5);transition:width 0.1s ease-out;"></div>
 <canvas id="bg-3d-canvas" style="position:fixed;top:0;left:0;width:100%;height:100vh;z-index:-2;pointer-events:none;"></canvas>
 <div class="orb orb-1"></div>
@@ -2884,6 +3420,18 @@ div.pop-3d-img::after {
         <div class="stat-box"><div class="stat-val" id="eWeekRev">₹0</div><div class="stat-lbl">This week</div></div>
         <div class="stat-box" style="border-left-color:var(--blue)"><div class="stat-val" style="color:var(--blue)" id="eTotalOrders">0</div><div class="stat-lbl">Total orders</div></div>
       </div>
+
+      <!-- Earnings trend chart -->
+      <div class="tbl-wrap" style="grid-column: 1 / -1; margin-bottom: 24px;">
+        <div class="tbl-head" style="display:flex; justify-content:space-between; align-items:center;">
+          <div class="tbl-title">Earnings Trend</div>
+          <div style="font-size:12px; color:var(--muted);" id="chartPeriod">Last 30 Days</div>
+        </div>
+        <div style="width:100%; height:260px; padding:16px 20px; position:relative;">
+          <canvas id="earningsTrendCanvas" style="width:100%; height:100%; display:block;"></canvas>
+        </div>
+      </div>
+
       <div class="cards2">
         <div class="tbl-wrap">
           <div class="tbl-head"><div class="tbl-title">Revenue by product</div></div>
@@ -3070,13 +3618,70 @@ div.pop-3d-img::after {
           <h1 style="font-family:'Barlow Condensed',sans-serif;font-size:40px;font-weight:800;color:var(--white);text-transform:uppercase;margin-bottom:10px" id="dName">Product</h1>
           <div class="chips" id="dTags"></div>
           <p style="font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:24px" id="dDesc">Loading...</p>
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--white);text-transform:uppercase;margin-bottom:16px">Customer Reviews</div>
-          <div id="dReviewsContainer">
-            <div style="padding:24px;text-align:center;color:var(--muted);background:var(--card);border:1px solid var(--border);border-radius:12px;font-size:14.5px;">
-              ⭐️ No reviews yet. Verified ratings are dynamically updated upon purchase.
+            <!-- Interactive Sandbox Tabs -->
+            <div class="sandbox-tabs">
+              <button class="sandbox-tab-btn active" id="tabBtnFeatures" onclick="switchSandboxTab('features')">Platform Features</button>
+              <button class="sandbox-tab-btn" id="tabBtnDeveloper" onclick="switchSandboxTab('developer')">API & Developer Sandbox</button>
+            </div>
+            
+            <!-- Features & Reviews Pane -->
+            <div class="sandbox-pane active" id="paneFeatures">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--white);text-transform:uppercase;margin-bottom:16px">Customer Reviews</div>
+              <div id="dReviewsContainer">
+                <div style="padding:24px;text-align:center;color:var(--muted);background:var(--card);border:1px solid var(--border);border-radius:12px;font-size:14.5px;">
+                  ⭐️ No reviews yet. Verified ratings are dynamically updated upon purchase.
+                </div>
+              </div>
+            </div>
+
+            <!-- Developer Sandbox Pane -->
+            <div class="sandbox-pane" id="paneDeveloper">
+              <div style="font-size:14px; color:var(--text); margin-bottom:16px; line-height:1.6;">
+                Test real-time model inferences and REST integration parameters before deploying inside your codebases.
+              </div>
+              <div class="sandbox-controls">
+                <div class="sandbox-control-group">
+                  <label>Sandbox API Key</label>
+                  <div style="display:flex; gap:8px;">
+                    <input type="text" id="sandboxApiKey" value="ox_live_839a28f...b78f" readonly style="flex:1; font-family:monospace;"/>
+                    <button class="btn-orange" style="padding:6px 12px;" onclick="copySandboxKey()">Copy</button>
+                  </div>
+                </div>
+                <div class="sandbox-control-group">
+                  <label>Select Endpoint Method</label>
+                  <select id="sandboxMethod" onchange="updateTerminalCode()">
+                    <option value="POST_inference">POST /api/v1/inference</option>
+                    <option value="GET_status">GET /api/v1/status</option>
+                    <option value="GET_billing">GET /api/v1/usage</option>
+                  </select>
+                </div>
+              </div>
+              <div class="sandbox-controls" style="grid-template-columns: 1fr;">
+                <div class="sandbox-control-group">
+                  <label>Request Parameter (Query Prompt)</label>
+                  <input type="text" id="sandboxPrompt" value="Analyze quarterly sales PDF trends" style="font-family:monospace;" oninput="updateTerminalCode()"/>
+                </div>
+              </div>
+              
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <button class="btn-orange" onclick="runSandboxQuery()" style="font-size:13.5px; font-weight:600; padding:10px 20px;">🚀 Execute API Call</button>
+              </div>
+
+              <div class="sandbox-terminal">
+                <div class="term-header">
+                  <div class="term-dots">
+                    <span class="term-dot" style="background:#ff5f56;"></span>
+                    <span class="term-dot" style="background:#ffbd2e;"></span>
+                    <span class="term-dot" style="background:#27c93f;"></span>
+                  </div>
+                  <div>console_sandbox.sh</div>
+                </div>
+                <div class="term-body" id="sandboxTermBody">
+                  <div class="term-prompt">guest@omnixa-sandbox:~$ # Select endpoint and click Execute API Call to run simulation</div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
         <div>
           <div class="buy-box">
             <div class="buy-price" id="dPrice">₹0</div>
@@ -3193,6 +3798,57 @@ div.pop-3d-img::after {
       </div>
       <div class="theme-opt-item" onclick="setTheme('terminal', event)" id="theme-opt-terminal">
         <span class="theme-dot terminal"></span> Retro Terminal
+      </div>
+      <div class="customizer-divider"></div>
+      <div class="customizer-section">
+        <div class="customizer-title">Customize Particles</div>
+        <div class="slider-group">
+          <label>Speed: <span id="val-speed">1.0</span>x</label>
+          <input type="range" id="particleSpeedSlider" min="0" max="3" step="0.1" value="1.0" oninput="changeParticleSpeed(this.value)"/>
+        </div>
+        <div class="slider-group">
+          <label>Size: <span id="val-size">0.16</span></label>
+          <input type="range" id="particleSizeSlider" min="0.05" max="0.5" step="0.01" value="0.16" oninput="changeParticleSize(this.value)"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating AI Assistant Widget -->
+  <div class="ai-assistant-float" id="aiAssistantFloat">
+    <button class="ai-assistant-btn" onclick="toggleAIAssistant(event)" aria-label="Ask AI Assistant">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+      <span>Ask AI</span>
+    </button>
+    <div class="ai-chat-card" id="aiChatCard">
+      <div class="ai-chat-hdr">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div class="ai-avatar">🤖</div>
+          <div>
+            <div style="font-weight:600; font-size:14px; color:var(--white);">OmniXa Assistant</div>
+            <div style="font-size:11px; color:var(--cyan); display:flex; align-items:center; gap:4px;">
+              <span style="display:inline-block; width:6px; height:6px; background:var(--green); border-radius:50%; animation: pulse 1.5s infinite;"></span> Online
+            </div>
+          </div>
+        </div>
+        <button class="close-x" onclick="toggleAIAssistant(event)" style="background:none; border:none; color:var(--text); cursor:pointer; font-size:16px;">✕</button>
+      </div>
+      <div class="ai-chat-body" id="aiChatBody">
+        <div class="ai-msg bot">
+          Hello! I'm your OmniXa AI guide. How can I help you accelerate your business today?
+        </div>
+        <div class="ai-suggested-prompts" id="aiSuggestedPrompts">
+          <div class="ai-chip" onclick="handleAISuggestion('how_to_buy')">How do I purchase tools?</div>
+          <div class="ai-chip" onclick="handleAISuggestion('seller_fees')">What are the seller commissions?</div>
+          <div class="ai-chip" onclick="handleAISuggestion('api_key')">Where can I test the API keys?</div>
+          <div class="ai-chip" onclick="handleAISuggestion('custom_builds')">Do you offer custom integrations?</div>
+        </div>
+      </div>
+      <div class="ai-chat-footer">
+        <input class="ai-msg-input" id="aiMsgInput" placeholder="Ask anything..." onkeydown="if(event.key==='Enter')sendAIMessage()"/>
+        <button class="ai-send-btn" onclick="sendAIMessage()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        </button>
       </div>
     </div>
   </div>

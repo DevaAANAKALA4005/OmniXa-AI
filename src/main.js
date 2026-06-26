@@ -35,37 +35,14 @@ function renderGlobalStats() {
   const uniqueBuyers = new Set(paidOrders.map(o => o.buyerEmail)).size;
   const totalRevenue = paidOrders.reduce((sum, o) => sum + (o.amount || 0), 0);
   
-  let formattedRev = '₹0';
-  if (totalRevenue >= 10000000) {
-    formattedRev = '₹' + (totalRevenue / 10000000).toFixed(1) + 'Cr+';
-  } else if (totalRevenue >= 100000) {
-    formattedRev = '₹' + (totalRevenue / 100000).toFixed(1) + 'L+';
-  } else if (totalRevenue >= 1000) {
-    formattedRev = '₹' + (totalRevenue / 1000).toFixed(1) + 'K+';
-  } else {
-    formattedRev = '₹' + totalRevenue;
-  }
+  animateValue('hMetricProducts', 0, totalProducts, 800);
+  animateValue('hMetricBuyers', 0, uniqueBuyers, 1000);
+  animateValue('hMetricRev', 0, totalRevenue, 1200, '₹');
+  animateValue('hMetricRating', 1.0, 4.9, 600, '', '★', true);
   
-  let formattedBuyers = uniqueBuyers;
-  if (uniqueBuyers >= 1000) {
-    formattedBuyers = (uniqueBuyers / 1000).toFixed(1) + 'K+';
-  }
-  
-  const hProducts = document.getElementById('hMetricProducts');
-  if (hProducts) hProducts.textContent = totalProducts > 0 ? totalProducts : '0';
-  const hBuyers = document.getElementById('hMetricBuyers');
-  if (hBuyers) hBuyers.textContent = formattedBuyers;
-  const hRev = document.getElementById('hMetricRev');
-  if (hRev) hRev.textContent = formattedRev;
-  const hRating = document.getElementById('hMetricRating');
-  if (hRating) hRating.textContent = totalProducts > 0 ? '4.9★' : '—';
-  
-  const aProducts = document.getElementById('aMetricProducts');
-  if (aProducts) aProducts.textContent = totalProducts > 0 ? totalProducts : '0';
-  const aBuyers = document.getElementById('aMetricBuyers');
-  if (aBuyers) aBuyers.textContent = formattedBuyers;
-  const aRev = document.getElementById('aMetricRev');
-  if (aRev) aRev.textContent = formattedRev;
+  animateValue('aMetricProducts', 0, totalProducts, 800);
+  animateValue('aMetricBuyers', 0, uniqueBuyers, 1000);
+  animateValue('aMetricRev', 0, totalRevenue, 1200, '₹');
 }
 
 /* ── ROUTING ── */
@@ -376,6 +353,9 @@ function renderEarnings(){
   document.getElementById('eTransTbody').innerHTML = myOrders.slice(-5).reverse().map(o=>`
     <tr><td>${o.buyerName}</td><td style="color:var(--muted);font-size:13px">${o.productName}</td><td style="color:var(--green);font-weight:700">₹${o.amount.toLocaleString('en-IN')}</td><td><span class="badge ${o.status==='Paid'?'badge-green':'badge-orange'}">● ${o.status}</span></td></tr>
   `).join('');
+
+  // Draw visual canvas line/area trend graph
+  setTimeout(() => drawTrendChart(myOrders), 50);
 }
 
 /* ── MARKETPLACE ── */
@@ -461,31 +441,7 @@ async function doBuy(){
   if(!currentProduct) return;
   if(userPurchases.find(o=>o.id===currentProduct._id || o._id===currentProduct._id)){notify('You already own this product!');return;}
   
-  const date = new Date().toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'});
-  const order = {
-    buyerName: currentUser ? currentUser.name : 'Guest User',
-    buyerEmail: currentUser ? currentUser.email : 'guest@example.com',
-    buyerCity: 'India',
-    buyerId: currentUser ? currentUser.id : undefined,
-    productId: currentProduct._id,
-    productName: currentProduct.name,
-    amount: currentProduct.price,
-    status: 'Paid',
-    date: date
-  };
-  
-  notify('Processing purchase... ⏳');
-  const res = await api('/orders', 'POST', order);
-  if(res.success){
-    const btn=document.getElementById('buyNowBtn');
-    btn.textContent='✅ Purchase successful!';
-    btn.style.background='rgba(34,197,94,0.15)';
-    btn.style.color='var(--green)';
-    btn.disabled = true;
-    
-    notify('🎉 Purchase complete! Check My Orders for access.');
-    setTimeout(()=>show('buyer-orders'), 1500);
-  }
+  openCheckoutModal(currentProduct._id, currentProduct.name, currentProduct.price);
 }
 
 function renderOrders(){
@@ -873,11 +829,14 @@ function initMajestic3D() {
   });
 
   let clock = new THREE.Clock();
+  let accumulatedTime = 0;
 
   function animate() {
     requestAnimationFrame(animate);
 
-    const elapsedTime = clock.getElapsedTime();
+    const deltaTime = clock.getDelta();
+    accumulatedTime += deltaTime * (window.threeCtx && window.threeCtx.speedMultiplier !== undefined ? window.threeCtx.speedMultiplier : 1.0);
+    const elapsedTime = accumulatedTime;
 
     // Project screen coordinates to world space ray direction
     const rayDir = new THREE.Vector3(ndcX, ndcY, 0.5);
@@ -1220,4 +1179,621 @@ window.addEventListener('DOMContentLoaded', () => {
 window.toggleThemeDropdown = toggleThemeDropdown;
 window.setTheme = setTheme;
 window.updateThreeJSColors = updateThreeJSColors;
+
+/* ── 1. SPOTLIGHT TRACKING & SCROLL PROGRESS ── */
+let spotlightX = window.innerWidth / 2;
+let spotlightY = window.innerHeight / 2;
+let currentSpotlightX = spotlightX;
+let currentSpotlightY = spotlightY;
+
+document.addEventListener('mousemove', (e) => {
+  spotlightX = e.clientX;
+  spotlightY = e.clientY;
+  
+  const spotlight = document.getElementById('cursorSpotlight');
+  if (spotlight) spotlight.style.opacity = '1';
+});
+
+function animateSpotlight() {
+  currentSpotlightX += (spotlightX - currentSpotlightX) * 0.08;
+  currentSpotlightY += (spotlightY - currentSpotlightY) * 0.08;
+  
+  const spotlight = document.getElementById('cursorSpotlight');
+  if (spotlight) {
+    spotlight.style.left = `${currentSpotlightX}px`;
+    spotlight.style.top = `${currentSpotlightY}px`;
+  }
+  requestAnimationFrame(animateSpotlight);
+}
+requestAnimationFrame(animateSpotlight);
+
+/* ── 2. PARTICLE SPEED & SIZE CUSTOMIZER RANGE INPUTS ── */
+function changeParticleSpeed(val) {
+  const label = document.getElementById('val-speed');
+  if (label) label.textContent = parseFloat(val).toFixed(1);
+  if (window.threeCtx) {
+    window.threeCtx.speedMultiplier = parseFloat(val);
+  }
+}
+function changeParticleSize(val) {
+  const label = document.getElementById('val-size');
+  if (label) label.textContent = parseFloat(val).toFixed(2);
+  if (window.threeCtx && window.threeCtx.pointsMat) {
+    window.threeCtx.pointsMat.size = parseFloat(val);
+  }
+}
+window.changeParticleSpeed = changeParticleSpeed;
+window.changeParticleSize = changeParticleSize;
+
+/* ── 3. COUNT-UP COUNTERS ENGINE ── */
+function animateValue(id, start, end, duration, prefix = '', suffix = '', isDecimal = false) {
+  const obj = document.getElementById(id);
+  if (!obj) return;
+  let startTimestamp = null;
+  const step = (timestamp) => {
+    if (!startTimestamp) startTimestamp = timestamp;
+    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+    const rawValue = progress * (end - start) + start;
+    const value = isDecimal ? rawValue.toFixed(1) : Math.floor(rawValue);
+    
+    let displayVal = value;
+    if (!isDecimal) {
+      if (end >= 10000000) {
+        displayVal = (value / 10000000).toFixed(1) + 'Cr+';
+      } else if (end >= 100000) {
+        displayVal = (value / 100000).toFixed(1) + 'L+';
+      } else if (end >= 1000) {
+        displayVal = (value / 1000).toFixed(1) + 'K+';
+      } else {
+        displayVal = value.toLocaleString('en-IN');
+      }
+    }
+    obj.textContent = prefix + displayVal + suffix;
+    if (progress < 1) {
+      window.requestAnimationFrame(step);
+    }
+  };
+  window.requestAnimationFrame(step);
+}
+window.animateValue = animateValue;
+
+/* ── 4. CUSTOM LINE CHART ENGINE (CANVAS BASED) ── */
+function drawTrendChart(orders) {
+  const canvas = document.getElementById('earningsTrendCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  
+  const width = rect.width;
+  const height = rect.height;
+  
+  const paidOrders = orders.filter(o => o.status === 'Paid');
+  const dataPoints = [];
+  const days = 7;
+  
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const dateStr = d.toLocaleDateString('en-IN', {day:'numeric', month:'short'});
+    
+    const dayOrders = paidOrders.filter(o => {
+      const oDate = new Date(o.date);
+      return oDate.toDateString() === d.toDateString();
+    });
+    const amount = dayOrders.reduce((sum, o) => sum + (o.amount || 0), 0);
+    dataPoints.push({ label: dateStr, value: amount });
+  }
+  
+  const maxVal = Math.max(...dataPoints.map(d => d.value), 5000);
+  
+  const paddingLeft = 50;
+  const paddingBottom = 30;
+  const paddingTop = 20;
+  const paddingRight = 20;
+  const chartWidth = width - paddingLeft - paddingRight;
+  const chartHeight = height - paddingTop - paddingBottom;
+  
+  ctx.clearRect(0, 0, width, height);
+
+  // Draw Grid Lines
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = paddingTop + (chartHeight * i / 4);
+    ctx.beginPath();
+    ctx.moveTo(paddingLeft, y);
+    ctx.lineTo(width - paddingRight, y);
+    ctx.stroke();
+    
+    ctx.fillStyle = 'var(--muted)';
+    ctx.font = '10px Inter, sans-serif';
+    ctx.textAlign = 'right';
+    const val = maxVal - (maxVal * i / 4);
+    ctx.fillText('₹' + Math.round(val), paddingLeft - 10, y + 3);
+  }
+  
+  const coords = dataPoints.map((pt, i) => {
+    const x = paddingLeft + (chartWidth * i / (days - 1));
+    const y = paddingTop + chartHeight - (chartHeight * pt.value / maxVal);
+    return { x, y, label: pt.label, value: pt.value };
+  });
+  
+  const themeCyan = getComputedStyle(document.documentElement).getPropertyValue('--cyan').trim() || '#00d2ff';
+  
+  // Fill gradient
+  ctx.beginPath();
+  ctx.moveTo(coords[0].x, coords[0].y);
+  for (let i = 0; i < coords.length - 1; i++) {
+    const xc = (coords[i].x + coords[i + 1].x) / 2;
+    const yc = (coords[i].y + coords[i + 1].y) / 2;
+    ctx.quadraticCurveTo(coords[i].x, coords[i].y, xc, yc);
+  }
+  ctx.lineTo(coords[coords.length - 1].x, coords[coords.length - 1].y);
+  ctx.lineTo(coords[coords.length - 1].x, paddingTop + chartHeight);
+  ctx.lineTo(coords[0].x, paddingTop + chartHeight);
+  ctx.closePath();
+  
+  const grad = ctx.createLinearGradient(0, paddingTop, 0, paddingTop + chartHeight);
+  grad.addColorStop(0, themeCyan + '22');
+  grad.addColorStop(1, 'transparent');
+  ctx.fillStyle = grad;
+  ctx.fill();
+  
+  // Stroke line
+  ctx.beginPath();
+  ctx.moveTo(coords[0].x, coords[0].y);
+  for (let i = 0; i < coords.length - 1; i++) {
+    const xc = (coords[i].x + coords[i + 1].x) / 2;
+    const yc = (coords[i].y + coords[i + 1].y) / 2;
+    ctx.quadraticCurveTo(coords[i].x, coords[i].y, xc, yc);
+  }
+  ctx.lineTo(coords[coords.length - 1].x, coords[coords.length - 1].y);
+  ctx.strokeStyle = themeCyan;
+  ctx.lineWidth = 3;
+  ctx.stroke();
+  
+  // Draw Dots and bottom labels
+  coords.forEach((c) => {
+    ctx.beginPath();
+    ctx.arc(c.x, c.y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = 'var(--card)';
+    ctx.fill();
+    ctx.strokeStyle = themeCyan;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    
+    ctx.fillStyle = 'var(--muted)';
+    ctx.font = '10px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(c.label, c.x, height - 10);
+  });
+
+  // Mouse move tooltip trigger
+  canvas.onmousemove = (e) => {
+    const mRect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - mRect.left;
+    const mouseY = e.clientY - mRect.top;
+    
+    let closest = null;
+    let minDist = 30;
+    coords.forEach(c => {
+      const dist = Math.abs(c.x - mouseX);
+      if (dist < minDist) {
+        minDist = dist;
+        closest = c;
+      }
+    });
+    
+    if (closest) {
+      drawTrendChart(orders);
+      
+      // Vertical guide line
+      ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(closest.x, paddingTop);
+      ctx.lineTo(closest.x, paddingTop + chartHeight);
+      ctx.stroke();
+      
+      // Highlight dot
+      ctx.beginPath();
+      ctx.arc(closest.x, closest.y, 6, 0, Math.PI * 2);
+      ctx.fillStyle = themeCyan;
+      ctx.fill();
+      
+      // Tooltip Card
+      ctx.fillStyle = 'var(--card)';
+      ctx.strokeStyle = 'var(--border)';
+      ctx.lineWidth = 1;
+      const tooltipW = 100;
+      const tooltipH = 45;
+      const tx = closest.x - tooltipW / 2;
+      const ty = closest.y - tooltipH - 10;
+      
+      ctx.beginPath();
+      ctx.roundRect(tx, ty, tooltipW, tooltipH, 6);
+      ctx.fill();
+      ctx.stroke();
+      
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 11px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('₹' + closest.value.toLocaleString('en-IN'), closest.x, ty + 18);
+      
+      ctx.fillStyle = 'var(--muted)';
+      ctx.font = '9px Inter, sans-serif';
+      ctx.fillText(closest.label, closest.x, ty + 32);
+    }
+  };
+}
+window.drawTrendChart = drawTrendChart;
+
+/* ── 5. FLOATING GLASSMORPHIC AI ASSISTANT CHATBOT ── */
+const aiBotReplies = {
+  how_to_buy: "To purchase any AI product, simply click on its card in the Marketplace and click 'Buy Now'. This opens the theme-matched secure checkout. After simulated verification, the product key and download/dashboard dashboard links will instantly populate inside your 'My Orders' tab.",
+  seller_fees: "OmniXa AI offers 100% free hosting. We charge 0% commission fees on sales so creators keep all of their earnings. There are no recurring subscriptions.",
+  api_key: "All AI tools include visual sandboxing. View any product's details and switch to the 'API & Developer Sandbox' tab. Here, you can copy test credentials and run mock REST queries directly inside the browser terminal console.",
+  custom_builds: "Yes! Our specialized AI engineering squad provides custom fine-tuning and retrieval pipelines for enterprise requirements. Contact us using the demo button to arrange a detailed callback.",
+  default: "I'm the OmniXa automated helper bot! Ask me about listing items, checking API keys, order processes, or custom ML fine-tuning services."
+};
+
+function toggleAIAssistant(e) {
+  if (e) e.stopPropagation();
+  const card = document.getElementById('aiChatCard');
+  if (card) card.classList.toggle('open');
+}
+
+function handleAISuggestion(topic) {
+  const container = document.getElementById('aiChatBody');
+  if (!container) return;
+  
+  const topicsMap = {
+    how_to_buy: "How do I purchase tools?",
+    seller_fees: "What are the seller commissions?",
+    api_key: "Where can I test the API keys?",
+    custom_builds: "Do you offer custom integrations?"
+  };
+  
+  // Render user question
+  const userMsg = document.createElement('div');
+  userMsg.className = 'ai-msg user';
+  userMsg.textContent = topicsMap[topic] || topic;
+  container.appendChild(userMsg);
+  container.scrollTop = container.scrollHeight;
+  
+  // Trigger simulation typing
+  simulateBotResponse(aiBotReplies[topic] || aiBotReplies.default);
+}
+
+function sendAIMessage() {
+  const input = document.getElementById('aiMsgInput');
+  if (!input || !input.value.trim()) return;
+  
+  const container = document.getElementById('aiChatBody');
+  if (!container) return;
+  
+  const text = input.value.trim();
+  input.value = '';
+  
+  const userMsg = document.createElement('div');
+  userMsg.className = 'ai-msg user';
+  userMsg.textContent = text;
+  container.appendChild(userMsg);
+  container.scrollTop = container.scrollHeight;
+  
+  // Match keyword replies
+  let matchedReply = aiBotReplies.default;
+  const lower = text.toLowerCase();
+  if (lower.includes('buy') || lower.includes('purchase') || lower.includes('order')) {
+    matchedReply = aiBotReplies.how_to_buy;
+  } else if (lower.includes('commission') || lower.includes('fee') || lower.includes('charge')) {
+    matchedReply = aiBotReplies.seller_fees;
+  } else if (lower.includes('api') || lower.includes('sandbox') || lower.includes('key') || lower.includes('code')) {
+    matchedReply = aiBotReplies.api_key;
+  } else if (lower.includes('custom') || lower.includes('consult') || lower.includes('integration')) {
+    matchedReply = aiBotReplies.custom_builds;
+  }
+  
+  simulateBotResponse(matchedReply);
+}
+
+function simulateBotResponse(text) {
+  const container = document.getElementById('aiChatBody');
+  if (!container) return;
+  
+  // Render loading typing dots
+  const loadingMsg = document.createElement('div');
+  loadingMsg.className = 'ai-msg bot';
+  loadingMsg.innerHTML = '<span style="display:inline-block; animation: pulse 1s infinite;">•</span><span style="display:inline-block; animation: pulse 1s infinite; animation-delay:0.2s;">•</span><span style="display:inline-block; animation: pulse 1s infinite; animation-delay:0.4s;">•</span>';
+  container.appendChild(loadingMsg);
+  container.scrollTop = container.scrollHeight;
+  
+  setTimeout(() => {
+    loadingMsg.remove();
+    const botMsg = document.createElement('div');
+    botMsg.className = 'ai-msg bot';
+    botMsg.textContent = text;
+    container.appendChild(botMsg);
+    container.scrollTop = container.scrollHeight;
+  }, 1000);
+}
+window.toggleAIAssistant = toggleAIAssistant;
+window.handleAISuggestion = handleAISuggestion;
+window.sendAIMessage = sendAIMessage;
+
+/* ── 6. PRODUCT DETAIL TABS & TERMINAL SANDBOX MOCKUP ── */
+function switchSandboxTab(tabName) {
+  const tabs = document.querySelectorAll('.sandbox-tab-btn');
+  const panes = document.querySelectorAll('.sandbox-pane');
+  
+  tabs.forEach(t => t.classList.remove('active'));
+  panes.forEach(p => p.classList.remove('active'));
+  
+  if (tabName === 'features') {
+    const tabBtn = document.getElementById('tabBtnFeatures');
+    const pane = document.getElementById('paneFeatures');
+    if (tabBtn) tabBtn.classList.add('active');
+    if (pane) pane.classList.add('active');
+  } else {
+    const tabBtn = document.getElementById('tabBtnDeveloper');
+    const pane = document.getElementById('paneDeveloper');
+    if (tabBtn) tabBtn.classList.add('active');
+    if (pane) pane.classList.add('active');
+    updateTerminalCode();
+  }
+}
+
+function updateTerminalCode() {
+  const method = document.getElementById('sandboxMethod').value;
+  const prompt = document.getElementById('sandboxPrompt').value || 'Hello';
+  const termBody = document.getElementById('sandboxTermBody');
+  if (!termBody) return;
+  
+  let codeStr = '';
+  if (method === 'POST_inference') {
+    codeStr = `guest@omnixa-sandbox:~$ curl -X POST https://api.omnixa.ai/v1/inference \\<br/>` +
+              `  -H "Authorization: Bearer ox_live_839a28f...b78f" \\<br/>` +
+              `  -H "Content-Type: application/json" \\<br/>` +
+              `  -d '{"model": "omnixa-core-v2", "prompt": "${prompt}"}'`;
+  } else if (method === 'GET_status') {
+    codeStr = `guest@omnixa-sandbox:~$ curl -X GET https://api.omnixa.ai/v1/status \\<br/>` +
+              `  -H "Authorization: Bearer ox_live_839a28f...b78f"`;
+  } else {
+    codeStr = `guest@omnixa-sandbox:~$ curl -X GET https://api.omnixa.ai/v1/usage \\<br/>` +
+              `  -H "Authorization: Bearer ox_live_839a28f...b78f"`;
+  }
+  
+  termBody.innerHTML = `<div class="term-prompt">${codeStr}</div><div class="term-log"># Click 'Execute API Call' to request simulation...</div>`;
+}
+
+function runSandboxQuery() {
+  const method = document.getElementById('sandboxMethod').value;
+  const prompt = document.getElementById('sandboxPrompt').value || 'Hello';
+  const termBody = document.getElementById('sandboxTermBody');
+  if (!termBody) return;
+  
+  // loading logs
+  termBody.innerHTML += `<div style="color:var(--muted); margin-top:8px;">Sending secure request to gateway...</div>` +
+                        `<div style="color:var(--cyan); margin-top:4px;">Connecting socket channel...</div>`;
+  
+  setTimeout(() => {
+    let responseObj = {};
+    if (method === 'POST_inference') {
+      responseObj = {
+        status: "success",
+        timestamp: new Date().toISOString(),
+        model: "omnixa-core-v2",
+        latency: "142ms",
+        results: [
+          {
+            output: `Processed prompt successful. Optimized model output generated for: "${prompt}".`,
+            confidence: 0.992
+          }
+        ],
+        usage: { prompt_tokens: 14, completion_tokens: 28, cost: "$0.000084" }
+      };
+    } else if (method === 'GET_status') {
+      responseObj = {
+        node: "omnixa-cluster-india-03",
+        status: "healthy",
+        uptime_seconds: 432920,
+        average_response_ms: 12,
+        active_tunnels: 24,
+        gpu_utilization: "72.4%"
+      };
+    } else {
+      responseObj = {
+        account_id: "acc_902384a29c",
+        tier: "Developer Elite",
+        monthly_limit: 1000000,
+        requests_this_month: 24392,
+        cost_accumulated_usd: 12.04,
+        billing_currency: "INR",
+        estimated_next_invoice: "₹1,012.30"
+      };
+    }
+    
+    termBody.innerHTML += `<div style="color:#10b981; margin-top:8px; font-weight:bold;"><<< Response Received (200 OK):</div>` +
+                          `<pre style="color:#22c55e; margin-top:4px; margin-bottom:0; font-family:monospace;">${JSON.stringify(responseObj, null, 2)}</pre>`;
+    termBody.scrollTop = termBody.scrollHeight;
+  }, 1000);
+}
+
+function copySandboxKey() {
+  const keyField = document.getElementById('sandboxApiKey');
+  if (keyField) {
+    keyField.select();
+    navigator.clipboard.writeText(keyField.value);
+    notify('🔐 API key copied to clipboard!');
+  }
+}
+window.switchSandboxTab = switchSandboxTab;
+window.updateTerminalCode = updateTerminalCode;
+window.runSandboxQuery = runSandboxQuery;
+window.copySandboxKey = copySandboxKey;
+
+/* ── 7. THEME-MATCHED CHECKOUT PAYMENT DIALOG ── */
+let checkoutProductId = null;
+let checkoutProductName = '';
+let checkoutProductPrice = 0;
+let checkoutPayMethod = 'card';
+
+function openCheckoutModal(prodId, name, price) {
+  checkoutProductId = prodId;
+  checkoutProductName = name;
+  checkoutProductPrice = price;
+  
+  document.getElementById('chkProdName').textContent = name;
+  document.getElementById('chkProdPrice').textContent = '₹' + price.toLocaleString('en-IN');
+  
+  const modal = document.getElementById('checkoutModalBg');
+  if (modal) modal.classList.add('open');
+  
+  // Pre-fill placeholder info
+  document.getElementById('chkCardNumber').value = '';
+  document.getElementById('chkCardName').value = '';
+  document.getElementById('chkCardExpiry').value = '';
+  document.getElementById('chkCardCVV').value = '';
+  
+  updateCardVisuals();
+  switchPayMethod('card');
+}
+
+function closeCheckoutModal() {
+  const modal = document.getElementById('checkoutModalBg');
+  if (modal) modal.classList.remove('open');
+}
+
+function switchPayMethod(method) {
+  checkoutPayMethod = method;
+  
+  const btnCard = document.getElementById('btnPayCard');
+  const btnUpi = document.getElementById('btnPayUPI');
+  const formCard = document.getElementById('payFormCard');
+  const formUpi = document.getElementById('payFormUPI');
+  
+  if (method === 'card') {
+    if (btnCard) btnCard.classList.add('active');
+    if (btnUpi) btnUpi.classList.remove('active');
+    if (formCard) formCard.style.display = 'block';
+    if (formUpi) formUpi.style.display = 'none';
+  } else {
+    if (btnCard) btnCard.classList.remove('active');
+    if (btnUpi) btnUpi.classList.add('active');
+    if (formCard) formCard.style.display = 'none';
+    if (formUpi) formUpi.style.display = 'block';
+  }
+}
+
+function updateCardVisuals() {
+  const num = document.getElementById('chkCardNumber').value || '•••• •••• •••• ••••';
+  const name = document.getElementById('chkCardName').value || 'YOUR NAME';
+  const expiry = document.getElementById('chkCardExpiry').value || 'MM/YY';
+  
+  const dNum = document.getElementById('chkCardNumDisplay');
+  const dName = document.getElementById('chkCardNameDisplay');
+  const dExpiry = document.getElementById('chkCardExpiryDisplay');
+  
+  if (dNum) dNum.textContent = num;
+  if (dName) dName.textContent = name.toUpperCase();
+  if (dExpiry) dExpiry.textContent = expiry;
+}
+
+async function processCheckoutPurchase() {
+  if (!checkoutProductId) return;
+  
+  // Validate forms
+  if (checkoutPayMethod === 'card') {
+    const num = document.getElementById('chkCardNumber').value;
+    const name = document.getElementById('chkCardName').value;
+    const expiry = document.getElementById('chkCardExpiry').value;
+    const cvv = document.getElementById('chkCardCVV').value;
+    if (!num || !name || !expiry || !cvv) {
+      notify('⚠️ Please fill out all card details fields!');
+      return;
+    }
+  } else {
+    const vpa = document.getElementById('chkUpiVpa').value;
+    if (!vpa || !vpa.includes('@')) {
+      notify('⚠️ Please specify a valid UPI VPA address!');
+      return;
+    }
+  }
+
+  const payBtn = document.getElementById('checkoutPayBtn');
+  if (payBtn) {
+    payBtn.disabled = true;
+    payBtn.innerHTML = '<span style="display:inline-block; width:12px; height:12px; border:2px solid var(--btn-text); border-top-color:transparent; border-radius:50%; animation:spin 0.8s infinite linear; margin-right:6px; vertical-align:middle;"></span> Processing payment...';
+  }
+  
+  const date = new Date().toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'});
+  const order = {
+    buyerName: currentUser ? currentUser.name : 'Guest User',
+    buyerEmail: currentUser ? currentUser.email : 'guest@example.com',
+    buyerCity: 'India',
+    buyerId: currentUser ? currentUser.id : undefined,
+    productId: checkoutProductId,
+    productName: checkoutProductName,
+    amount: checkoutProductPrice,
+    status: 'Paid',
+    date: date
+  };
+  
+  const res = await api('/orders', 'POST', order);
+  if (res.success) {
+    // Refresh purchases data
+    if (currentUser) {
+      const purchasesRes = await api('/orders/purchases?email=' + currentUser.email);
+      userPurchases = Array.isArray(purchasesRes) ? purchasesRes : [];
+    } else {
+      // Direct push for guests
+      userPurchases.push({
+        _id: checkoutProductId,
+        name: checkoutProductName,
+        price: checkoutProductPrice,
+        icon: '🤖',
+        cat: 'AI Tool',
+        desc: 'Product description goes here.',
+        tags: ['AI'],
+        boughtOn: date
+      });
+    }
+    
+    setTimeout(() => {
+      closeCheckoutModal();
+      notify('🎉 Payment verified! Product added to orders successfully.');
+      
+      const buyBtn = document.getElementById('buyNowBtn');
+      if (buyBtn) {
+        buyBtn.textContent = '✅ Purchased Successfully';
+        buyBtn.disabled = true;
+      }
+      
+      // Navigate to orders
+      show('buyer-orders');
+      
+      // reset payBtn status
+      if (payBtn) {
+        payBtn.disabled = false;
+        payBtn.textContent = '💳 Complete Payment';
+      }
+    }, 1500);
+  } else {
+    notify('❌ Checkout failed. Please try again.');
+    if (payBtn) {
+      payBtn.disabled = false;
+      payBtn.textContent = '💳 Complete Payment';
+    }
+  }
+}
+window.openCheckoutModal = openCheckoutModal;
+window.closeCheckoutModal = closeCheckoutModal;
+window.switchPayMethod = switchPayMethod;
+window.updateCardVisuals = updateCardVisuals;
+window.processCheckoutPurchase = processCheckoutPurchase;
 
