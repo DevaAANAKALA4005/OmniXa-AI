@@ -912,21 +912,11 @@ function initMajestic3D() {
   };
 
   // Run initial theme configuration for Three.js
-  const savedTheme = localStorage.getItem('theme') || 'cyan';
+  let savedTheme = localStorage.getItem('theme') || 'cyan';
+  if (savedTheme !== 'cyan' && savedTheme !== 'aurora') savedTheme = 'cyan';
   const themeColors = {
     cyan: { primary: '#00d2ff', isLight: false },
-    orange: { primary: '#FF4500', isLight: false },
-    light: { primary: '#4f46e5', isLight: true },
-    emerald: { primary: '#10b981', isLight: false },
-    cyberpunk: { primary: '#ec4899', isLight: false },
-    solar: { primary: '#f59e0b', isLight: false },
-    crimson: { primary: '#ef4444', isLight: false },
-    royal: { primary: '#a855f7', isLight: false },
-    nordic: { primary: '#14b8a6', isLight: false },
-    aurora: { primary: '#0d9488', isLight: true },
-    sakura: { primary: '#db2777', isLight: true },
-    'day-amber': { primary: '#d97706', isLight: true },
-    terminal: { primary: '#22c55e', isLight: false }
+    aurora: { primary: '#0d9488', isLight: true }
   };
   const current = themeColors[savedTheme] || themeColors.cyan;
   if (window.updateThreeJSColors) {
@@ -1104,18 +1094,7 @@ function setTheme(themeName, e) {
   
   const themeColors = {
     cyan: { primary: '#00d2ff', isLight: false },
-    orange: { primary: '#FF4500', isLight: false },
-    light: { primary: '#4f46e5', isLight: true },
-    emerald: { primary: '#10b981', isLight: false },
-    cyberpunk: { primary: '#ec4899', isLight: false },
-    solar: { primary: '#f59e0b', isLight: false },
-    crimson: { primary: '#ef4444', isLight: false },
-    royal: { primary: '#a855f7', isLight: false },
-    nordic: { primary: '#14b8a6', isLight: false },
-    aurora: { primary: '#0d9488', isLight: true },
-    sakura: { primary: '#db2777', isLight: true },
-    'day-amber': { primary: '#d97706', isLight: true },
-    terminal: { primary: '#22c55e', isLight: false }
+    aurora: { primary: '#0d9488', isLight: true }
   };
   
   const selected = themeColors[themeName] || themeColors.cyan;
@@ -1123,11 +1102,8 @@ function setTheme(themeName, e) {
   
   // Highlight active theme in the float dropdown
   const themeIds = [
-    'theme-opt-cyan', 'theme-opt-orange', 'theme-opt-light', 
-    'theme-opt-emerald', 'theme-opt-cyberpunk', 'theme-opt-solar', 
-    'theme-opt-crimson', 'theme-opt-royal', 'theme-opt-nordic', 
-    'theme-opt-aurora', 'theme-opt-sakura', 'theme-opt-day-amber', 
-    'theme-opt-terminal'
+    'theme-opt-cyan',
+    'theme-opt-aurora'
   ];
   themeIds.forEach(id => {
     const el = document.getElementById(id);
@@ -1154,14 +1130,12 @@ document.addEventListener('click', () => {
 
 // Run initial UI updates on load
 window.addEventListener('DOMContentLoaded', () => {
-  const savedTheme = localStorage.getItem('theme') || 'cyan';
+  let savedTheme = localStorage.getItem('theme') || 'cyan';
+  if (savedTheme !== 'cyan' && savedTheme !== 'aurora') savedTheme = 'cyan';
   // Set active class on load
   const themeIds = [
-    'theme-opt-cyan', 'theme-opt-orange', 'theme-opt-light', 
-    'theme-opt-emerald', 'theme-opt-cyberpunk', 'theme-opt-solar', 
-    'theme-opt-crimson', 'theme-opt-royal', 'theme-opt-nordic', 
-    'theme-opt-aurora', 'theme-opt-sakura', 'theme-opt-day-amber', 
-    'theme-opt-terminal'
+    'theme-opt-cyan',
+    'theme-opt-aurora'
   ];
   themeIds.forEach(id => {
     const el = document.getElementById(id);
