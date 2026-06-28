@@ -269,17 +269,26 @@ input,select,textarea,button{font-family:'Inter',sans-serif}
   -webkit-backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border);
 }
-.logo{
+.logo, .foot-logo{
   font-family:'Outfit',sans-serif;
   font-weight:800;
   font-size:24px;
   cursor:pointer;
   letter-spacing:-0.02em;
   color:var(--white);
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
 }
-.logo span{
+.logo span, .foot-logo span{
   color:var(--cyan);
   text-shadow: 0 0 10px rgba(0,210,255,0.3);
+}
+.logo-img{
+  height:28px;
+  width:auto;
+  display:inline-block;
+  vertical-align:middle;
 }
 .nav-links{display:flex;gap:8px}
 .menu-btn{display:none;font-size:24px;cursor:pointer;color:var(--white)}
@@ -1330,6 +1339,7 @@ footer{
   /* Navbar */
   .nav { padding: 0 20px; }
   .logo { font-size: 20px; }
+  .logo-img { height: 22px; }
   .menu-btn { display: block; }
   
   .menu-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 390; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
@@ -2124,7 +2134,7 @@ div.pop-3d-img::after {
      ╚══════════════════════════════════════╝ -->
 <div class="page active" id="page-landing">
   <nav class="nav">
-    <div class="logo" onclick="showTab('home')">Omni<span>Xa</span> AI</div>
+    <div class="logo" onclick="showTab('home')"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</div>
     <div class="nav-links" id="landingNavLinks">
       <div class="close-menu" onclick="closeMenu()">✖</div>
       <button class="nav-link active-link" onclick="showTab('home')">Home</button>
@@ -2610,7 +2620,7 @@ div.pop-3d-img::after {
   <footer class="animate-fade-up">
     <div class="footer-grid">
       <div class="footer-col">
-        <div class="logo" style="margin-bottom:20px;" onclick="showTab('home')">Omni<span>Xa</span> AI</div>
+        <div class="logo" style="margin-bottom:20px;" onclick="showTab('home')"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</div>
         <p style="font-size:14px;color:var(--muted);line-height:1.7;">Precision intelligence for enterprise growth. Custom-designed and engineered AI solutions built in India.</p>
       </div>
       <div class="footer-col">
@@ -2654,7 +2664,7 @@ div.pop-3d-img::after {
      ╚══════════════════════════════════════╝ -->
 <div class="page" id="page-login">
   <nav class="nav">
-    <div class="logo" onclick="show('landing')">Omni<span>Xa</span> AI</div>
+    <div class="logo" onclick="show('landing')"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</div>
     <div class="nav-right"><button class="btn-ghost" onclick="show('landing')">← Back</button></div>
   </nav>
   <div class="auth-wrap">
@@ -2677,7 +2687,7 @@ div.pop-3d-img::after {
      ╚══════════════════════════════════════╝ -->
 <div class="page" id="page-signup">
   <nav class="nav">
-    <div class="logo" onclick="show('landing')">Omni<span>Xa</span> AI</div>
+    <div class="logo" onclick="show('landing')"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</div>
     <div class="nav-right"><button class="btn-ghost" onclick="show('landing')">← Back</button></div>
   </nav>
   <div class="auth-wrap">
@@ -2704,7 +2714,7 @@ div.pop-3d-img::after {
      ╚══════════════════════════════════════╝ -->
 <div class="page" id="page-seller-home">
   <nav class="nav">
-    <div class="logo" onclick="show('seller-home')">Omni<span>Xa</span> AI</div>
+    <div class="logo" onclick="show('seller-home')"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</div>
     <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
       <div class="close-menu" onclick="closeMenu()">✖</div>
@@ -2773,7 +2783,7 @@ div.pop-3d-img::after {
   </section>
 
   <footer>
-    <div class="foot-logo">Omni<span>Xa</span> AI</div>
+    <div class="foot-logo"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</div>
     <p style="font-size:13px;color:var(--muted2)">© 2025 OmniXa AI · omnixaai.in · Made with ❤️ in India 🇮🇳</p>
     <div style="display:flex;gap:14px;font-size:13px"><span style="color:var(--muted2);cursor:pointer">Privacy</span><span style="color:var(--muted2);cursor:pointer">Terms</span></div>
   </footer>
@@ -2784,7 +2794,7 @@ div.pop-3d-img::after {
      ╚══════════════════════════════════════╝ -->
 <div class="page" id="page-seller-products">
   <nav class="nav">
-    <div class="logo" onclick="show('seller-home')">Omni<span>Xa</span> AI</div>
+    <div class="logo" onclick="show('seller-home')"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</div>
     <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
       <div class="close-menu" onclick="closeMenu()">✖</div>
@@ -2818,7 +2828,7 @@ div.pop-3d-img::after {
      ╚══════════════════════════════════════╝ -->
 <div class="page" id="page-seller-add">
   <nav class="nav">
-    <div class="logo" onclick="show('seller-home')">Omni<span>Xa</span> AI</div>
+    <div class="logo" onclick="show('seller-home')"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</div>
     <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
       <div class="close-menu" onclick="closeMenu()">✖</div>
@@ -2888,7 +2898,7 @@ div.pop-3d-img::after {
      ╚══════════════════════════════════════╝ -->
 <div class="page" id="page-seller-buyers">
   <nav class="nav">
-    <div class="logo" onclick="show('seller-home')">Omni<span>Xa</span> AI</div>
+    <div class="logo" onclick="show('seller-home')"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</div>
     <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
       <div class="close-menu" onclick="closeMenu()">✖</div>
@@ -2933,7 +2943,7 @@ div.pop-3d-img::after {
      ╚══════════════════════════════════════╝ -->
 <div class="page" id="page-seller-earnings">
   <nav class="nav">
-    <div class="logo" onclick="show('seller-home')">Omni<span>Xa</span> AI</div>
+    <div class="logo" onclick="show('seller-home')"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</div>
     <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
       <div class="close-menu" onclick="closeMenu()">✖</div>
@@ -2999,7 +3009,7 @@ div.pop-3d-img::after {
      ╚══════════════════════════════════════╝ -->
 <div class="page" id="page-buyer-home">
   <nav class="nav">
-    <div class="logo" onclick="show('buyer-home')">Omni<span>Xa</span> AI</div>
+    <div class="logo" onclick="show('buyer-home')"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</div>
     <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
       <div class="close-menu" onclick="closeMenu()">✖</div>
@@ -3088,7 +3098,7 @@ div.pop-3d-img::after {
   </section>
 
   <footer>
-    <div class="foot-logo">Omni<span>Xa</span> AI</div>
+    <div class="foot-logo"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</div>
     <p style="font-size:13px;color:var(--muted2)">© 2025 OmniXa AI · omnixaai.in · Made with ❤️ in India 🇮🇳</p>
     <div style="display:flex;gap:14px;font-size:13px"><span style="color:var(--muted2);cursor:pointer">Privacy</span><span style="color:var(--muted2);cursor:pointer">Terms</span></div>
   </footer>
@@ -3099,7 +3109,7 @@ div.pop-3d-img::after {
      ╚══════════════════════════════════════╝ -->
 <div class="page" id="page-buyer-market">
   <nav class="nav">
-    <div class="logo" onclick="show('buyer-home')">Omni<span>Xa</span> AI</div>
+    <div class="logo" onclick="show('buyer-home')"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</div>
     <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
       <div class="close-menu" onclick="closeMenu()">✖</div>
@@ -3135,7 +3145,7 @@ div.pop-3d-img::after {
      ╚══════════════════════════════════════╝ -->
 <div class="page" id="page-product">
   <nav class="nav">
-    <div class="logo" onclick="show('buyer-home')">Omni<span>Xa</span> AI</div>
+    <div class="logo" onclick="show('buyer-home')"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</div>
     <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
       <div class="close-menu" onclick="closeMenu()">✖</div>
@@ -3245,7 +3255,7 @@ div.pop-3d-img::after {
      ╚══════════════════════════════════════╝ -->
 <div class="page" id="page-buyer-orders">
   <nav class="nav">
-    <div class="logo" onclick="show('buyer-home')">Omni<span>Xa</span> AI</div>
+    <div class="logo" onclick="show('buyer-home')"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</div>
     <div class="menu-btn" onclick="toggleMenu(this)">☰</div>
     <div class="nav-links">
       <div class="close-menu" onclick="closeMenu()">✖</div>
@@ -3272,7 +3282,7 @@ div.pop-3d-img::after {
      ╚══════════════════════════════════════╝ -->
 <div class="page" id="page-settings">
   <nav class="nav">
-    <div class="logo" onclick="goHome()">Omni<span>Xa</span> AI</div>
+    <div class="logo" onclick="goHome()"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</div>
     <div class="nav-right">
       <button class="btn-ghost" onclick="goHome()">← Back to Dashboard</button>
       <button class="btn-ghost" onclick="doLogout()">Logout</button>
