@@ -516,7 +516,12 @@ function sendMsg(){
   },1200);
 }
 
-document.getElementById('connectModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+const connectModalEl = document.getElementById('connectModal');
+if (connectModalEl) {
+  connectModalEl.addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeModal();
+  });
+}
 
 /* ── CONTACT FORMS ── */
 function submitContact(){
@@ -762,7 +767,7 @@ function initMajestic3D() {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
   // Wavy Particle Field
-  const particleCount = 2000;
+  const particleCount = 1000;
   const positions = new Float32Array(particleCount * 3);
   const colors = new Float32Array(particleCount * 3);
 
@@ -882,8 +887,20 @@ function initMajestic3D() {
     rayDir.unproject(camera);
     rayDir.sub(camera.position).normalize();
 
+    const camZ = camera.position.z;
+    const camX = camera.position.x;
+    const camY = camera.position.y;
+    const rdX = rayDir.x;
+    const rdY = rayDir.y;
+    const rdZ = rayDir.z;
+
+    const rZ_inv = rdZ !== 0 ? 1 / rdZ : 0;
+
     // Wavy Particle Simulation with dynamic mouse repulsion (gravity)
     const posArr = geometry.attributes.position.array;
+    const radius = 4.8;
+    const radiusSq = radius * radius;
+
     for (let i = 0; i < particleCount; i++) {
       const i3 = i * 3;
       const px = initialPositions[i3];
@@ -895,25 +912,30 @@ function initMajestic3D() {
         Math.cos(elapsedTime + pz * 0.15) * 0.8;
 
       // Intersect the mouse ray with the plane z = pz for this specific particle
-      // t * rayDir.z + camera.position.z = pz => t = (pz - camera.position.z) / rayDir.z
-      const t = (pz - camera.position.z) / rayDir.z;
-      const mouseWorldX = camera.position.x + t * rayDir.x;
-      const mouseWorldY = camera.position.y + t * rayDir.y;
+      // t * rdZ + camZ = pz => t = (pz - camZ) / rdZ
+      const t = (pz - camZ) * rZ_inv;
+      const mouseWorldX = camX + t * rdX;
+      const mouseWorldY = camY + t * rdY;
 
       const dx = px - mouseWorldX;
       const dy = targetY_wave - mouseWorldY;
-      const dist = Math.sqrt(dx * dx + dy * dy);
+      const distSq = dx * dx + dy * dy;
 
-      if (dist < 4.8) {
-        const force = (1.0 - dist / 4.8) * 1.6;
-        posArr[i3] = px + (dx / dist) * force;
-        posArr[i3 + 1] = targetY_wave + (dy / dist) * force;
-        posArr[i3 + 2] = pz;
+      if (distSq < radiusSq) {
+        const dist = Math.sqrt(distSq);
+        if (dist > 0.001) {
+          const force = (1.0 - dist / radius) * 1.6;
+          posArr[i3] = px + (dx / dist) * force;
+          posArr[i3 + 1] = targetY_wave + (dy / dist) * force;
+        } else {
+          posArr[i3] = px;
+          posArr[i3 + 1] = targetY_wave;
+        }
       } else {
         posArr[i3] = px;
         posArr[i3 + 1] = targetY_wave;
-        posArr[i3 + 2] = pz;
       }
+      posArr[i3 + 2] = pz;
     }
     geometry.attributes.position.needsUpdate = true;
 
