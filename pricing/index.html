@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Pricing — OmniXa AI</title>
+<meta name="description" content="Predictable pricing for unpredictable markets. Equip your enterprise with advanced AI infrastructure without complex usage tiers. View our Starter, Growth, and Enterprise plans." />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="canonical" href="https://omnixaai.in/pricing/" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Pricing — OmniXa AI" />
+<meta property="og:description" content="Predictable pricing for unpredictable markets. Equip your enterprise with advanced AI infrastructure." />
+<meta property="og:url" content="https://omnixaai.in/pricing/" />
+<meta property="og:image" content="https://omnixaai.in/omnixa_logo.png" />
+<meta property="og:site_name" content="OmniXa AI" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Pricing — OmniXa AI" />
+<meta name="twitter:description" content="Equip your enterprise with advanced AI infrastructure." />
+<meta name="twitter:image" content="https://omnixaai.in/omnixa_logo.png" />
+
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('theme') || 'cyan';
+    const finalTheme = (savedTheme === 'cyan' || savedTheme === 'aurora') ? savedTheme : 'cyan';
+    document.documentElement.setAttribute('data-theme', finalTheme);
+  })();
+</script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/src/index.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+<div class="cursor-spotlight" id="cursorSpotlight"></div>
+<div id="scroll-progress" style="position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg, var(--cyan), var(--cyan2));width:0%;z-index:999;box-shadow:0 0 10px rgba(0,210,255,0.5);transition:width 0.1s ease-out;"></div>
+<canvas id="bg-3d-canvas" style="position:fixed;top:0;left:0;width:100%;height:100vh;z-index:-2;pointer-events:none;"></canvas>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="menu-backdrop" id="menuBackdrop" onclick="closeMenu()"></div>
+
+<!-- NOTIFICATION -->
+<div class="notif" id="notif"></div>
+
+<div class="page active" id="page-landing">
+  <nav class="nav">
+    <a class="logo" href="/"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</a>
+    <div class="nav-links" id="landingNavLinks">
+      <div class="close-menu" onclick="closeMenu()">✖</div>
+      <a class="nav-link" href="/">Home</a>
+      <a class="nav-link" href="/solutions/">Solutions</a>
+      <a class="nav-link" href="/industries/">Industries</a>
+      <a class="nav-link active-link" href="/pricing/">Pricing</a>
+      <a class="nav-link" href="/contact/">Contact</a>
+    </div>
+    <div class="nav-right">
+      <button class="btn-ghost" onclick="toggleThemeDropdown(event)" style="border-radius:20px;padding:8px 14px;">🎨 Theme</button>
+      <a class="btn-ghost" href="/?page=login" style="display:inline-block; line-height: 1.8;">Log in</a>
+      <a class="btn-orange magnetic-btn" href="/contact/" style="display:inline-block;">Book a Demo</a>
+    </div>
+  </nav>
+
+  <!-- ─── TAB: PRICING ─── -->
+  <div class="landing-tab active" id="tab-pricing">
+    <section class="section scroll-reveal">
+      <div class="inner" style="padding-top:40px;">
+        <div class="sec-label">Infrastructure Tiers</div>
+        <h2 class="sec-title">Intelligence for <span style="color:var(--cyan);text-shadow:0 0 10px rgba(0,210,255,0.1)">Growth</span></h2>
+        <p class="sec-subtitle">Predictable pricing for unpredictable markets. Equip your enterprise with advanced AI infrastructure without complex usage tiers.</p>
+        
+        <div class="toggle-row animate-fade-up delay-1">
+          <div class="toggle-btn">
+            <button class="toggle-opt active" onclick="toggleBillingPeriod('monthly')">Monthly</button>
+            <button class="toggle-opt" onclick="toggleBillingPeriod('annual')">Annually</button>
+          </div>
+          <span class="toggle-badge">Save -20%</span>
+        </div>
+
+        <div class="pricing-grid animate-fade-up delay-2">
+          <!-- Card 1: Starter -->
+          <div class="pricing-card tilt-card-3d">
+            <div class="pricing-header pop-3d-2">
+              <h3>Starter</h3>
+              <p>Essential AI tools for growing teams.</p>
+              <div class="price-row">
+                <span class="currency">$</span>
+                <span class="val" id="price-starter">499</span>
+                <span class="period">/mo</span>
+              </div>
+            </div>
+            <ul class="pricing-feats pop-3d-1">
+              <li class="pricing-feat">5 AI Models Included</li>
+              <li class="pricing-feat">100K API Requests/mo</li>
+              <li class="pricing-feat">Basic Analytics Dashboard</li>
+              <li class="pricing-feat disabled">Custom Model Training</li>
+            </ul>
+            <a class="btn-outline pop-3d-3 magnetic-btn" style="width:100%; text-align:center; display:inline-block;" href="/?page=signup">Start Free Trial</a>
+          </div>
+
+          <!-- Card 2: Growth (Popular) -->
+          <div class="pricing-card popular tilt-card-3d">
+            <span class="popular-tag pop-3d-3">Most Popular</span>
+            <div class="pricing-header pop-3d-2">
+              <h3>Growth</h3>
+              <p>Advanced capabilities for scaling operations.</p>
+              <div class="price-row">
+                <span class="currency">$</span>
+                <span class="val" id="price-growth">1,299</span>
+                <span class="period">/mo</span>
+              </div>
+            </div>
+            <ul class="pricing-feats pop-3d-1">
+              <li class="pricing-feat">Unlimited AI Models</li>
+              <li class="pricing-feat">1M API Requests/mo</li>
+              <li class="pricing-feat">Advanced Predictive Analytics</li>
+              <li class="pricing-feat">Priority Email Support</li>
+            </ul>
+            <a class="btn-orange pop-3d-3 magnetic-btn" style="width:100%;color:#020208; text-align:center; display:inline-block;" href="/?page=signup">Upgrade to Growth</a>
+          </div>
+
+          <!-- Card 3: Enterprise -->
+          <div class="pricing-card tilt-card-3d">
+            <div class="pricing-header pop-3d-2">
+              <h3>Enterprise</h3>
+              <p>Custom infrastructure for industry leaders.</p>
+              <div class="price-row">
+                <span class="val" style="font-size:42px;letter-spacing:-0.02em;">Custom</span>
+              </div>
+            </div>
+            <ul class="pricing-feats pop-3d-1">
+              <li class="pricing-feat">Dedicated Cloud Infrastructure</li>
+              <li class="pricing-feat">Unlimited API Requests</li>
+              <li class="pricing-feat">Custom Model Training</li>
+              <li class="pricing-feat">24/7 Dedicated Account Manager</li>
+            </ul>
+            <a class="btn-outline pop-3d-3 magnetic-btn" style="width:100%; text-align:center; display:inline-block;" href="/contact/">Contact Sales</a>
+          </div>
+        </div>
+
+        <!-- COMPARE FEATURES TABLE -->
+        <h3 class="compare-title animate-fade-up delay-3">Compare Features</h3>
+        <div class="tbl-wrap animate-fade-up delay-3" style="max-width:960px;margin:0 auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Features</th>
+                <th>Starter</th>
+                <th>Growth</th>
+                <th>Enterprise</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight:600;">Data Ingestion Rate</td>
+                <td>Standard (1GB/s)</td>
+                <td>High (10GB/s)</td>
+                <td>Custom (>50GB/s)</td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;">Automated Insights</td>
+                <td style="color:var(--cyan);font-weight:700;">✓</td>
+                <td style="color:var(--cyan);font-weight:700;">✓</td>
+                <td style="color:var(--cyan);font-weight:700;">✓</td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;">Custom API Endpoints</td>
+                <td>—</td>
+                <td style="color:var(--cyan);font-weight:700;">✓</td>
+                <td style="color:var(--cyan);font-weight:700;">✓</td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;">SLA Guarantee</td>
+                <td>—</td>
+                <td>99.9%</td>
+                <td>99.99%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="animate-fade-up">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a class="logo" style="margin-bottom:20px; display:inline-flex;" href="/"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</a>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;">Precision intelligence for enterprise growth. Custom-designed and engineered AI solutions built in India.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/solutions/">Solutions</a></li>
+          <li><a href="/industries/">Industries</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/">Privacy Policy</a></li>
+          <li><a href="/">Terms of Service</a></li>
+          <li><a href="/">SLA Guarantee</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="/contact/">Contact Support</a></li>
+          <li><a href="https://linkedin.com/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://twitter.com/" target="_blank" rel="noopener">Twitter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-info">© 2026 OmniXa AI · omnixaai.in · Made with ❤️ in India 🇮🇳</div>
+      <div class="footer-social">
+        <a href="/" style="color:var(--muted);">Privacy</a>
+        <a href="/" style="color:var(--muted);margin-left:14px;">Terms</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- Floating Theme Switcher -->
+<div class="theme-switcher-float" id="themeSwitcherFloat">
+  <button class="theme-toggle-btn" onclick="toggleThemeDropdown(event)" aria-label="Switch Theme">
+    🎨 <span class="theme-btn-text">Theme</span>
+  </button>
+  <div class="theme-dropdown" id="themeDropdown">
+    <div class="theme-opt-item active" onclick="setTheme('cyan', event)" id="theme-opt-cyan">
+      <span class="theme-dot cyan"></span> Midnight Cyan
+    </div>
+    <div class="theme-opt-item" onclick="setTheme('aurora', event)" id="theme-opt-aurora">
+      <span class="theme-dot aurora"></span> Daylight Aurora
+    </div>
+    <div class="customizer-divider"></div>
+    <div class="customizer-section">
+      <div class="customizer-title">Customize Particles</div>
+      <div class="slider-group">
+        <label>Speed: <span id="val-speed">1.0</span>x</label>
+        <input type="range" id="particleSpeedSlider" min="0" max="3" step="0.1" value="1.0" oninput="changeParticleSpeed(this.value)"/>
+      </div>
+      <div class="slider-group">
+        <label>Size: <span id="val-size">0.16</span></label>
+        <input type="range" id="particleSizeSlider" min="0.05" max="0.5" step="0.01" value="0.16" oninput="changeParticleSize(this.value)"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Floating AI Assistant Widget -->
+<div class="ai-assistant-float" id="aiAssistantFloat">
+  <button class="ai-assistant-btn" onclick="toggleAIAssistant(event)" aria-label="Ask AI Assistant">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    <span>Ask AI</span>
+  </button>
+  <div class="ai-chat-card" id="aiChatCard">
+    <div class="ai-chat-hdr">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div class="ai-avatar">🤖</div>
+        <div>
+          <div style="font-weight:600; font-size:14px; color:var(--white);">OmniXa Assistant</div>
+          <div style="font-size:11px; color:var(--cyan); display:flex; align-items:center; gap:4px;">
+            <span style="display:inline-block; width:6px; height:6px; background:var(--green); border-radius:50%; animation: pulse 1.5s infinite;"></span> Online
+          </div>
+        </div>
+      </div>
+      <button class="close-x" onclick="toggleAIAssistant(event)" style="background:none; border:none; color:var(--text); cursor:pointer; font-size:16px;">✕</button>
+    </div>
+    <div class="ai-chat-body" id="aiChatBody">
+      <div class="ai-msg bot">
+        Hello! I'm your OmniXa AI guide. How can I help you accelerate your business today?
+      </div>
+      <div class="ai-suggested-prompts" id="aiSuggestedPrompts">
+        <div class="ai-chip" onclick="handleAISuggestion('how_to_buy')">How do I purchase tools?</div>
+        <div class="ai-chip" onclick="handleAISuggestion('seller_fees')">What are the seller commissions?</div>
+        <div class="ai-chip" onclick="handleAISuggestion('api_key')">Where can I test the API keys?</div>
+        <div class="ai-chip" onclick="handleAISuggestion('custom_builds')">Do you offer custom integrations?</div>
+      </div>
+    </div>
+    <div class="ai-chat-footer">
+      <input class="ai-msg-input" id="aiMsgInput" placeholder="Ask anything..." onkeydown="if(event.key==='Enter')sendAIMessage()"/>
+      <button class="ai-send-btn" onclick="sendAIMessage()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

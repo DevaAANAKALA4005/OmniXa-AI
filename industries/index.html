@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Industries — OmniXa AI</title>
+<meta name="description" content="Discover how OmniXa AI is engineering growth and operational precision across major enterprise sectors. Tailored intelligence for Real Estate, Healthcare, E-Commerce, Finance, and Education." />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="canonical" href="https://omnixaai.in/industries/" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Industries — OmniXa AI" />
+<meta property="og:description" content="Operational precision across major enterprise sectors. Custom AI models for Real Estate, Healthcare, Finance, and more." />
+<meta property="og:url" content="https://omnixaai.in/industries/" />
+<meta property="og:image" content="https://omnixaai.in/omnixa_logo.png" />
+<meta property="og:site_name" content="OmniXa AI" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Industries — OmniXa AI" />
+<meta name="twitter:description" content="Tailored intelligence for vertical enterprise sectors." />
+<meta name="twitter:image" content="https://omnixaai.in/omnixa_logo.png" />
+
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('theme') || 'cyan';
+    const finalTheme = (savedTheme === 'cyan' || savedTheme === 'aurora') ? savedTheme : 'cyan';
+    document.documentElement.setAttribute('data-theme', finalTheme);
+  })();
+</script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/src/index.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+<div class="cursor-spotlight" id="cursorSpotlight"></div>
+<div id="scroll-progress" style="position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg, var(--cyan), var(--cyan2));width:0%;z-index:999;box-shadow:0 0 10px rgba(0,210,255,0.5);transition:width 0.1s ease-out;"></div>
+<canvas id="bg-3d-canvas" style="position:fixed;top:0;left:0;width:100%;height:100vh;z-index:-2;pointer-events:none;"></canvas>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="menu-backdrop" id="menuBackdrop" onclick="closeMenu()"></div>
+
+<!-- NOTIFICATION -->
+<div class="notif" id="notif"></div>
+
+<div class="page active" id="page-landing">
+  <nav class="nav">
+    <a class="logo" href="/"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</a>
+    <div class="nav-links" id="landingNavLinks">
+      <div class="close-menu" onclick="closeMenu()">✖</div>
+      <a class="nav-link" href="/">Home</a>
+      <a class="nav-link" href="/solutions/">Solutions</a>
+      <a class="nav-link active-link" href="/industries/">Industries</a>
+      <a class="nav-link" href="/pricing/">Pricing</a>
+      <a class="nav-link" href="/contact/">Contact</a>
+    </div>
+    <div class="nav-right">
+      <button class="btn-ghost" onclick="toggleThemeDropdown(event)" style="border-radius:20px;padding:8px 14px;">🎨 Theme</button>
+      <a class="btn-ghost" href="/?page=login" style="display:inline-block; line-height: 1.8;">Log in</a>
+      <a class="btn-orange magnetic-btn" href="/contact/" style="display:inline-block;">Book a Demo</a>
+    </div>
+  </nav>
+
+  <!-- ─── TAB: INDUSTRIES ─── -->
+  <div class="landing-tab active" id="tab-industries">
+    <section class="section scroll-reveal">
+      <div class="inner" style="padding-top:40px;">
+        <div class="sec-label">Vertical Markets</div>
+        <h2 class="sec-title">Transforming <span style="color:var(--cyan);text-shadow:0 0 10px rgba(0,210,255,0.1)">Industries</span></h2>
+        <p class="sec-subtitle">Discover how OmniXa AI is engineering growth and operational precision across major enterprise sectors. Tailored intelligence for specialized challenges.</p>
+        
+        <div class="ind-grid">
+          <!-- Industry 1: Real Estate -->
+          <div class="ind-card animate-fade-up delay-1 tilt-card-3d">
+            <div>
+              <div class="ind-header pop-3d-2">
+                <span class="ind-icon">🏢</span>
+                <span class="ind-title">Real Estate</span>
+              </div>
+              <div class="pop-3d-img" style="border-radius:12px;margin-bottom:20px;border:1px solid var(--border);overflow:hidden;">
+                <img src="/real_estate_skyline.png" style="width:100%;height:auto;display:block;" alt="Real Estate AI"/>
+              </div>
+              <div class="ind-section">
+                <div class="ind-label">The Challenge</div>
+                <p class="ind-text">Predicting market volatility and optimizing portfolio valuations across distributed assets.</p>
+              </div>
+              <div class="ind-section">
+                <div class="ind-label">OmniXa Solution</div>
+                <p class="ind-text">Algorithmic property valuation and predictive tenant churn modeling.</p>
+              </div>
+            </div>
+            <div class="ind-metric">
+              <span class="ind-m-lbl">Expected Yield Increase</span>
+              <span class="ind-m-val">+14.2%</span>
+            </div>
+          </div>
+
+          <!-- Industry 2: Healthcare -->
+          <div class="ind-card animate-fade-up delay-2 tilt-card-3d">
+            <div>
+              <div class="ind-header pop-3d-2">
+                <span class="ind-icon">🏥</span>
+                <span class="ind-title">Healthcare</span>
+              </div>
+              <div class="pop-3d-img" style="border-radius:12px;margin-bottom:20px;border:1px solid var(--border);overflow:hidden;">
+                <img src="/healthcare_dna.png" style="width:100%;height:auto;display:block;" alt="Healthcare AI"/>
+              </div>
+              <div class="ind-section">
+                <div class="ind-label">The Challenge</div>
+                <p class="ind-text">Managing exponential patient data while reducing diagnostic latency and administrative overhead.</p>
+              </div>
+              <div class="ind-section">
+                <div class="ind-label">OmniXa Solution</div>
+                <p class="ind-text">Automated triaging systems and predictive patient outcome analytics powered by deep learning.</p>
+              </div>
+            </div>
+            <div class="ind-metric">
+              <span class="ind-m-lbl">Admin Time Saved</span>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="ind-progress-bar"><div class="ind-progress-fill" style="width:75%;"></div></div>
+                <span class="ind-m-val" style="font-size:16px;">40 hrs/wk</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Industry 3: E-Commerce -->
+          <div class="ind-card animate-fade-up delay-1 tilt-card-3d">
+            <div>
+              <div class="ind-header pop-3d-2">
+                <span class="ind-icon">🛒</span>
+                <span class="ind-title">E-Commerce</span>
+              </div>
+              <div class="pop-3d-img" style="border-radius:12px;margin-bottom:20px;border:1px solid var(--border);overflow:hidden;">
+                <img src="/commerce_cart.png" style="width:100%;height:auto;display:block;" alt="E-Commerce AI"/>
+              </div>
+              <div class="ind-section">
+                <div class="ind-label">The Challenge</div>
+                <p class="ind-text">Cart abandonment and dynamic pricing optimization in hyper-competitive markets.</p>
+              </div>
+              <div class="ind-section">
+                <div class="ind-label">OmniXa Solution</div>
+                <p class="ind-text">Real-time behavior tracking for hyper-personalized product recommendations.</p>
+              </div>
+            </div>
+            <div class="ind-metric">
+              <span class="ind-m-lbl">Conversion Uplift</span>
+              <span class="ind-m-val">+22.5%</span>
+            </div>
+          </div>
+
+          <!-- Industry 4: Finance -->
+          <div class="ind-card animate-fade-up delay-2 tilt-card-3d">
+            <div>
+              <div class="ind-header pop-3d-2">
+                <span class="ind-icon">⚖️</span>
+                <span class="ind-title">Finance</span>
+              </div>
+              <div class="pop-3d-img" style="border-radius:12px;margin-bottom:20px;border:1px solid var(--border);overflow:hidden;">
+                <img src="/finance_chart.png" style="width:100%;height:auto;display:block;" alt="Finance AI"/>
+              </div>
+              <div class="ind-section">
+                <div class="ind-label">The Challenge</div>
+                <p class="ind-text">Identifying micro-anomalies for fraud detection without increasing false positives.</p>
+              </div>
+              <div class="ind-section">
+                <div class="ind-label">OmniXa Solution</div>
+                <p class="ind-text">Neural network-based transaction monitoring and automated risk scoring.</p>
+              </div>
+            </div>
+            <div class="ind-metric">
+              <span class="ind-m-lbl">Fraud Reduction</span>
+              <span class="ind-m-val" style="color:#ef4444;">-68.3%</span>
+            </div>
+          </div>
+
+          <!-- Industry 5: Education -->
+          <div class="ind-card animate-fade-up delay-3 tilt-card-3d" style="grid-column: 1 / -1; min-height: 280px; flex-direction: row; gap: 40px; align-items: center;">
+            <div style="flex:1.2;">
+              <div class="ind-header pop-3d-2">
+                <span class="ind-icon">🎓</span>
+                <span class="ind-title">Education</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" class="pop-3d-1">
+                <div class="ind-section" style="margin-bottom:0;">
+                  <div class="ind-label">The Challenge</div>
+                  <p class="ind-text">Scaling personalized learning paths for diverse student cohorts efficiently.</p>
+                </div>
+                <div class="ind-section" style="margin-bottom:0;">
+                  <div class="ind-label">OmniXa Solution</div>
+                  <p class="ind-text">Adaptive AI tutors and predictive retention models for administration.</p>
+                </div>
+              </div>
+            </div>
+            <div class="pop-3d-img" style="flex:0.8;border-radius:12px;border:1px solid var(--border);overflow:hidden;">
+              <img src="/education_brain.png" style="width:100%;height:auto;display:block;" alt="Education AI"/>
+            </div>
+            <div style="width:200px;text-align:right;border-left:1px solid var(--border);padding-left:30px;">
+              <div class="ind-label" style="text-align:right;margin-bottom:8px;">Engagement Score</div>
+              <div class="ind-m-val" style="font-size:36px;">94/100</div>
+              <div style="font-size:12px;color:var(--muted);margin-top:4px;">Industry Leader rating</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="animate-fade-up">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a class="logo" style="margin-bottom:20px; display:inline-flex;" href="/"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</a>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;">Precision intelligence for enterprise growth. Custom-designed and engineered AI solutions built in India.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/solutions/">Solutions</a></li>
+          <li><a href="/industries/">Industries</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/">Privacy Policy</a></li>
+          <li><a href="/">Terms of Service</a></li>
+          <li><a href="/">SLA Guarantee</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="/contact/">Contact Support</a></li>
+          <li><a href="https://linkedin.com/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://twitter.com/" target="_blank" rel="noopener">Twitter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-info">© 2026 OmniXa AI · omnixaai.in · Made with ❤️ in India 🇮🇳</div>
+      <div class="footer-social">
+        <a href="/" style="color:var(--muted);">Privacy</a>
+        <a href="/" style="color:var(--muted);margin-left:14px;">Terms</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- Floating Theme Switcher -->
+<div class="theme-switcher-float" id="themeSwitcherFloat">
+  <button class="theme-toggle-btn" onclick="toggleThemeDropdown(event)" aria-label="Switch Theme">
+    🎨 <span class="theme-btn-text">Theme</span>
+  </button>
+  <div class="theme-dropdown" id="themeDropdown">
+    <div class="theme-opt-item active" onclick="setTheme('cyan', event)" id="theme-opt-cyan">
+      <span class="theme-dot cyan"></span> Midnight Cyan
+    </div>
+    <div class="theme-opt-item" onclick="setTheme('aurora', event)" id="theme-opt-aurora">
+      <span class="theme-dot aurora"></span> Daylight Aurora
+    </div>
+    <div class="customizer-divider"></div>
+    <div class="customizer-section">
+      <div class="customizer-title">Customize Particles</div>
+      <div class="slider-group">
+        <label>Speed: <span id="val-speed">1.0</span>x</label>
+        <input type="range" id="particleSpeedSlider" min="0" max="3" step="0.1" value="1.0" oninput="changeParticleSpeed(this.value)"/>
+      </div>
+      <div class="slider-group">
+        <label>Size: <span id="val-size">0.16</span></label>
+        <input type="range" id="particleSizeSlider" min="0.05" max="0.5" step="0.01" value="0.16" oninput="changeParticleSize(this.value)"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Floating AI Assistant Widget -->
+<div class="ai-assistant-float" id="aiAssistantFloat">
+  <button class="ai-assistant-btn" onclick="toggleAIAssistant(event)" aria-label="Ask AI Assistant">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    <span>Ask AI</span>
+  </button>
+  <div class="ai-chat-card" id="aiChatCard">
+    <div class="ai-chat-hdr">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div class="ai-avatar">🤖</div>
+        <div>
+          <div style="font-weight:600; font-size:14px; color:var(--white);">OmniXa Assistant</div>
+          <div style="font-size:11px; color:var(--cyan); display:flex; align-items:center; gap:4px;">
+            <span style="display:inline-block; width:6px; height:6px; background:var(--green); border-radius:50%; animation: pulse 1.5s infinite;"></span> Online
+          </div>
+        </div>
+      </div>
+      <button class="close-x" onclick="toggleAIAssistant(event)" style="background:none; border:none; color:var(--text); cursor:pointer; font-size:16px;">✕</button>
+    </div>
+    <div class="ai-chat-body" id="aiChatBody">
+      <div class="ai-msg bot">
+        Hello! I'm your OmniXa AI guide. How can I help you accelerate your business today?
+      </div>
+      <div class="ai-suggested-prompts" id="aiSuggestedPrompts">
+        <div class="ai-chip" onclick="handleAISuggestion('how_to_buy')">How do I purchase tools?</div>
+        <div class="ai-chip" onclick="handleAISuggestion('seller_fees')">What are the seller commissions?</div>
+        <div class="ai-chip" onclick="handleAISuggestion('api_key')">Where can I test the API keys?</div>
+        <div class="ai-chip" onclick="handleAISuggestion('custom_builds')">Do you offer custom integrations?</div>
+      </div>
+    </div>
+    <div class="ai-chat-footer">
+      <input class="ai-msg-input" id="aiMsgInput" placeholder="Ask anything..." onkeydown="if(event.key==='Enter')sendAIMessage()"/>
+      <button class="ai-send-btn" onclick="sendAIMessage()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

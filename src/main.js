@@ -50,6 +50,16 @@ async function show(page){
   // Close any open mobile menus
   closeMenu();
 
+  const isHomepage = !!document.getElementById('tab-home');
+  if (!isHomepage && page !== 'landing') {
+    let url = `/?page=${page}`;
+    if (page === 'product' && currentProduct) {
+      url += `&id=${currentProduct._id}`;
+    }
+    window.location.href = url;
+    return;
+  }
+
   const adminPages = ['seller-home', 'seller-products', 'seller-add', 'seller-buyers', 'seller-earnings'];
   const privateBuyerPages = ['buyer-home', 'buyer-orders', 'settings'];
   
@@ -629,6 +639,14 @@ function closeMenu() {
 
 // Tab switcher for landing page sub-views with smooth transitions
 function showTab(tabId) {
+  const target = document.getElementById('tab-' + tabId);
+  if (!target) {
+    // If the target tab doesn't exist (e.g. we are on a subpage),
+    // redirect to the homepage with query parameters to show it.
+    window.location.href = `/?tab=${tabId}`;
+    return;
+  }
+
   show('landing');
   
   document.querySelectorAll('.landing-tab').forEach(el => {
@@ -636,17 +654,16 @@ function showTab(tabId) {
     el.style.display = 'none';
   });
   
-  const target = document.getElementById('tab-' + tabId);
-  if (target) {
-    target.style.display = 'block';
-    // Trigger transition next frame
-    requestAnimationFrame(() => {
-      target.classList.add('active', 'fade-in-tab');
-    });
-  }
+  target.style.display = 'block';
+  // Trigger transition next frame
+  requestAnimationFrame(() => {
+    target.classList.add('active', 'fade-in-tab');
+  });
   
   document.querySelectorAll('#landingNavLinks .nav-link').forEach(btn => {
-    if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(`showTab('${tabId}')`)) {
+    const isHomeBtn = btn.getAttribute('href') === '/' || btn.getAttribute('href') === '/index.html';
+    const matchHref = tabId === 'home' ? isHomeBtn : (btn.getAttribute('href') && btn.getAttribute('href').includes(`/${tabId}/`));
+    if (matchHref) {
       btn.classList.add('active-link');
     } else {
       btn.classList.remove('active-link');
@@ -700,13 +717,35 @@ window.onload = async () => {
     }
   });
 
+  const params = new URLSearchParams(window.location.search);
+  const deepPage = params.get('page');
+  const deepId = params.get('id');
+  const deepTab = params.get('tab');
+  const isHomepage = !!document.getElementById('tab-home');
+
   if(currentUser && currentRole) {
     setRole(currentRole);
   } else {
-    // We still want to load global stats on landing page
     await initData();
-    show('landing');
-    showTab('home'); // Ensure we land on home sub-tab
+    if (deepPage) {
+      if (deepPage === 'product' && deepId) {
+        viewProduct(deepId);
+      } else {
+        show(deepPage);
+      }
+    } else {
+      if (isHomepage) {
+        show('landing');
+        showTab(deepTab || 'home');
+      } else {
+        show('landing');
+        const activeTab = document.querySelector('.landing-tab');
+        if (activeTab) {
+          activeTab.style.display = 'block';
+          activeTab.classList.add('active', 'fade-in-tab');
+        }
+      }
+    }
   }
 }
 

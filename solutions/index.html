@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Solutions — OmniXa AI</title>
+<meta name="description" content="Deploy autonomous AI agents across every touchpoint. From WhatsApp to web, qualify leads and close deals 24/7 with zero human intervention." />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="canonical" href="https://omnixaai.in/solutions/" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Solutions — OmniXa AI" />
+<meta property="og:description" content="Deploy autonomous AI agents across every touchpoint. WhatsApp agents, predictive scoring, and customer service automation." />
+<meta property="og:url" content="https://omnixaai.in/solutions/" />
+<meta property="og:image" content="https://omnixaai.in/omnixa_logo.png" />
+<meta property="og:site_name" content="OmniXa AI" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Solutions — OmniXa AI" />
+<meta name="twitter:description" content="Deploy autonomous AI agents across every touchpoint." />
+<meta name="twitter:image" content="https://omnixaai.in/omnixa_logo.png" />
+
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('theme') || 'cyan';
+    const finalTheme = (savedTheme === 'cyan' || savedTheme === 'aurora') ? savedTheme : 'cyan';
+    document.documentElement.setAttribute('data-theme', finalTheme);
+  })();
+</script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/src/index.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+<div class="cursor-spotlight" id="cursorSpotlight"></div>
+<div id="scroll-progress" style="position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg, var(--cyan), var(--cyan2));width:0%;z-index:999;box-shadow:0 0 10px rgba(0,210,255,0.5);transition:width 0.1s ease-out;"></div>
+<canvas id="bg-3d-canvas" style="position:fixed;top:0;left:0;width:100%;height:100vh;z-index:-2;pointer-events:none;"></canvas>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="menu-backdrop" id="menuBackdrop" onclick="closeMenu()"></div>
+
+<!-- NOTIFICATION -->
+<div class="notif" id="notif"></div>
+
+<div class="page active" id="page-landing">
+  <nav class="nav">
+    <a class="logo" href="/"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</a>
+    <div class="nav-links" id="landingNavLinks">
+      <div class="close-menu" onclick="closeMenu()">✖</div>
+      <a class="nav-link" href="/">Home</a>
+      <a class="nav-link active-link" href="/solutions/">Solutions</a>
+      <a class="nav-link" href="/industries/">Industries</a>
+      <a class="nav-link" href="/pricing/">Pricing</a>
+      <a class="nav-link" href="/contact/">Contact</a>
+    </div>
+    <div class="nav-right">
+      <button class="btn-ghost" onclick="toggleThemeDropdown(event)" style="border-radius:20px;padding:8px 14px;">🎨 Theme</button>
+      <a class="btn-ghost" href="/?page=login" style="display:inline-block; line-height: 1.8;">Log in</a>
+      <a class="btn-orange magnetic-btn" href="/contact/" style="display:inline-block;">Book a Demo</a>
+    </div>
+  </nav>
+
+  <!-- ─── TAB: SOLUTIONS ─── -->
+  <div class="landing-tab active" id="tab-solutions">
+    <section class="section scroll-reveal">
+      <div class="inner" style="padding-top:40px;">
+        <div class="sec-label">Enterprise Solutions</div>
+        <h2 class="sec-title">Intelligent Solutions for <span style="color:var(--cyan);text-shadow:0 0 10px rgba(0,210,255,0.1)">Enterprise Growth</span></h2>
+        <p class="sec-subtitle">Deploy autonomous AI agents across every touchpoint. From WhatsApp to web, qualify leads and close deals 24/7 with zero human intervention.</p>
+        
+        <div style="display:flex;justify-content:center;margin-bottom:80px;">
+          <a class="btn-big magnetic-btn animate-fade-up delay-1" href="/?page=signup">Start Building <span style="font-size:18px;">→</span></a>
+        </div>
+
+        <!-- WhatsApp AI Agent Block -->
+        <div class="sol-block animate-fade-up delay-2">
+          <div>
+            <span class="sol-tag">Conversational AI</span>
+            <h3 class="sol-title">WhatsApp AI Agent</h3>
+            <p class="sol-desc">Turn the world's most popular messaging app into your highest-converting sales channel. Our WhatsApp AI seamlessly handles inquiries, qualifies prospects, and shares product catalogs autonomously.</p>
+            <ul class="sol-bullets">
+              <li class="sol-bullet">Instant multi-language support</li>
+              <li class="sol-bullet">Automated catalog sharing and checkout</li>
+            </ul>
+            <a class="btn-outline magnetic-btn" href="/?page=signup" style="display:inline-block;">Deploy on WhatsApp</a>
+          </div>
+          <div class="perspective-container" style="max-width:320px;margin:0 auto;width:100%;">
+            <div class="mockup-3d tilt-card-3d" style="width:100%;border-radius:18px;overflow:hidden;border:1px solid var(--border);">
+              <img src="/whatsapp_phone.png" style="width:100%;height:auto;display:block;" class="pop-3d-img" alt="WhatsApp Phone AI"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Predictive Lead Qualification Block (Reversed Layout) -->
+        <div class="sol-block reverse animate-fade-up delay-3">
+          <div>
+            <span class="sol-tag">Machine Learning</span>
+            <h3 class="sol-title">Predictive Lead Qualification</h3>
+            <p class="sol-desc">Stop wasting time on bad leads. Our AI analyzes user interactions in real-time, assigning dynamic scores based on intent and fit, routing only high-value prospects to your sales team.</p>
+            <ul class="sol-bullets">
+              <li class="sol-bullet">Real-time sentiment and intent analysis</li>
+              <li class="sol-bullet">Smart CRM routing based on score thresholds</li>
+            </ul>
+            <a class="btn-outline magnetic-btn" href="/?page=signup" style="display:inline-block;">Explore Scoring Models</a>
+          </div>
+          <div class="perspective-container" style="max-width:480px;margin:0 auto;width:100%;">
+            <div class="mockup-3d tilt-card-3d" style="width:100%;padding:28px;background:rgba(8,9,26,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);text-align:left;">
+              <div class="pop-3d-1" style="font-size:11px;color:var(--muted);font-weight:700;margin-bottom:12px;letter-spacing:0.04em;">CRM SCORING INGESTION</div>
+              <div class="lq-row pop-3d-2" style="margin-bottom:12px;direction:ltr;">
+                <div class="lq-info">
+                  <div class="lq-initial" style="background:var(--cyan-dim);color:var(--cyan);border:1px solid var(--cyan-border);">L1</div>
+                  <div>
+                    <div class="lq-name">Lead ID: #8924 (Enterprise Ops)</div>
+                    <div class="lq-status">Enterprise intent detected</div>
+                  </div>
+                </div>
+                <div class="lq-score">
+                  <div class="lq-val" style="color:var(--cyan);">94%</div>
+                  <div class="lq-lbl">Hot Lead</div>
+                </div>
+              </div>
+              <div class="lq-row pop-3d-3" style="direction:ltr;">
+                <div class="lq-info">
+                  <div class="lq-initial" style="background:rgba(255,255,255,0.02);color:var(--muted);">L2</div>
+                  <div>
+                    <div class="lq-name">Lead ID: #3021 (Individual Trial)</div>
+                    <div class="lq-status">General inquiry</div>
+                  </div>
+                </div>
+                <div class="lq-score">
+                  <div class="lq-val" style="color:var(--muted);">42%</div>
+                  <div class="lq-lbl">Nurture</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="animate-fade-up">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a class="logo" style="margin-bottom:20px; display:inline-flex;" href="/"><img src="/omnixa_logo.png" alt="Logo" class="logo-img"/>Omni<span>Xa</span> AI</a>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;">Precision intelligence for enterprise growth. Custom-designed and engineered AI solutions built in India.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/solutions/">Solutions</a></li>
+          <li><a href="/industries/">Industries</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/">Privacy Policy</a></li>
+          <li><a href="/">Terms of Service</a></li>
+          <li><a href="/">SLA Guarantee</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="/contact/">Contact Support</a></li>
+          <li><a href="https://linkedin.com/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://twitter.com/" target="_blank" rel="noopener">Twitter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-info">© 2026 OmniXa AI · omnixaai.in · Made with ❤️ in India 🇮🇳</div>
+      <div class="footer-social">
+        <a href="/" style="color:var(--muted);">Privacy</a>
+        <a href="/" style="color:var(--muted);margin-left:14px;">Terms</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- Floating Theme Switcher -->
+<div class="theme-switcher-float" id="themeSwitcherFloat">
+  <button class="theme-toggle-btn" onclick="toggleThemeDropdown(event)" aria-label="Switch Theme">
+    🎨 <span class="theme-btn-text">Theme</span>
+  </button>
+  <div class="theme-dropdown" id="themeDropdown">
+    <div class="theme-opt-item active" onclick="setTheme('cyan', event)" id="theme-opt-cyan">
+      <span class="theme-dot cyan"></span> Midnight Cyan
+    </div>
+    <div class="theme-opt-item" onclick="setTheme('aurora', event)" id="theme-opt-aurora">
+      <span class="theme-dot aurora"></span> Daylight Aurora
+    </div>
+    <div class="customizer-divider"></div>
+    <div class="customizer-section">
+      <div class="customizer-title">Customize Particles</div>
+      <div class="slider-group">
+        <label>Speed: <span id="val-speed">1.0</span>x</label>
+        <input type="range" id="particleSpeedSlider" min="0" max="3" step="0.1" value="1.0" oninput="changeParticleSpeed(this.value)"/>
+      </div>
+      <div class="slider-group">
+        <label>Size: <span id="val-size">0.16</span></label>
+        <input type="range" id="particleSizeSlider" min="0.05" max="0.5" step="0.01" value="0.16" oninput="changeParticleSize(this.value)"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Floating AI Assistant Widget -->
+<div class="ai-assistant-float" id="aiAssistantFloat">
+  <button class="ai-assistant-btn" onclick="toggleAIAssistant(event)" aria-label="Ask AI Assistant">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    <span>Ask AI</span>
+  </button>
+  <div class="ai-chat-card" id="aiChatCard">
+    <div class="ai-chat-hdr">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div class="ai-avatar">🤖</div>
+        <div>
+          <div style="font-weight:600; font-size:14px; color:var(--white);">OmniXa Assistant</div>
+          <div style="font-size:11px; color:var(--cyan); display:flex; align-items:center; gap:4px;">
+            <span style="display:inline-block; width:6px; height:6px; background:var(--green); border-radius:50%; animation: pulse 1.5s infinite;"></span> Online
+          </div>
+        </div>
+      </div>
+      <button class="close-x" onclick="toggleAIAssistant(event)" style="background:none; border:none; color:var(--text); cursor:pointer; font-size:16px;">✕</button>
+    </div>
+    <div class="ai-chat-body" id="aiChatBody">
+      <div class="ai-msg bot">
+        Hello! I'm your OmniXa AI guide. How can I help you accelerate your business today?
+      </div>
+      <div class="ai-suggested-prompts" id="aiSuggestedPrompts">
+        <div class="ai-chip" onclick="handleAISuggestion('how_to_buy')">How do I purchase tools?</div>
+        <div class="ai-chip" onclick="handleAISuggestion('seller_fees')">What are the seller commissions?</div>
+        <div class="ai-chip" onclick="handleAISuggestion('api_key')">Where can I test the API keys?</div>
+        <div class="ai-chip" onclick="handleAISuggestion('custom_builds')">Do you offer custom integrations?</div>
+      </div>
+    </div>
+    <div class="ai-chat-footer">
+      <input class="ai-msg-input" id="aiMsgInput" placeholder="Ask anything..." onkeydown="if(event.key==='Enter')sendAIMessage()"/>
+      <button class="ai-send-btn" onclick="sendAIMessage()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
