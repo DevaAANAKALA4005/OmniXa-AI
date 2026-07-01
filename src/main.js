@@ -720,7 +720,7 @@ window.onload = async () => {
     if (progressBar) {
       progressBar.style.width = scrolled + '%';
     }
-  });
+  }, { passive: true });
 
   const params = new URLSearchParams(window.location.search);
   const deepPage = params.get('page');
@@ -989,8 +989,16 @@ function initCardTilt() {
   const cards = document.querySelectorAll('.tilt-card-3d');
   
   cards.forEach(card => {
+    let rect = null;
+
+    card.addEventListener('mouseenter', () => {
+      rect = card.getBoundingClientRect();
+    });
+
     card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
+      if (!rect) {
+        rect = card.getBoundingClientRect();
+      }
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       
@@ -1022,6 +1030,7 @@ function initCardTilt() {
     card.style.transformStyle = 'preserve-3d';
     
     card.addEventListener('mouseleave', () => {
+      rect = null;
       card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
       card.style.transition = 'transform 0.5s ease';
       
@@ -1053,8 +1062,16 @@ function initScrollReveal() {
 function initMagneticButtons() {
   const btns = document.querySelectorAll('.magnetic-btn');
   btns.forEach(btn => {
+    let rect = null;
+
+    btn.addEventListener('mouseenter', () => {
+      rect = btn.getBoundingClientRect();
+    });
+
     btn.addEventListener('mousemove', (e) => {
-      const rect = btn.getBoundingClientRect();
+      if (!rect) {
+        rect = btn.getBoundingClientRect();
+      }
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
       
@@ -1064,6 +1081,7 @@ function initMagneticButtons() {
     });
     
     btn.addEventListener('mouseleave', () => {
+      rect = null;
       btn.style.transform = 'translate(0, 0)';
       btn.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
     });
@@ -1235,8 +1253,7 @@ function animateSpotlight() {
   
   const spotlight = document.getElementById('cursorSpotlight');
   if (spotlight) {
-    spotlight.style.left = `${currentSpotlightX}px`;
-    spotlight.style.top = `${currentSpotlightY}px`;
+    spotlight.style.transform = `translate3d(${currentSpotlightX}px, ${currentSpotlightY}px, 0) translate(-50%, -50%)`;
   }
   requestAnimationFrame(animateSpotlight);
 }
